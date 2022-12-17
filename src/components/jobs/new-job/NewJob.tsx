@@ -1,3 +1,4 @@
+import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Button } from "components/button/Button";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -8,9 +9,14 @@ type Values = RouterInputs["jobs"]["createNew"];
 
 export const NewJob = () => {
   const { register, handleSubmit } = useForm<Values>();
+  const { handleDialogClose } = useDialogStore();
+  const utils = trpc.useContext();
+
   const submit = trpc.jobs.createNew.useMutation({
     onSuccess: () => {
       toast.success("Job created successfully");
+      handleDialogClose();
+      utils.jobs.invalidate();
     },
   });
 

@@ -23,6 +23,11 @@ export const serverSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string(),
   STRIPE_PUBLIC_KEY: z.string(),
   STRIPE_SECRET_KEY: z.string(),
+  SMTP_HOST: z.string(),
+  SMTP_PORT: z.string(),
+  SMTP_USER: z.string(),
+  SMTP_PASSWORD: z.string(),
+  SMTP_FROM: z.string().email(),
 });
 
 /**
