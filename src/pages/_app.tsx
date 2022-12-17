@@ -11,6 +11,7 @@ import { DefaultSeo } from "next-seo";
 
 import { Inter } from "@next/font/google";
 import { Header } from "components/header/Header";
+import { Dialog } from "components/dialog/Dialog";
 
 const inter = Inter();
 
@@ -30,8 +31,11 @@ const App: AppType<{ session: Session | null }> = ({
         >
           <Header />
           <Toaster position="bottom-left" />
-          <Component {...pageProps} />
+          <div className="relative mx-auto w-full max-w-7xl">
+            <Component {...pageProps} />
+          </div>
         </main>
+        <Dialog />
       </SessionProvider>
     </>
   );

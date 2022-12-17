@@ -39,14 +39,25 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  membership    Member[]
+  membership    Member?
+  candidate     Candidate?
+}
+
+model Candidate {
+  id                 String @id @default(cuid())
+  user               User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id            String @unique
+  year_of_experience Int
+  github_url         String
+  job_title          String
+  salary             Int
 }
 
 model VerificationToken {
@@ -57,11 +68,14 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// Teams
 model Team {
-  id                String   @id @default(cuid())
-  slug              String
-  stripe_account_id String
-  members           Member[]
+  id                     String   @id @default(cuid())
+  slug                   String
+  stripe_subscription_id String?
+  is_upgraded            Boolean  @default(false)
+  members                Member[]
+  jobs                   Job[]
 }
 
 enum MemberRole {
@@ -72,11 +86,22 @@ enum MemberRole {
 model Member {
   id      String     @id @default(cuid())
   role    MemberRole @default(MEMBER)
-  team    Team       @relation(fields: [team_id], references: [id])
+  team    Team       @relation(fields: [team_id], references: [id], onDelete: Cascade)
   team_id String
   user    User       @relation(fields: [user_id], references: [id])
-  user_id String
+  user_id String     @unique
 
   @@index([user_id])
   @@index([team_id])
+}
+
+// Jobs
+model Job {
+  id          String @id @default(cuid())
+  title       String
+  salary      Int
+  office_type String
+  description String @db.LongText()
+  team        Team   @relation(fields: [team_id], references: [id])
+  team_id     String @unique
 }

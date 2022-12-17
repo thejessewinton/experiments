@@ -21,11 +21,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
   ],
-  // events: {
-  //   createUser: async ({ user }) => {
-
-  //   },
-  // },
 };
 
 export default NextAuth(authOptions);
