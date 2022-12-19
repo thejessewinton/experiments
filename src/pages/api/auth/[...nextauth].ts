@@ -33,6 +33,30 @@ export const authOptions: NextAuthOptions = {
       from: env.SMTP_FROM,
     }),
   ],
+  events: {
+    linkAccount: async ({ user, account }) => {
+      const existingUser = await prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
+      });
+
+      if (existingUser) {
+        await prisma.user.update({
+          where: {
+            email: account.email as string,
+          },
+          data: {
+            accounts: {
+              create: {
+                ...account,
+              },
+            },
+          },
+        });
+      }
+    },
+  },
 };
 
 export default NextAuth(authOptions);

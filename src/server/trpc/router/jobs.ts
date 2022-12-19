@@ -7,6 +7,17 @@ export const jobsRouter = router({
       where: {
         team_id: ctx.user?.membership?.team_id,
       },
+      include: {
+        user: {
+          include: {
+            view: {
+              select: {
+                state: true,
+              },
+            },
+          },
+        },
+      },
     });
   }),
   createNew: protectedProcedure
@@ -23,9 +34,29 @@ export const jobsRouter = router({
         data: {
           ...input,
           salary: Number(input.salary),
-          team: {
+          user: {
             connect: {
-              id: ctx.user?.membership?.team_id,
+              id: ctx.user?.id,
+            },
+          },
+        },
+      });
+    }),
+  getJob: protectedProcedure
+    .input(
+      z.object({
+        job_id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.job.findUnique({
+        where: {
+          id: input.job_id,
+        },
+        include: {
+          candidates: {
+            orderBy: {
+              salary: "desc",
             },
           },
         },

@@ -11,7 +11,8 @@ import { DefaultSeo } from "next-seo";
 
 import { Inter } from "@next/font/google";
 import { Header } from "components/header/Header";
-import { Dialog } from "components/dialog/Dialog";
+import { Dialog } from "components/shared/dialog/Dialog";
+import { DndContext } from "@dnd-kit/core";
 
 const inter = Inter();
 
@@ -20,7 +21,7 @@ const App: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <>
+    <DndContext>
       <DefaultSeo defaultTitle="Experiments" />
       <SessionProvider session={session}>
         <main
@@ -37,7 +38,7 @@ const App: AppType<{ session: Session | null }> = ({
         </main>
         <Dialog />
       </SessionProvider>
-    </>
+    </DndContext>
   );
 };
 

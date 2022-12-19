@@ -47,7 +47,9 @@ model User {
   accounts      Account[]
   sessions      Session[]
   membership    Member?
-  candidate     Candidate?
+  candidacy     Candidate?
+  jobs          Job[]
+  view          View[]
 }
 
 model Candidate {
@@ -58,6 +60,7 @@ model Candidate {
   github_url         String
   job_title          String
   salary             Int
+  jobs               Job[]
 }
 
 model VerificationToken {
@@ -99,17 +102,44 @@ model Member {
   @@index([team_id])
 }
 
+enum JobStatus {
+  OPEN
+  INTERVIEWING
+  OFFER_MADE
+  CLOSED
+}
+
 // Jobs
 model Job {
-  id          String   @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
   salary      Int
   office_type String
-  description String   @db.LongText()
-  team        Team     @relation(fields: [team_id], references: [id])
-  team_id     String
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  status      JobStatus   @default(OPEN)
+  description String      @db.LongText()
+  team        Team?       @relation(fields: [team_id], references: [id])
+  team_id     String?
+  user        User        @relation(fields: [user_id], references: [id])
+  user_id     String
+  candidates  Candidate[]
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
 
+  @@index([user_id])
   @@index([team_id])
+}
+
+enum ViewState {
+  BY_STATUS
+  BY_TEAM
+  BY_MEMBER
+}
+
+model View {
+  id      String    @id @default(cuid())
+  state   ViewState @default(BY_STATUS)
+  user_id String
+  user    User      @relation(fields: [user_id], references: [id])
+
+  @@index([user_id])
 }

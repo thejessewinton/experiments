@@ -1,5 +1,8 @@
 import { useDialogStore } from "client-data/state/use-dialog-store";
-import { Button } from "components/button/Button";
+import { Button } from "components/shared/button/Button";
+import { Input } from "components/shared/input/Input";
+import { Select } from "components/shared/select/Select";
+import { TextArea } from "components/shared/textarea/TextArea";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import type { RouterInputs } from "utils/trpc";
@@ -25,14 +28,17 @@ export const NewJob = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" {...register("title")} placeholder="Title" />
-      <input type="number" {...register("salary")} placeholder="0000" />
-      <input type="text" {...register("office_type")} placeholder="Remote" />
-      <textarea {...register("description")} placeholder="Description" />
-      <Button type="submit" disabled={submit.isLoading}>
-        {submit.isLoading ? "Loading" : "Submit"}
-      </Button>
-    </form>
+    <div className="rounded-md bg-neutral-900 p-4 shadow-md">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+        <Input type="text" {...register("title")} placeholder="Title" />
+        <Input type="number" {...register("salary")} placeholder="0000" />
+        <Input type="text" {...register("office_type")} placeholder="Remote" />
+        <Select label="Office" />
+        <TextArea {...register("description")} placeholder="Description" />
+        <Button type="submit" disabled={submit.isLoading}>
+          {submit.isLoading ? "Loading" : "Submit"}
+        </Button>
+      </form>
+    </div>
   );
 };

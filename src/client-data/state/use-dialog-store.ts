@@ -4,7 +4,14 @@ interface DialogState {
   isOpen: boolean;
   onClose: () => void;
   dialogContent: React.ReactNode;
-  handleDialog: (content: React.ReactNode) => void;
+  dialogTitle: string | null;
+  handleDialog: ({
+    content,
+    title,
+  }: {
+    content: React.ReactNode;
+    title: string;
+  }) => void;
   handleDialogClose: () => void;
 }
 
@@ -12,6 +19,8 @@ export const useDialogStore = create<DialogState>((set) => ({
   isOpen: false,
   onClose: () => set(() => ({ isOpen: false })),
   dialogContent: null,
-  handleDialog: (content) => set({ dialogContent: content, isOpen: true }),
+  dialogTitle: null,
+  handleDialog: ({ content, title }) =>
+    set({ dialogContent: content, dialogTitle: title, isOpen: true }),
   handleDialogClose: () => set({ dialogContent: null, isOpen: false }),
 }));

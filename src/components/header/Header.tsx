@@ -1,17 +1,35 @@
-import { Button } from "components/button/Button";
+import { Button } from "components/shared/button/Button";
 import { Navigation } from "components/navigation/Navigation";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
+import { Dropdown } from "components/shared/dropdown/Dropdown";
 
 const Actions = () => {
   const { data: session } = useSession();
+
+  if (!session) {
+    return (
+      <Button onClick={() => signIn()} className="bg-white">
+        Sign in
+      </Button>
+    );
+  }
+
+  console.log(session);
+
   return (
-    <Button
-      onClick={session ? () => signOut() : () => signIn()}
-      className="bg-white"
-    >
-      {session ? "Sign out" : "Sign in"}
-    </Button>
+    <Dropdown
+      trigger={
+        <Image
+          src={session.user?.image as string}
+          width={32}
+          height={32}
+          alt="Avatar"
+          className="rounded-full focus:ring-2"
+        />
+      }
+    />
   );
 };
 

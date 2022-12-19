@@ -3,7 +3,7 @@ import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Fragment } from "react";
 
 export const Dialog = () => {
-  const { isOpen, onClose, dialogContent } = useDialogStore();
+  const { isOpen, onClose, dialogTitle, dialogContent } = useDialogStore();
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <DialogPrimitive as="div" className="relative z-50" onClose={onClose}>
@@ -31,12 +31,12 @@ export const Dialog = () => {
               leaveTo="opacity-0 scale-95"
             >
               <DialogPrimitive.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle transition-all">
-                <DialogPrimitive.Title
+                {/* <DialogPrimitive.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
                 >
-                  Payment successful
-                </DialogPrimitive.Title>
+                  {dialogTitle}
+                </DialogPrimitive.Title> */}
                 {dialogContent}
               </DialogPrimitive.Panel>
             </Transition.Child>
