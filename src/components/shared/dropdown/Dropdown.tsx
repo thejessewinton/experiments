@@ -1,13 +1,39 @@
 import { Menu, Transition } from "@headlessui/react";
 
 import { Fragment, type ReactNode } from "react";
+import { clsx } from "clsx";
 
-export const Dropdown = ({ trigger }: { trigger: ReactNode }) => {
+const Item = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => {
+  return (
+    <Menu.Item>
+      <div
+        className={clsx(
+          "group flex w-full items-center px-6 py-2 text-sm dark:text-white",
+          className
+        )}
+      >
+        {children}
+      </div>
+    </Menu.Item>
+  );
+};
+
+export const Dropdown = ({
+  trigger,
+  children,
+}: {
+  trigger: ReactNode;
+  children: ReactNode;
+}) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <div>
-        <Menu.Button>{trigger}</Menu.Button>
-      </div>
+      <Menu.Button>{trigger}</Menu.Button>
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
@@ -17,70 +43,12 @@ export const Dropdown = ({ trigger }: { trigger: ReactNode }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="px-1 py-1 ">
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  className={`${
-                    active ? "bg-violet-500 text-white" : "text-gray-900"
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                >
-                  Edit
-                </button>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  className={`${
-                    active ? "bg-violet-500 text-white" : "text-gray-900"
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                >
-                  Duplicate
-                </button>
-              )}
-            </Menu.Item>
-          </div>
-          <div className="px-1 py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  className={`${
-                    active ? "bg-violet-500 text-white" : "text-gray-900"
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                >
-                  Archive
-                </button>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  className={`${
-                    active ? "bg-violet-500 text-white" : "text-gray-900"
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                >
-                  Move
-                </button>
-              )}
-            </Menu.Item>
-          </div>
-          <div className="px-1 py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  className={`${
-                    active ? "bg-violet-500 text-white" : "text-gray-900"
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                >
-                  Delete
-                </button>
-              )}
-            </Menu.Item>
-          </div>
+        <Menu.Items className="absolute right-0 mt-2 w-60 origin-top-right divide-y divide-gray-100 rounded border border-neutral-700 bg-white shadow-lg shadow-black/70 focus:outline-none dark:divide-neutral-700 dark:bg-neutral-900">
+          <div className="py-1">{children}</div>
         </Menu.Items>
       </Transition>
     </Menu>
   );
 };
+
+Dropdown.Item = Item;

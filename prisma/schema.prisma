@@ -130,16 +130,17 @@ model Job {
 }
 
 enum ViewState {
-  BY_STATUS
-  BY_TEAM
-  BY_MEMBER
+  LIST
+  BOARD
 }
 
 model View {
-  id      String    @id @default(cuid())
-  state   ViewState @default(BY_STATUS)
+  id      String    @default(cuid())
+  state   ViewState @default(LIST)
+  route   String    @default("")
   user_id String
   user    User      @relation(fields: [user_id], references: [id])
 
+  @@id([route, user_id], name: "route_view")
   @@index([user_id])
 }

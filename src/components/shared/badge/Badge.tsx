@@ -20,7 +20,7 @@ export const Badge = ({
   return (
     <div
       className={clsx(
-        "rounded-full border bg-opacity-50 px-4 py-1 text-xs",
+        "rounded-full border bg-opacity-50 px-4 py-1 text-[10px]",
         variantClassName
       )}
     >

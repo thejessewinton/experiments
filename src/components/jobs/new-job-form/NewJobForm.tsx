@@ -10,7 +10,7 @@ import { trpc } from "utils/trpc";
 
 type Values = RouterInputs["jobs"]["createNew"];
 
-export const NewJob = () => {
+export const NewJobForm = () => {
   const { register, handleSubmit } = useForm<Values>();
   const { handleDialogClose } = useDialogStore();
   const utils = trpc.useContext();
@@ -28,17 +28,17 @@ export const NewJob = () => {
   };
 
   return (
-    <div className="rounded-md bg-neutral-900 p-4 shadow-md">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-        <Input type="text" {...register("title")} placeholder="Title" />
-        <Input type="number" {...register("salary")} placeholder="0000" />
-        <Input type="text" {...register("office_type")} placeholder="Remote" />
-        <Select label="Office" />
-        <TextArea {...register("description")} placeholder="Description" />
-        <Button type="submit" disabled={submit.isLoading}>
-          {submit.isLoading ? "Loading" : "Submit"}
-        </Button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+      <Input type="text" {...register("title")} label="Title" />
+      <Input type="number" {...register("salary")} label="Salary" />
+      <Select label="Office Type" {...register("office_type")}>
+        <Select.Option label="Remote" value="remote" />
+        <Select.Option label="Office" value="office" />
+      </Select>
+      <TextArea {...register("description")} label="Description" />
+      <Button type="submit" disabled={submit.isLoading}>
+        {submit.isLoading ? "Loading" : "Submit"}
+      </Button>
+    </form>
   );
 };

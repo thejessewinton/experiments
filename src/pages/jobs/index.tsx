@@ -1,19 +1,16 @@
 import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Button } from "components/shared/button/Button";
 import { JobCard } from "components/jobs/job-card/JobCard";
-import { NewJob } from "components/jobs/new-job/NewJob";
+import { NewJobForm } from "components/jobs/new-job-form/NewJobForm";
 import { type NextPage } from "next";
 import { trpc } from "utils/trpc";
 import { useDroppable } from "@dnd-kit/core";
+import { ChangeView } from "components/views/change-view/ChangeView";
+import { useView } from "client-data/hooks/use-view";
 
 const Jobs: NextPage = () => {
-  const utils = trpc.useContext();
   const jobs = trpc.jobs.getAll.useQuery();
-  const view = trpc.users.updateView.useMutation({
-    onSuccess: () => {
-      utils.users.invalidate();
-    },
-  });
+  const view = useView();
 
   const { handleDialog } = useDialogStore();
 
@@ -32,13 +29,15 @@ const Jobs: NextPage = () => {
   return (
     <div className="mt-3">
       <Button
-        onClick={() => handleDialog({ title: "New Job", content: <NewJob /> })}
+        onClick={() =>
+          handleDialog({ title: "New Job", content: <NewJobForm /> })
+        }
       >
         New Job
       </Button>
-      <Button onClick={() => view.mutate({ state: "BY_MEMBER" })}>
-        Change View
-      </Button>
+      <ChangeView />
+
+      {view}
 
       <div className="grid grid-cols-3 gap-3" ref={setNodeRef}>
         {sortedJobsData.map((job) => (

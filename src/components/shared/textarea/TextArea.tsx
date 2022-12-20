@@ -15,20 +15,13 @@ interface TextAreaProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
 
 export const TextArea = React.forwardRef(
   (
-    {
-      label,
-      className,
-      inputClassName,
-      name,
-      secondaryLabel,
-      ...rest
-    }: TextAreaProps,
+    { label, name, secondaryLabel, ...rest }: TextAreaProps,
     ref: React.Ref<HTMLTextAreaElement>
   ) => {
     return (
-      <div className={clsx("relative flex flex-col gap-2", className)}>
+      <div className="relative flex flex-col gap-2">
         {label ? (
-          <label htmlFor={name} className="block font-bold">
+          <label htmlFor={name} className="block dark:text-white">
             {label}
           </label>
         ) : null}
@@ -37,14 +30,9 @@ export const TextArea = React.forwardRef(
           {...rest}
           name={name}
           ref={ref}
-          className={clsx(
-            "h-fit w-full rounded-sm bg-neutral-800 py-2 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75",
-            inputClassName
-          )}
+          className="h-fit w-full resize-none rounded-sm bg-neutral-800 py-2 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75"
         />
-        {secondaryLabel && (
-          <p className="block text-xs font-bold">{secondaryLabel}</p>
-        )}
+        {secondaryLabel && <p className="block text-xs">{secondaryLabel}</p>}
       </div>
     );
   }

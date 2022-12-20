@@ -30,13 +30,13 @@ export const Dialog = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPrimitive.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle transition-all">
-                {/* <DialogPrimitive.Title
+              <DialogPrimitive.Panel className="w-full max-w-md transform overflow-hidden rounded-md border border-neutral-700 bg-neutral-900 p-6 text-left align-middle shadow-lg shadow-black/50 transition-all">
+                <DialogPrimitive.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
+                  className="mb-6 text-lg font-medium leading-6 text-gray-900 dark:text-white"
                 >
                   {dialogTitle}
-                </DialogPrimitive.Title> */}
+                </DialogPrimitive.Title>
                 {dialogContent}
               </DialogPrimitive.Panel>
             </Transition.Child>

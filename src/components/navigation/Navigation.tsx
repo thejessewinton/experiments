@@ -2,7 +2,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
 
-const navigation = [{ label: "Jobs", href: "/jobs" }];
+const navigation = [
+  { label: "Jobs", href: "/jobs" },
+  { label: "Settings", href: "/settings" },
+];
 
 export const Navigation = () => {
   const router = useRouter();
@@ -15,8 +18,8 @@ export const Navigation = () => {
             key={item.label}
             href={item.href}
             className={clsx(
-              "border-b px-6 pb-3",
-              isActive ? "border-neutral-500" : "border-transparent"
+              "border-b px-6 pb-2",
+              isActive ? "border-blue-500" : "border-transparent"
             )}
           >
             {item.label}
