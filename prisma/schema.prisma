@@ -105,7 +105,7 @@ model Member {
 enum JobStatus {
   OPEN
   INTERVIEWING
-  OFFER_MADE
+  OFFERED
   CLOSED
 }
 

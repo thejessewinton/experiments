@@ -7,6 +7,8 @@ import { trpc } from "utils/trpc";
 import { useDroppable } from "@dnd-kit/core";
 import { ChangeView } from "components/views/change-view/ChangeView";
 import { useView } from "client-data/hooks/use-view";
+import { ListView } from "components/jobs/list-view/ListView";
+import { BoardView } from "components/jobs/board-view/BoardView";
 
 const Jobs: NextPage = () => {
   const jobs = trpc.jobs.getAll.useQuery();
@@ -14,36 +16,28 @@ const Jobs: NextPage = () => {
 
   const { handleDialog } = useDialogStore();
 
-  const { setNodeRef } = useDroppable({
-    id: "unique-id",
-  });
-
-  if (jobs.isLoading || !jobs.data) return <div>Loading...</div>;
-
-  const sortedJobsData = jobs.data.sort((a, b) => {
-    if (a.status === "OPEN" && b.status === "CLOSED") return -1;
-    if (a.status === "CLOSED" && b.status === "OPEN") return 1;
-    return 0;
-  });
+  if (!jobs.data) return <div>Loading...</div>;
 
   return (
     <div className="mt-3">
-      <Button
-        onClick={() =>
-          handleDialog({ title: "New Job", content: <NewJobForm /> })
-        }
-      >
-        New Job
-      </Button>
-      <ChangeView />
+      <header className="flex">
+        <div className="mr-0 ml-auto flex gap-3">
+          <Button
+            onClick={() =>
+              handleDialog({ title: "New Job", content: <NewJobForm /> })
+            }
+          >
+            New Job
+          </Button>
+          <ChangeView activeView={view} />
+        </div>
+      </header>
 
-      {view}
-
-      <div className="grid grid-cols-3 gap-3" ref={setNodeRef}>
-        {sortedJobsData.map((job) => (
-          <JobCard job={job} key={job.id} />
-        ))}
-      </div>
+      {view === "LIST" ? (
+        <ListView jobs={jobs.data} />
+      ) : (
+        <BoardView jobs={jobs.data} />
+      )}
     </div>
   );
 };

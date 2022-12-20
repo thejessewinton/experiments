@@ -1,11 +1,15 @@
 import { router, protectedProcedure } from "../trpc";
 import { z } from "zod";
+import type { JobStatus } from "@prisma/client";
 
 export const jobsRouter = router({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.job.findMany({
       where: {
         team_id: ctx.user?.membership?.team_id,
+      },
+      orderBy: {
+        status: "asc",
       },
       include: {
         user: {
@@ -59,6 +63,25 @@ export const jobsRouter = router({
               salary: "desc",
             },
           },
+        },
+      });
+    }),
+  updateStatus: protectedProcedure
+    .input(
+      z.object({
+        job_id: z.string(),
+        status: z
+          .enum(["OPEN", "CLOSED", "OFFERED", "INTERVIEWING"])
+          .nullable(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.job.update({
+        where: {
+          id: input.job_id,
+        },
+        data: {
+          status: input.status as JobStatus,
         },
       });
     }),
