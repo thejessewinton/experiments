@@ -3,10 +3,10 @@ import create from "zustand";
 
 interface JobState {
   activeStatus: JobStatus | null;
-  setActiveStatus: (status: JobStatus) => void;
+  setActiveStatus: (status: JobStatus | null) => void;
 }
 
 export const useJobStore = create<JobState>((set) => ({
   activeStatus: null,
-  setActiveStatus: (status: JobStatus) => set({ activeStatus: status }),
+  setActiveStatus: (status) => set({ activeStatus: status }),
 }));

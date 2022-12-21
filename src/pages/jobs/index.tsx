@@ -1,14 +1,13 @@
 import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Button } from "components/shared/button/Button";
-import { JobCard } from "components/jobs/job-card/JobCard";
 import { NewJobForm } from "components/jobs/new-job-form/NewJobForm";
 import { type NextPage } from "next";
 import { trpc } from "utils/trpc";
-import { useDroppable } from "@dnd-kit/core";
 import { ChangeView } from "components/views/change-view/ChangeView";
 import { useView } from "client-data/hooks/use-view";
 import { ListView } from "components/jobs/list-view/ListView";
 import { BoardView } from "components/jobs/board-view/BoardView";
+import { Spinner } from "components/shared/spinner/Spinner";
 
 const Jobs: NextPage = () => {
   const jobs = trpc.jobs.getAll.useQuery();
@@ -16,7 +15,7 @@ const Jobs: NextPage = () => {
 
   const { handleDialog } = useDialogStore();
 
-  if (!jobs.data) return <div>Loading...</div>;
+  if (!jobs.data) return <Spinner />;
 
   return (
     <div className="mt-3">

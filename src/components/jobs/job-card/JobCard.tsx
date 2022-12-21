@@ -1,48 +1,48 @@
-import { useDndMonitor, useDraggable } from "@dnd-kit/core";
 import type { Job } from "@prisma/client";
 import { JobStatus } from "@prisma/client";
 import { Badge } from "components/shared/badge/Badge";
-import Link from "next/link";
-import { CSS } from "@dnd-kit/utilities";
+import { Dropdown } from "components/shared/dropdown/Dropdown";
+import { toast } from "react-hot-toast";
+import { capitalize } from "utils/capitalize";
+
 import { trpc } from "utils/trpc";
 
-import { useJobStore } from "client-data/state/use-job-store";
-
-export const JobCard = ({ job }: { job: Job }) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: job.id,
-  });
-
+const UpdateStatus = ({ id }: { id: string }) => {
   const utils = trpc.useContext();
 
   const status = trpc.jobs.updateStatus.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       utils.jobs.getAll.invalidate();
+      toast.success(`Status updated to ${capitalize(data.status)}`);
     },
   });
-  const { activeStatus } = useJobStore();
-
-  useDndMonitor({
-    onDragEnd() {
-      status.mutate({ job_id: job.id, status: activeStatus });
-    },
-  });
-
-  const style = {
-    transform: CSS.Translate.toString(transform),
-  };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...listeners}
-      {...attributes}
-      className="min-h-[225px] rounded-lg border border-neutral-600 bg-neutral-900 shadow-md shadow-black/30 transition-all hover:cursor-pointer hover:shadow-lg hover:shadow-black/30"
-    >
+    <div>
+      <Dropdown trigger={<button>*</button>}>
+        {Object.entries(JobStatus).map(([key, value]) => {
+          return (
+            <Dropdown.Item key={key}>
+              <button
+                onClick={() => status.mutate({ job_id: id, status: value })}
+                className="text-xs"
+              >
+                {capitalize(value)}
+              </button>
+            </Dropdown.Item>
+          );
+        })}
+      </Dropdown>
+    </div>
+  );
+};
+
+export const JobCard = ({ job }: { job: Job }) => {
+  return (
+    <div className="min-h-[225px] rounded-lg border border-neutral-600 bg-neutral-900 shadow-md shadow-black/30 transition-all hover:cursor-pointer hover:shadow-lg hover:shadow-black/30">
       <div className="flex flex-col items-center justify-between px-4 py-4">
         <h3 className="text-base">{job.title}</h3>
-        <p>{job.description}</p>
+
         <Badge
           variant="success"
           label={
@@ -55,7 +55,7 @@ export const JobCard = ({ job }: { job: Job }) => {
               : "Closed"
           }
         />
-        <Link href={`/jobs/${job.id}`}>More</Link>
+        <UpdateStatus id={job.id} />
       </div>
     </div>
   );
