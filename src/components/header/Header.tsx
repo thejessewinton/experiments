@@ -1,6 +1,5 @@
-import { Button } from "components/shared/button/Button";
 import { Navigation } from "components/navigation/Navigation";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
@@ -9,11 +8,7 @@ const Actions = () => {
   const { data: session } = useSession();
 
   if (!session) {
-    return (
-      <Button onClick={() => signIn()} className="bg-white">
-        Sign in
-      </Button>
-    );
+    return null;
   }
 
   return (

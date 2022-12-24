@@ -8,6 +8,7 @@ import { useView } from "client-data/hooks/use-view";
 import { ListView } from "components/jobs/list-view/ListView";
 import { BoardView } from "components/jobs/board-view/BoardView";
 import { Spinner } from "components/shared/spinner/Spinner";
+import { ViewState } from "@prisma/client";
 
 const Jobs: NextPage = () => {
   const jobs = trpc.jobs.getAll.useQuery();
@@ -31,7 +32,7 @@ const Jobs: NextPage = () => {
       </header>
 
       {jobs.data ? (
-        view === "LIST" ? (
+        view === ViewState.LIST ? (
           <ListView jobs={jobs.data} />
         ) : (
           <BoardView jobs={jobs.data} />

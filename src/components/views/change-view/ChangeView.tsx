@@ -12,6 +12,10 @@ export const ChangeView = ({
   const utils = trpc.useContext();
 
   const views = trpc.views.updateView.useMutation({
+    onMutate: (view) => {
+      utils.views.getView.setData({ route: view.route }, { state: view.state });
+      console.log(view.state);
+    },
     onSuccess: () => {
       utils.views.getView.invalidate();
     },
@@ -39,7 +43,7 @@ export const ChangeView = ({
             onClick={() => views.mutate({ state: value, route: pathname })}
             className={clsx(
               "bg-neutral-900 px-3 py-1.5 transition-colors",
-              activeView === value && "bg-neutral-700"
+              activeView === value && "bg-neutral-800"
             )}
           >
             {Icons[value]}

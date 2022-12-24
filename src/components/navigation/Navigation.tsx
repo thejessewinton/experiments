@@ -2,7 +2,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { clsx } from "clsx";
 
-const navigation = [
+type NavigationProps = {
+  label: string;
+  href: string;
+}[];
+
+const navigation: NavigationProps = [
   { label: "Browse", href: "/browse" },
   { label: "Jobs", href: "/jobs" },
   { label: "Settings", href: "/settings" },
