@@ -30,10 +30,10 @@ export const NewJobForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <Input type="text" {...register("title")} label="Title" />
-      <Input type="number" {...register("salary")} label="Salary" />
+      <Input type="text" {...register("salary")} label="Salary" />
       <Select label="Office Type" {...register("office_type")}>
         <Select.Option label="Remote" value="remote" />
-        <Select.Option label="Office" value="office" />
+        <Select.Option label="In-Office" value="office" />
       </Select>
       <TextArea {...register("description")} label="Description" />
       <Button type="submit" disabled={submit.isLoading}>

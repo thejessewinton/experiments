@@ -9,11 +9,11 @@ import { Toaster } from "react-hot-toast";
 import clsx from "clsx";
 import { DefaultSeo } from "next-seo";
 
-import { Inter } from "@next/font/google";
+import { Manrope } from "@next/font/google";
 import { Header } from "components/header/Header";
 import { Dialog } from "components/shared/dialog/Dialog";
 
-const inter = Inter();
+const manrope = Manrope();
 
 const App: AppType<{ session: Session | null }> = ({
   Component,
@@ -23,12 +23,7 @@ const App: AppType<{ session: Session | null }> = ({
     <>
       <DefaultSeo defaultTitle="Experiments" />
       <SessionProvider session={session}>
-        <main
-          className={clsx(
-            "flex min-h-screen flex-col bg-neutral-900",
-            inter.className
-          )}
-        >
+        <main className={clsx("flex min-h-screen flex-col", manrope.className)}>
           <Header />
           <Toaster
             position="bottom-left"

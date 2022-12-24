@@ -52,15 +52,44 @@ model User {
   view          View[]
 }
 
+enum CandidateLevel {
+  JUNIOR
+  MID
+  SENIOR
+}
+
 model Candidate {
-  id                 String @id @default(cuid())
-  user               User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id            String @unique
+  id                 String         @id @default(cuid())
+  user               User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id            String         @unique
   year_of_experience Int
   github_url         String
   job_title          String
   salary             Int
+  level              CandidateLevel @default(JUNIOR)
   jobs               Job[]
+  languages          Language[]
+  frameworks         Framework[]
+}
+
+model Language {
+  id       String @id @default(cuid())
+  language String
+
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
+
+  @@index([candidate_id])
+}
+
+model Framework {
+  id   String @id @default(cuid())
+  name String
+
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
+
+  @@index([candidate_id])
 }
 
 model VerificationToken {

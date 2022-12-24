@@ -25,7 +25,7 @@ export const Input = React.forwardRef(
           name={name}
           onChange={onChange}
           className={clsx(
-            "h-fit w-full rounded-sm py-1.5 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75 dark:bg-neutral-800"
+            "h-fit w-full rounded py-1.5 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75 dark:bg-neutral-800"
           )}
           {...rest}
         />

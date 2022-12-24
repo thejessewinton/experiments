@@ -4,6 +4,6 @@
 
 @layer {
   body {
-    @apply text-sm dark:text-white;
+    @apply text-sm text-neutral-900 dark:bg-zinc-900 dark:text-white;
   }
 }

@@ -1,5 +1,6 @@
 import { router } from "../trpc";
 import { authRouter } from "./auth";
+import { browseRouter } from "./browse";
 import { jobsRouter } from "./jobs";
 import { teamsRouter } from "./teams";
 import { userRouter } from "./user";
@@ -11,6 +12,7 @@ export const appRouter = router({
   auth: authRouter,
   users: userRouter,
   views: viewsRouter,
+  browse: browseRouter,
 });
 
 // export type definition of API

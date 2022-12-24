@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { clsx } from "clsx";
 
 const navigation = [
+  { label: "Browse", href: "/browse" },
   { label: "Jobs", href: "/jobs" },
   { label: "Settings", href: "/settings" },
 ];
@@ -10,7 +11,7 @@ const navigation = [
 export const Navigation = () => {
   const router = useRouter();
   return (
-    <nav className="flex gap-3 pt-12 text-white">
+    <nav className="flex gap-3 pt-12">
       {navigation.map((item) => {
         const isActive = router.pathname === item.href;
         return (
