@@ -1,7 +1,6 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-
 import { trpc } from "../utils/trpc";
 
 import "../styles/globals.css";
@@ -9,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 import clsx from "clsx";
 
 import { Inter } from "@next/font/google";
-import { Header } from "components/header/Header";
+import { Header } from "components/layout/header/Header";
 import { Dialog } from "components/shared/dialog/Dialog";
 import Head from "next/head";
 import { Search } from "context/search/Search";
@@ -44,11 +43,12 @@ const App: AppType<{ session: Session | null }> = ({
                 },
               }}
             />
-            <div className="relative mx-auto w-full max-w-7xl">
+            <div className="mx-auto w-full max-w-7xl">
               <Component {...pageProps} />
             </div>
           </main>
         </Search>
+
         <Dialog />
       </SessionProvider>
     </>

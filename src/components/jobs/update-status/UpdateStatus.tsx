@@ -7,11 +7,11 @@ import { trpc } from "utils/trpc";
 const StatusIndicator = ({ status }: { status: JobStatus }) => {
   const classNames =
     status === JobStatus.OFFERED
-      ? "border-green-500"
+      ? "border-green-400"
       : status === JobStatus.CLOSED
-      ? "border-red-500"
+      ? "border-red-400"
       : status === JobStatus.INTERVIEWING
-      ? "border-purple-500"
+      ? "border-purple-400"
       : "border-white";
   return (
     <div className="flex h-8 w-8 items-center justify-center rounded transition-colors hover:dark:bg-neutral-800">
@@ -52,15 +52,18 @@ export const UpdateStatus = ({
   });
 
   return (
-    <div className="relative z-10">
+    <div className="relative">
       <Dropdown trigger={<StatusIndicator status={status} />} align="left">
         {Object.entries(JobStatus).map(([key, value]) => {
           return (
             <Dropdown.Item key={key}>
               <button
                 onClick={() => jobStatus.mutate({ job_id: id, status: value })}
-                className="w-full text-left text-xs"
+                className="flex w-full items-center gap-2 text-left text-xs"
               >
+                <span>
+                  <StatusIndicator status={value} />
+                </span>
                 {capitalize(value)}
               </button>
             </Dropdown.Item>

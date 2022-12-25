@@ -33,6 +33,9 @@ export const authOptions: NextAuthOptions = {
       from: env.SMTP_FROM,
     }),
   ],
+  pages: {
+    signIn: "/sign-in",
+  },
   events: {
     linkAccount: async ({ user, account }) => {
       const existingUser = await prisma.user.findUnique({

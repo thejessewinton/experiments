@@ -1,4 +1,7 @@
+import type { ReactNode } from "react";
+import { useDialogStore } from "client-data/state/use-dialog-store";
 import { clsx } from "clsx";
+import { NewJobForm } from "components/jobs/new-job-form/NewJobForm";
 import {
   KBarProvider,
   KBarPortal,
@@ -8,24 +11,30 @@ import {
   KBarResults,
   useMatches,
 } from "kbar";
-import type { ReactNode } from "react";
 
-export const actions = [
-  {
-    id: "new-job",
-    name: "New Job",
-    shortcut: ["n"],
-    keywords: "new job",
-    perform: () => alert("new job"),
-  },
-  {
-    id: "contact",
-    name: "Contact",
-    shortcut: ["c"],
-    keywords: "email",
-    perform: () => (window.location.pathname = "contact"),
-  },
-];
+const useActions = () => {
+  const { handleDialog } = useDialogStore();
+
+  const actions = [
+    {
+      id: "new-job",
+      name: "New Job",
+      shortcut: ["n"],
+      keywords: "new job",
+      perform: () =>
+        handleDialog({ title: "New Job", content: <NewJobForm /> }),
+    },
+    {
+      id: "contact",
+      name: "Contact",
+      shortcut: ["c"],
+      keywords: "email",
+      perform: () => (window.location.pathname = "contact"),
+    },
+  ];
+
+  return actions;
+};
 
 const SearchResults = () => {
   const { results } = useMatches();
@@ -39,11 +48,21 @@ const SearchResults = () => {
         ) : (
           <div
             className={clsx(
-              "py-2 px-4",
+              "flex items-center justify-between py-2 px-4",
               active ? "bg-neutral-800" : "bg-neutral-900"
             )}
           >
             {item.name}
+            {item.shortcut
+              ? item.shortcut.map((shortcut) => (
+                  <kbd
+                    key={shortcut}
+                    className="rounded bg-neutral-700 px-1.5 !font-mono text-neutral-100"
+                  >
+                    {shortcut}
+                  </kbd>
+                ))
+              : null}
           </div>
         )
       }
@@ -52,6 +71,8 @@ const SearchResults = () => {
 };
 
 export const Search = ({ children }: { children: ReactNode }) => {
+  const actions = useActions();
+
   return (
     <KBarProvider
       actions={actions}
@@ -60,7 +81,7 @@ export const Search = ({ children }: { children: ReactNode }) => {
       }}
     >
       <KBarPortal>
-        <KBarPositioner className="fixed inset-0 z-10 flex h-screen items-center justify-center bg-black bg-opacity-25 backdrop-blur-sm">
+        <KBarPositioner className="!z-50 bg-black bg-opacity-25 backdrop-blur-sm">
           <KBarAnimator className="w-full max-w-xl">
             <KBarSearch className="h-fit w-full rounded py-1.5 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75 dark:bg-neutral-800" />
             <SearchResults />

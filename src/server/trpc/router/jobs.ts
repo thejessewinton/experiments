@@ -82,7 +82,6 @@ export const jobsRouter = router({
         },
       });
     }),
-
   updateStatus: protectedProcedure
     .input(
       z.object({

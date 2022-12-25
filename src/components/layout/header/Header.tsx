@@ -1,4 +1,4 @@
-import { Navigation } from "components/navigation/Navigation";
+import { Navigation } from "components/layout/navigation/Navigation";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -35,8 +35,8 @@ const Actions = () => {
 
 export const Header = () => {
   return (
-    <div className="relative z-40 border-b border-neutral-800 px-3 text-neutral-900 dark:text-white sm:px-6 lg:px-8">
-      <header className="relative mx-auto max-w-7xl">
+    <div className="z-40 border-b border-neutral-800 px-3 text-neutral-900 dark:text-white sm:px-6 lg:px-8">
+      <header className="mx-auto max-w-7xl">
         <div className="flex items-center justify-between pt-3 pb-2 md:pt-4 md:pb-3">
           <div className="mr-1 flex shrink-0 items-center">
             <Link

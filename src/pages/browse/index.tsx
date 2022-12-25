@@ -4,10 +4,10 @@ import { NewJobForm } from "components/jobs/new-job-form/NewJobForm";
 import { type NextPage } from "next";
 import { trpc } from "utils/trpc";
 import { Spinner } from "components/shared/spinner/Spinner";
-import { Filters } from "components/browse/filters/Filters";
 import { useRouter } from "next/router";
 import type { CandidateLevel } from "@prisma/client";
 import Head from "next/head";
+import { BoardView } from "components/browse/board-view/BoardView";
 
 const Browse: NextPage = () => {
   const router = useRouter();
@@ -34,16 +34,15 @@ const Browse: NextPage = () => {
             >
               New Job
             </Button>
-            <Filters />
           </div>
         </header>
 
         {candidates.data ? (
-          <>Browse Data</>
+          <BoardView candidates={candidates.data} />
         ) : candidates.isLoading ? (
           <Spinner />
         ) : (
-          "No Candidates found..."
+          "No jobs found..."
         )}
       </div>
     </>

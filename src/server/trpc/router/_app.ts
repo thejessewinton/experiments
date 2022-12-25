@@ -1,6 +1,7 @@
 import { router } from "../trpc";
 import { authRouter } from "./auth";
 import { browseRouter } from "./browse";
+import { candidateRouter } from "./candidate";
 import { jobsRouter } from "./jobs";
 import { teamsRouter } from "./teams";
 import { userRouter } from "./user";
@@ -10,7 +11,8 @@ export const appRouter = router({
   teams: teamsRouter,
   jobs: jobsRouter,
   auth: authRouter,
-  users: userRouter,
+  user: userRouter,
+  candidate: candidateRouter,
   views: viewsRouter,
   browse: browseRouter,
 });

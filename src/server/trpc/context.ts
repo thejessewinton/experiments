@@ -11,7 +11,6 @@ import { prisma } from "../db/client";
 export const createContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
 
-  // Get the session from the server using the unstable_getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
   const user = await prisma.user.findUnique({
@@ -19,12 +18,7 @@ export const createContext = async (opts: CreateNextContextOptions) => {
       id: session?.user?.id,
     },
     include: {
-      accounts: true,
-      membership: {
-        include: {
-          team: true,
-        },
-      },
+      membership: true,
     },
   });
 

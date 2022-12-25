@@ -3,13 +3,17 @@ import { CandidateLevel } from "@prisma/client";
 import { Select } from "components/shared/select/Select";
 import { capitalize } from "utils/capitalize";
 import { useRouter } from "next/router";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { Dropdown } from "components/shared/dropdown/Dropdown";
+import { Button } from "components/shared/button/Button";
+import { Checkbox } from "components/shared/checkbox/Checkbox";
 
 type FilterValues = RouterInputs["browse"]["getCandidates"];
 
+const languageValues = ["javascript", "typescript", "html", "css"];
+
 export const Filters = () => {
   const router = useRouter();
-  const methods = useFormContext();
 
   const { register } = useForm<FilterValues>({
     defaultValues: {
@@ -18,8 +22,8 @@ export const Filters = () => {
   });
 
   return (
-    <FormProvider {...methods}>
-      <div className="mb-4 grid grid-cols-4 gap-6">
+    <div className="mb-4">
+      <form className="flex gap-6">
         <Select
           {...register("frameworks")}
           label="Frameworks"
@@ -42,28 +46,19 @@ export const Filters = () => {
             );
           })}
         </Select>
-        <Select
-          {...register("languages")}
-          label="Languages"
-          onChange={(e) =>
-            router.push({
-              query: {
-                ...router.query,
-                languages: e.target.value,
-              },
-            })
+        <Dropdown
+          trigger={
+            <div className="shadow-xs focus-ring flex h-fit w-fit cursor-pointer items-center justify-center gap-3 rounded bg-neutral-900 py-1.5 px-4 text-sm font-medium text-white shadow-black/25 transition-all disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-neutral-900">
+              Languages
+            </div>
           }
         >
-          {["javascript", "typescript", "html", "css"].map((language) => {
+          {languageValues.map((value) => {
             return (
-              <Select.Option
-                key={language}
-                value={language.toLowerCase()}
-                label={capitalize(language)}
-              />
+              <Checkbox label={value} key={value} {...register("languages")} />
             );
           })}
-        </Select>
+        </Dropdown>
         <Select
           {...register("levels")}
           label="Levels"
@@ -86,7 +81,8 @@ export const Filters = () => {
             );
           })}
         </Select>
-      </div>
-    </FormProvider>
+        <Button type="submit">Submit</Button>
+      </form>
+    </div>
   );
 };

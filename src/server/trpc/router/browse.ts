@@ -43,6 +43,35 @@ export const browseRouter = router({
             },
           },
         },
+        include: {
+          user: true,
+          _count: {
+            select: {
+              jobs: true,
+            },
+          },
+        },
+      });
+    }),
+  addToJob: protectedProcedure
+    .input(
+      z.object({
+        job_id: z.string(),
+        candidate_id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.job.update({
+        where: {
+          id: input.job_id,
+        },
+        data: {
+          candidates: {
+            connect: {
+              id: input.candidate_id,
+            },
+          },
+        },
       });
     }),
 });
