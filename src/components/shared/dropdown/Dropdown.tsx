@@ -14,7 +14,7 @@ const Item = ({
     <Menu.Item>
       <div
         className={clsx(
-          "group flex w-full items-center px-6 py-2 text-sm dark:text-white",
+          "group flex w-full items-center px-6 py-4 text-sm dark:text-white",
           className
         )}
       >
@@ -27,9 +27,11 @@ const Item = ({
 export const Dropdown = ({
   trigger,
   children,
+  align = "right",
 }: {
   trigger: ReactNode;
   children: ReactNode;
+  align?: "left" | "right";
 }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -43,8 +45,15 @@ export const Dropdown = ({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-50 mt-2 w-60 origin-top-right divide-y divide-gray-100 rounded border border-neutral-700 bg-white shadow-lg shadow-black/70 focus:outline-none dark:divide-neutral-700 dark:bg-neutral-900">
-          <div className="py-1">{children}</div>
+        <Menu.Items
+          className={clsx(
+            "absolute right-0 z-50 mt-2 w-60 origin-top-right rounded border border-gray-100 bg-white shadow-lg shadow-black/70 focus:outline-none dark:border-neutral-800 dark:bg-neutral-900",
+            align === "right" ? "right-0" : "left-0"
+          )}
+        >
+          <div className="divide-y divide-gray-100 dark:divide-neutral-800">
+            {children}
+          </div>
         </Menu.Items>
       </Transition>
     </Menu>

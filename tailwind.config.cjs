@@ -6,7 +6,10 @@ module.exports = {
       container: {
         center: true,
         padding: "1rem",
-      }
+      },
+      fontSize: {
+        "2xs": ".625rem",
+      },
     },
   },
   plugins: [],

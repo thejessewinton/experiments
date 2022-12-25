@@ -1,7 +1,5 @@
 import React from "react";
 
-import { clsx } from "clsx";
-
 interface TextAreaProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   className?: string;

@@ -69,6 +69,20 @@ export const jobsRouter = router({
         },
       });
     }),
+  deleteJob: protectedProcedure
+    .input(
+      z.object({
+        job_id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.job.delete({
+        where: {
+          id: input.job_id,
+        },
+      });
+    }),
+
   updateStatus: protectedProcedure
     .input(
       z.object({
