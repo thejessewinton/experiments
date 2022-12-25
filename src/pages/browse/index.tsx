@@ -7,6 +7,7 @@ import { Spinner } from "components/shared/spinner/Spinner";
 import { Filters } from "components/browse/filters/Filters";
 import { useRouter } from "next/router";
 import type { CandidateLevel } from "@prisma/client";
+import Head from "next/head";
 
 const Browse: NextPage = () => {
   const router = useRouter();
@@ -19,28 +20,33 @@ const Browse: NextPage = () => {
   const { handleDialog } = useDialogStore();
 
   return (
-    <div className="mt-3">
-      <header className="flex">
-        <div className="mr-0 ml-auto flex gap-3">
-          <Button
-            onClick={() =>
-              handleDialog({ title: "New Job", content: <NewJobForm /> })
-            }
-          >
-            New Job
-          </Button>
-          <Filters />
-        </div>
-      </header>
+    <>
+      <Head>
+        <title>Browse</title>
+      </Head>
+      <div className="mt-3">
+        <header className="flex">
+          <div className="mr-0 ml-auto flex gap-3">
+            <Button
+              onClick={() =>
+                handleDialog({ title: "New Job", content: <NewJobForm /> })
+              }
+            >
+              New Job
+            </Button>
+            <Filters />
+          </div>
+        </header>
 
-      {candidates.data ? (
-        <>Browse Data</>
-      ) : candidates.isLoading ? (
-        <Spinner />
-      ) : (
-        "No Candidates found..."
-      )}
-    </div>
+        {candidates.data ? (
+          <>Browse Data</>
+        ) : candidates.isLoading ? (
+          <Spinner />
+        ) : (
+          "No Candidates found..."
+        )}
+      </div>
+    </>
   );
 };
 

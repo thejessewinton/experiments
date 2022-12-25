@@ -9,6 +9,7 @@ import { ListView } from "components/jobs/list-view/ListView";
 import { BoardView } from "components/jobs/board-view/BoardView";
 import { Spinner } from "components/shared/spinner/Spinner";
 import { ViewState } from "@prisma/client";
+import Head from "next/head";
 
 const Jobs: NextPage = () => {
   const jobs = trpc.jobs.getAll.useQuery();
@@ -17,32 +18,37 @@ const Jobs: NextPage = () => {
   const { handleDialog } = useDialogStore();
 
   return (
-    <div className="mt-3">
-      <header className="flex">
-        <div className="mr-0 ml-auto flex gap-3">
-          <Button
-            onClick={() =>
-              handleDialog({ title: "New Job", content: <NewJobForm /> })
-            }
-          >
-            New Job
-          </Button>
-          <ChangeView activeView={view} />
-        </div>
-      </header>
+    <>
+      <Head>
+        <title>Jobs</title>
+      </Head>
+      <div className="mt-3">
+        <header className="flex">
+          <div className="mr-0 ml-auto flex gap-3">
+            <Button
+              onClick={() =>
+                handleDialog({ title: "New Job", content: <NewJobForm /> })
+              }
+            >
+              New Job
+            </Button>
+            <ChangeView activeView={view} />
+          </div>
+        </header>
 
-      {jobs.data ? (
-        view === ViewState.LIST ? (
-          <ListView jobs={jobs.data} />
+        {jobs.data ? (
+          view === ViewState.LIST ? (
+            <ListView jobs={jobs.data} />
+          ) : (
+            <BoardView jobs={jobs.data} />
+          )
+        ) : jobs.isLoading ? (
+          <Spinner />
         ) : (
-          <BoardView jobs={jobs.data} />
-        )
-      ) : jobs.isLoading ? (
-        <Spinner />
-      ) : (
-        "No jobs found..."
-      )}
-    </div>
+          "No jobs found..."
+        )}
+      </div>
+    </>
   );
 };
 

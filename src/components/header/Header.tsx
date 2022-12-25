@@ -24,7 +24,7 @@ const Actions = () => {
       }
     >
       <Dropdown.Item>
-        <Link href="/profile">Profile</Link>
+        <Link href="/settings">Settings</Link>
       </Dropdown.Item>
       <Dropdown.Item className="border-t border-neutral-600 py-2">
         <button onClick={() => signOut()}>Sign Out</button>
