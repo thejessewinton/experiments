@@ -8,9 +8,6 @@ export const jobsRouter = router({
       where: {
         team_id: ctx.user?.membership?.team_id,
       },
-      orderBy: {
-        status: "asc",
-      },
       include: {
         user: {
           include: {
@@ -19,6 +16,11 @@ export const jobsRouter = router({
                 state: true,
               },
             },
+          },
+        },
+        _count: {
+          select: {
+            candidates: true,
           },
         },
       },

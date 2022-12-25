@@ -14,7 +14,6 @@ export const ChangeView = ({
   const views = trpc.views.updateView.useMutation({
     onMutate: (view) => {
       utils.views.getView.setData({ route: view.route }, { state: view.state });
-      console.log(view.state);
     },
     onSuccess: () => {
       utils.views.getView.invalidate();
