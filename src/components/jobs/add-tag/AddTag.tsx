@@ -1,6 +1,7 @@
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { Spinner } from "components/shared/spinner/Spinner";
 import { toast } from "react-hot-toast";
+import { makePlural } from "utils/make-plural";
 import type { RouterOutputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
 
@@ -9,7 +10,9 @@ type JobTagProps = RouterOutputs["jobs"]["getAll"][0]["tags"];
 const JobTags = ({ tags }: { tags: JobTagProps }) => {
   return (
     <div className="flex items-center">
-      <span className="mr-2 text-2xs font-light text-neutral-600">Tags</span>
+      <span className="mr-2 text-2xs font-light text-neutral-600">
+        {tags.length} {makePlural("Tag", tags.length)}
+      </span>
       {tags.length ? (
         tags.map((tag) => (
           <div
@@ -28,9 +31,26 @@ const JobTags = ({ tags }: { tags: JobTagProps }) => {
 export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
   const utils = trpc.useContext();
   const add = trpc.jobs.addTag.useMutation({
-    onSuccess: (data) => {
+    onMutate: (data) => {
+      const allTags = utils.tags.getAll.getData();
+      const tag = allTags?.find((tag) => tag.id === data.tag_id);
+      const allJobs = utils.jobs.getAll.getData();
+      const job = allJobs?.find((job) => job.id === data.job_id);
+
+      if (tag && job) {
+        const updateJob = {
+          ...job,
+          tags: [...job.tags, tag],
+        };
+
+        utils.jobs.getAll.setData(
+          (() => undefined)(),
+          allJobs?.map((job) => (job.id === data.job_id ? updateJob : job))
+        );
+      }
+    },
+    onSuccess: () => {
       utils.jobs.getAll.invalidate();
-      toast.success(`Added tag to ${data.title}`);
     },
   });
   const allTags = trpc.tags.getAll.useQuery();

@@ -17,10 +17,6 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    GithubProvider({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
-    }),
     EmailProvider({
       server: {
         host: env.SMTP_HOST,
@@ -31,6 +27,10 @@ export const authOptions: NextAuthOptions = {
         },
       },
       from: env.SMTP_FROM,
+    }),
+    GithubProvider({
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
   ],
   pages: {
