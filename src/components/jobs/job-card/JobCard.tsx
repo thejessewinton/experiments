@@ -9,7 +9,7 @@ export const JobCard = ({
 }) => {
   return (
     <div className="rounded-lg border border-neutral-400 shadow-sm shadow-black/30 transition-all hover:cursor-pointer hover:shadow-lg hover:shadow-black/30 dark:border-neutral-800 dark:bg-neutral-900">
-      <div className="h-full px-6 py-4">
+      <div className="h-full px-5 py-4">
         <div className="flex w-full items-start justify-between">
           <div className="flex flex-col gap-1">
             <span className="text-2xs font-light uppercase text-neutral-500">

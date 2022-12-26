@@ -42,7 +42,7 @@ export const Dialog = () => {
                   </DialogPrimitive.Title>
                   <button
                     onClick={() => handleDialogClose()}
-                    className="flex h-8 w-8 items-center justify-center rounded transition-colors hover:dark:bg-neutral-800"
+                    className="flex h-8 w-8 items-center justify-center rounded outline-none transition-colors focus:ring-1 focus:ring-sky-600/75 hover:dark:bg-neutral-800"
                   >
                     <XMarkIcon className="h-4 w-4" />
                   </button>

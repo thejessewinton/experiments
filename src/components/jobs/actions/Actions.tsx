@@ -21,7 +21,7 @@ export const Actions = ({ id }: { id: string }) => {
             <EllipsisHorizontalIcon className="h-4 w-4" />
           </div>
         }
-        align="left"
+        align="right"
       >
         <Dropdown.Item>
           <button

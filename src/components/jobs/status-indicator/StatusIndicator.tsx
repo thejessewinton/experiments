@@ -6,9 +6,9 @@ export const StatusIndicator = ({ status }: { status: JobStatus }) => {
     status === JobStatus.OFFERED
       ? "border-green-400"
       : status === JobStatus.CLOSED
-      ? "border-red-400"
-      : status === JobStatus.INTERVIEWING
       ? "border-purple-400"
+      : status === JobStatus.INTERVIEWING
+      ? "border-yellow-400"
       : "border-white";
   return (
     <div className="flex h-8 w-8 items-center justify-center">

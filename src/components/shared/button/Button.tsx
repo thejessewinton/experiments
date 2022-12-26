@@ -13,7 +13,7 @@ export const Button = ({
       type={type}
       {...rest}
       className={clsx(
-        "shadow-xs flex h-fit w-fit cursor-pointer items-center justify-center gap-3 rounded bg-neutral-900 py-1.5 px-4 text-sm font-medium text-white shadow-black/25 outline-none transition-all focus:ring-1 focus:ring-sky-600/75 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-neutral-900",
+        "shadow-xs flex h-fit w-fit cursor-pointer items-center justify-center gap-3 rounded bg-neutral-900 py-1.5 px-4 text-sm font-medium text-white shadow-black/25 outline-none transition-all focus:ring focus:ring-sky-600/75 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-neutral-900",
         className
       )}
     >
