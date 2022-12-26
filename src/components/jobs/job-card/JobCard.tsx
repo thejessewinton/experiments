@@ -1,7 +1,6 @@
 import { makePlural } from "utils/make-plural";
 import type { RouterOutputs } from "utils/trpc";
 import { Actions } from "../actions/Actions";
-import { UpdateStatus } from "../update-status/UpdateStatus";
 
 export const JobCard = ({
   job,
@@ -20,7 +19,6 @@ export const JobCard = ({
           </div>
 
           <div className="flex items-center justify-center gap-2">
-            <UpdateStatus id={job.id} status={job.status} />
             <Actions id={job.id} />
           </div>
         </div>

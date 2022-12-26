@@ -1,9 +1,11 @@
 import { Transition, Dialog as DialogPrimitive } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Fragment } from "react";
 
 export const Dialog = () => {
-  const { isOpen, onClose, dialogTitle, dialogContent } = useDialogStore();
+  const { isOpen, onClose, dialogTitle, dialogContent, handleDialogClose } =
+    useDialogStore();
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <DialogPrimitive as="div" className="relative z-50" onClose={onClose}>
@@ -31,12 +33,20 @@ export const Dialog = () => {
               leaveTo="opacity-0 scale-95"
             >
               <DialogPrimitive.Panel className="w-full max-w-md transform overflow-hidden rounded-md border border-neutral-700 bg-neutral-900 p-6 text-left align-middle shadow-lg shadow-black/50 transition-all">
-                <DialogPrimitive.Title
-                  as="h3"
-                  className="mb-6 text-lg font-medium leading-6 text-gray-900 dark:text-white"
-                >
-                  {dialogTitle}
-                </DialogPrimitive.Title>
+                <div className="flex justify-between">
+                  <DialogPrimitive.Title
+                    as="h3"
+                    className="mb-6 text-lg font-medium leading-6 text-gray-900 dark:text-white"
+                  >
+                    {dialogTitle}
+                  </DialogPrimitive.Title>
+                  <button
+                    onClick={() => handleDialogClose()}
+                    className="flex h-8 w-8 items-center justify-center rounded transition-colors hover:dark:bg-neutral-800"
+                  >
+                    <XMarkIcon className="h-4 w-4" />
+                  </button>
+                </div>
                 {dialogContent}
               </DialogPrimitive.Panel>
             </Transition.Child>

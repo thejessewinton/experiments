@@ -3,7 +3,6 @@ import { forwardRef } from "react";
 import { clsx } from "clsx";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  value: string;
   label?: string;
   secondaryLabel?: string;
 }
