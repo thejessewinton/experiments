@@ -1,3 +1,4 @@
+import { JobStatus } from "@prisma/client";
 import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Button } from "components/shared/button/Button";
 import { Input } from "components/shared/input/Input";
@@ -17,9 +18,9 @@ export const NewJobForm = () => {
 
   const submit = trpc.jobs.createNew.useMutation({
     onSuccess: () => {
+      utils.jobs.invalidate();
       toast.success("Job created successfully");
       handleDialogClose();
-      utils.jobs.invalidate();
     },
   });
 

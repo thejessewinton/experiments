@@ -24,13 +24,6 @@ const useActions = () => {
       perform: () =>
         handleDialog({ title: "New Job", content: <NewJobForm /> }),
     },
-    {
-      id: "contact",
-      name: "Contact",
-      shortcut: ["c"],
-      keywords: "email",
-      perform: () => (window.location.pathname = "contact"),
-    },
   ];
 
   return actions;
@@ -70,7 +63,7 @@ const SearchResults = () => {
   );
 };
 
-export const Search = ({ children }: { children: ReactNode }) => {
+export const SearchProvider = ({ children }: { children: ReactNode }) => {
   const actions = useActions();
 
   return (
