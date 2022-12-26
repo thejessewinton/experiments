@@ -147,7 +147,6 @@ model Job {
   office_type String
   status      JobStatus   @default(OPEN)
   description String      @db.LongText()
-  category    String      @default("Uncategorized")
   team        Team?       @relation(fields: [team_id], references: [id])
   team_id     String?
   user        User        @relation(fields: [user_id], references: [id])
