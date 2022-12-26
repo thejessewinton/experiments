@@ -50,6 +50,7 @@ model User {
   candidacy     Candidate?
   jobs          Job[]
   view          View[]
+  tags          Tag[]
 }
 
 enum CandidateLevel {
@@ -152,13 +153,28 @@ model Job {
   user        User        @relation(fields: [user_id], references: [id])
   user_id     String
   candidates  Candidate[]
-  created_at  DateTime    @default(now())
-  updated_at  DateTime    @updatedAt
+  tags        Tag[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@index([user_id])
   @@index([team_id])
 }
 
+model Tag {
+  id    String @id @default(cuid())
+  value String
+  color String @default("#7f1d1d")
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+  job     Job[]
+
+  @@index([user_id])
+}
+
+// UI/Views
 enum ViewState {
   LIST
   BOARD

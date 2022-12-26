@@ -25,7 +25,9 @@ export const Navigation = () => {
             href={item.href}
             className={clsx(
               "border-b px-6 pb-2",
-              isActive ? "border-blue-500 font-medium" : "border-transparent"
+              isActive
+                ? "border-blue-500 font-medium"
+                : "border-transparent font-light"
             )}
           >
             {item.label}

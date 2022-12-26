@@ -3,7 +3,6 @@ import { Button } from "components/shared/button/Button";
 import { NewJobForm } from "components/jobs/new-job-form/NewJobForm";
 import { type NextPage } from "next";
 import { trpc } from "utils/trpc";
-import { ChangeView } from "components/views/change-view/ChangeView";
 import { useView } from "client-data/hooks/use-view";
 import { ListView } from "components/jobs/list-view/ListView";
 import { BoardView } from "components/jobs/board-view/BoardView";
@@ -32,7 +31,6 @@ const Jobs: NextPage = () => {
             >
               New Job
             </Button>
-            <ChangeView activeView={view} />
           </div>
         </header>
 

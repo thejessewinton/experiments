@@ -14,7 +14,7 @@ const Item = ({
     <Menu.Item>
       <div
         className={clsx(
-          "group flex w-full items-center px-4 py-2 text-sm dark:text-white hover:dark:bg-neutral-800",
+          "group flex w-full items-center px-4 py-3 text-sm dark:text-white hover:dark:bg-neutral-800",
           className
         )}
       >
@@ -47,7 +47,7 @@ export const Dropdown = ({
       >
         <Menu.Items
           className={clsx(
-            "absolute right-0 !z-50 mt-2 w-60 origin-top-right rounded border border-gray-100 bg-white shadow-lg shadow-black/70 focus:outline-none dark:border-neutral-800 dark:bg-neutral-900",
+            "absolute right-0 !z-50 mt-2 w-60 origin-top-right rounded border border-gray-100 bg-white shadow-lg shadow-black/20 focus:outline-none dark:border-neutral-800 dark:bg-neutral-900",
             align === "right" ? "right-0" : "left-0"
           )}
         >
