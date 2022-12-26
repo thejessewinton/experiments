@@ -1,41 +1,43 @@
-import type { NextPage } from "next";
-import { getProviders, signIn } from "next-auth/react";
-import { useRouter } from "next/router";
+import { AuthForm } from "components/auth/AuthForm";
+import { AuthLayout } from "layouts/auth/Auth";
+import { getCsrfToken, getProviders } from "next-auth/react";
+import Head from "next/head";
+import type { ReactElement } from "react";
+import type { NextPageWithLayout } from "./_app";
+
+export type ProvidersType = ReturnType<typeof getProviders>;
 
 type SignInPageProps = {
-  providers: ReturnType<typeof getProviders>;
+  providers: ProvidersType;
+  csrfToken: string;
 };
 
-const SignIn: NextPage<SignInPageProps> = ({ providers }) => {
-  const { query } = useRouter();
+const SignIn: NextPageWithLayout<SignInPageProps> = ({
+  providers,
+  csrfToken,
+}) => {
   return (
-    <div>
-      <h1>Sign In</h1>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <button
-            onClick={() =>
-              signIn(provider.id, {
-                callbackUrl: query.callbackUrl
-                  ? String(query.callbackUrl)
-                  : "/",
-              })
-            }
-          >
-            Sign in with {provider.name}
-          </button>
-        </div>
-      ))}
-    </div>
+    <>
+      <Head>
+        <title>Sign In</title>
+      </Head>
+
+      <AuthForm providers={providers} csrfToken={csrfToken} />
+    </>
   );
 };
 
 export default SignIn;
 
+SignIn.getLayout = (page: ReactElement) => {
+  return <AuthLayout>{page}</AuthLayout>;
+};
+
 export const getServerSideProps = async () => {
   return {
     props: {
       providers: await getProviders(),
+      csrfToken: await getCsrfToken(),
     },
   };
 };

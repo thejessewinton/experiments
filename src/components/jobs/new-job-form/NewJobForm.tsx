@@ -32,10 +32,6 @@ export const NewJobForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <Input type="text" {...register("title")} label="Title" />
       <Input type="text" {...register("salary")} label="Salary" />
-      <Select label="Category" {...register("category")}>
-        <Select.Option label="Engineering" value="design" />
-        <Select.Option label="Design" value="design" />
-      </Select>
       <Select label="Office Type" {...register("office_type")}>
         <Select.Option label="Remote" value="remote" />
         <Select.Option label="In-Office" value="office" />
