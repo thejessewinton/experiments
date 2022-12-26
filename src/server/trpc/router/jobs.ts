@@ -6,7 +6,7 @@ export const jobsRouter = router({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.job.findMany({
       where: {
-        team_id: ctx.user?.membership?.team_id,
+        user_id: ctx.user?.id,
       },
       include: {
         user: {
@@ -18,14 +18,63 @@ export const jobsRouter = router({
             },
           },
         },
+        tags: {
+          select: {
+            value: true,
+            color: true,
+          },
+        },
         _count: {
           select: {
             candidates: true,
+            tags: true,
           },
         },
       },
     });
   }),
+  addTag: protectedProcedure
+    .input(
+      z.object({
+        tag_id: z.string(),
+        job_id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.job.update({
+        where: {
+          id: input.job_id,
+        },
+        data: {
+          tags: {
+            connect: {
+              id: input.tag_id,
+            },
+          },
+        },
+      });
+    }),
+  removeTag: protectedProcedure
+    .input(
+      z.object({
+        tag_id: z.string(),
+        job_id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.job.update({
+        where: {
+          id: input.job_id,
+        },
+        data: {
+          tags: {
+            disconnect: {
+              id: input.tag_id,
+            },
+          },
+        },
+      });
+    }),
   createNew: protectedProcedure
     .input(
       z.object({
