@@ -80,7 +80,6 @@ export const jobsRouter = router({
       z.object({
         title: z.string(),
         description: z.string().max(250),
-        category: z.string(),
         salary: z.string(),
         office_type: z.string(),
       })

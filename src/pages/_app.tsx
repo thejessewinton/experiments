@@ -42,7 +42,7 @@ const App = ({
       <SessionProvider session={session}>
         <SearchProvider>
           <Toaster
-            position="bottom-left"
+            position="bottom-right"
             gutter={8}
             toastOptions={{
               duration: 5000,
