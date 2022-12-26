@@ -1,6 +1,6 @@
 import { makePlural } from "utils/make-plural";
 import type { RouterOutputs } from "utils/trpc";
-import { UpdateStatus } from "../update-status/UpdateStatus";
+import { Actions } from "../actions/Actions";
 
 export const JobCard = ({
   job,
@@ -9,7 +9,7 @@ export const JobCard = ({
 }) => {
   return (
     <div className="rounded-lg border border-neutral-400 shadow-sm shadow-black/30 transition-all hover:cursor-pointer hover:shadow-lg hover:shadow-black/30 dark:border-neutral-800 dark:bg-neutral-900">
-      <div className="h-full px-6 py-4">
+      <div className="h-full px-5 py-4">
         <div className="flex w-full items-start justify-between">
           <div className="flex flex-col gap-1">
             <span className="text-2xs font-light uppercase text-neutral-500">
@@ -19,7 +19,7 @@ export const JobCard = ({
           </div>
 
           <div className="flex items-center justify-center gap-2">
-            <UpdateStatus id={job.id} status={job.status} />
+            <Actions id={job.id} />
           </div>
         </div>
         <div className="mt-8 mb-0 flex flex-col gap-1">

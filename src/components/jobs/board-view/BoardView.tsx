@@ -2,6 +2,7 @@ import { JobStatus } from "@prisma/client";
 import { capitalize } from "utils/capitalize";
 import type { RouterOutputs } from "utils/trpc";
 import { JobCard } from "../job-card/JobCard";
+import { StatusIndicator } from "../status-indicator/StatusIndicator";
 
 type JobsOutput = RouterOutputs["jobs"]["getAll"];
 
@@ -14,7 +15,8 @@ const BoardColumn = ({
 }) => {
   return (
     <div>
-      <div className="mb-6 flex gap-1 text-xs">
+      <div className="mb-6 flex items-center gap-1 text-xs">
+        <StatusIndicator status={status} />
         {capitalize(status)}{" "}
         <span className="ml-3 text-neutral-500">
           {jobs.filter((job) => job.status === status).length}

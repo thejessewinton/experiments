@@ -11,7 +11,7 @@ import { Inter } from "@next/font/google";
 import { Header } from "components/layout/header/Header";
 import { Dialog } from "components/shared/dialog/Dialog";
 import Head from "next/head";
-import { Search } from "context/search/Search";
+import { SearchProvider } from "context/search/SearchProvider";
 
 const inter = Inter();
 
@@ -25,7 +25,7 @@ const App: AppType<{ session: Session | null }> = ({
         <title>Experiements</title>
       </Head>
       <SessionProvider session={session}>
-        <Search>
+        <SearchProvider>
           <main className={clsx("flex min-h-screen flex-col", inter.className)}>
             <Header />
             <Toaster
@@ -47,7 +47,7 @@ const App: AppType<{ session: Session | null }> = ({
               <Component {...pageProps} />
             </div>
           </main>
-        </Search>
+        </SearchProvider>
 
         <Dialog />
       </SessionProvider>

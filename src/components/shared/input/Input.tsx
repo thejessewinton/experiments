@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 
 import { clsx } from "clsx";
 
@@ -7,7 +7,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   secondaryLabel?: string;
 }
 
-export const Input = React.forwardRef(
+export const Input = forwardRef(
   (
     { name, className, label, onChange, secondaryLabel, ...rest }: InputProps,
     ref: React.Ref<HTMLInputElement>
