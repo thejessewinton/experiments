@@ -1,8 +1,9 @@
-import { NewTagForm } from "components/tags/NewTagForm";
-import { type NextPage } from "next";
+import { NewTagForm } from "components/tags/new-tag-form/NewTagForm";
+import { SidebarLayout } from "layouts/sidebar/Sidebar";
 import Head from "next/head";
+import type { NextPageWithLayout } from "pages/_app";
 
-const Tags: NextPage = () => {
+const Tags: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -11,6 +12,10 @@ const Tags: NextPage = () => {
       <NewTagForm />
     </>
   );
+};
+
+Tags.getLayout = (page) => {
+  return <SidebarLayout>{page}</SidebarLayout>;
 };
 
 export default Tags;

@@ -24,6 +24,8 @@ const Actions = ({ id }: { id: string }) => {
             <EllipsisHorizontalIcon className="h-4 w-4" />
           </div>
         }
+        triggerClassName="rounded"
+        className="w-32"
         align="left"
       >
         <Dropdown.Item>

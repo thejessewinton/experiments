@@ -19,9 +19,10 @@ const Actions = () => {
           width={32}
           height={32}
           alt="Avatar"
-          className="rounded-full focus:ring-2"
+          className="rounded-full"
         />
       }
+      triggerClassName="rounded-full"
       className="!w-60"
     >
       <Dropdown.Item>

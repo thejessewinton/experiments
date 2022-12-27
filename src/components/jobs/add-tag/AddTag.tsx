@@ -1,6 +1,5 @@
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { Spinner } from "components/shared/spinner/Spinner";
-import { toast } from "react-hot-toast";
 import { makePlural } from "utils/make-plural";
 import type { RouterOutputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
@@ -9,7 +8,7 @@ type JobTagProps = RouterOutputs["jobs"]["getAll"][0]["tags"];
 
 const JobTags = ({ tags }: { tags: JobTagProps }) => {
   return (
-    <div className="flex items-center rounded-full border border-neutral-600 py-1 px-2 transition-colors hover:bg-neutral-800">
+    <div className="flex items-center rounded-full border border-neutral-600 py-1 px-2 outline-none transition-colors hover:bg-neutral-800">
       <span className="mr-2 text-2xs font-light text-neutral-400">
         {tags.length} {makePlural("Tag", tags.length)}
       </span>
@@ -57,7 +56,11 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
 
   return (
     <div className="relative">
-      <Dropdown trigger={<JobTags tags={tags} />} align="left">
+      <Dropdown
+        trigger={<JobTags tags={tags} />}
+        triggerClassName="rounded-full"
+        align="left"
+      >
         {allTags.isLoading ? (
           <Spinner />
         ) : (
