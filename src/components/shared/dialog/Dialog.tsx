@@ -32,7 +32,7 @@ export const Dialog = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPrimitive.Panel className="w-full max-w-md transform overflow-hidden rounded-md  bg-neutral-900 p-6 text-left align-middle shadow-lg shadow-black/50 transition-all">
+              <DialogPrimitive.Panel className="w-full max-w-2xl transform overflow-hidden rounded-md bg-neutral-900 p-6 text-left align-middle shadow-lg shadow-black/50 transition-all">
                 <div className="mb-6 flex justify-between">
                   <DialogPrimitive.Title
                     as="h3"

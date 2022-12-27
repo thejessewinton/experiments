@@ -1,6 +1,7 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useBrowseParams } from "client-data/hooks/use-browse-params";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
+import { toast } from "react-hot-toast";
 import { trpc } from "utils/trpc";
 
 export const AddToJob = ({ id }: { id: string }) => {
@@ -24,8 +25,9 @@ export const AddToJob = ({ id }: { id: string }) => {
         newCandidates
       );
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       utils.browse.getCandidates.invalidate();
+      toast.success(`Candidate added to ${data.title}`);
     },
   });
 
@@ -37,6 +39,7 @@ export const AddToJob = ({ id }: { id: string }) => {
             <PlusIcon className="h-4 w-4" />
           </div>
         }
+        className="w-48"
         align="left"
       >
         {jobs.data?.map((job) => (
