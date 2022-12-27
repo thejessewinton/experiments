@@ -37,7 +37,7 @@ const BoardColumn = ({
 export const BoardView = ({ jobs }: { jobs: JobsOutput }) => {
   return (
     <>
-      <div className="mb-4 grid grid-cols-4 gap-6">
+      <div className="mb-4 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {Object.entries(JobStatus).map(([key, status]) => {
           return <BoardColumn key={key} status={status} jobs={jobs} />;
         })}

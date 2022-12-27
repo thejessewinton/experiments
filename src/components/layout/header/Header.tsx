@@ -22,6 +22,7 @@ const Actions = () => {
           className="rounded-full focus:ring-2"
         />
       }
+      className="!w-60"
     >
       <Dropdown.Item>
         <Link href="/settings">Settings</Link>

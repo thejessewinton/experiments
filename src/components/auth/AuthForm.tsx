@@ -50,7 +50,7 @@ export const AuthForm = ({
   const { query } = useRouter();
 
   return (
-    <div className="flex w-full max-w-lg flex-col gap-4 rounded bg-neutral-900 p-8 shadow-lg shadow-black/25">
+    <div className="flex w-full max-w-lg flex-col gap-4 rounded p-8 shadow-lg shadow-black/25 dark:bg-neutral-900">
       <div className="flex flex-col items-center justify-center gap-2 text-center">
         <h3 className="text-2xl">Welcome back</h3>
         <span className="text-sm font-light text-neutral-400">

@@ -42,7 +42,7 @@ const Browse: NextPage = () => {
         ) : candidates.isLoading ? (
           <Spinner />
         ) : (
-          "No jobs found..."
+          "No candidates found..."
         )}
       </div>
     </>

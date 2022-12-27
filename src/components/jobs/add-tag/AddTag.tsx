@@ -1,5 +1,6 @@
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { Spinner } from "components/shared/spinner/Spinner";
+import { toast } from "react-hot-toast";
 import { makePlural } from "utils/make-plural";
 import type { RouterOutputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
@@ -13,9 +14,9 @@ const JobTags = ({ tags }: { tags: JobTagProps }) => {
         {tags.length} {makePlural("Tag", tags.length)}
       </span>
       {tags.length ? (
-        tags.map((tag) => (
+        tags.map((tag, index) => (
           <div
-            key={tag.color}
+            key={`${tag.color}-${index}`}
             className="-mr-[2px] h-2 w-2 rounded-full"
             style={{ backgroundColor: tag.color }}
           />

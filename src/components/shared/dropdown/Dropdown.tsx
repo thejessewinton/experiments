@@ -27,10 +27,12 @@ const Item = ({
 export const Dropdown = ({
   trigger,
   children,
+  className,
   align = "right",
 }: {
   trigger: ReactNode;
   children: ReactNode;
+  className?: string;
   align?: "left" | "right";
 }) => {
   return (
@@ -47,8 +49,9 @@ export const Dropdown = ({
       >
         <Menu.Items
           className={clsx(
-            "absolute right-0 !z-50 mt-2 w-60 origin-top-right rounded border border-gray-100 bg-white shadow-lg shadow-black/20 focus:outline-none dark:border-neutral-800 dark:bg-neutral-900",
-            align === "right" ? "right-0" : "left-0"
+            "absolute right-0 !z-50 mt-2 w-fit origin-top-right rounded border border-gray-100 bg-white shadow-lg shadow-black/20 focus:outline-none dark:border-neutral-800 dark:bg-neutral-900",
+            align === "right" ? "right-0" : "left-0",
+            className
           )}
         >
           <div className="divide-y divide-gray-100 dark:divide-neutral-800">
