@@ -1,8 +1,10 @@
+import { PlusIcon } from "@heroicons/react/24/outline";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { Spinner } from "components/shared/spinner/Spinner";
 import { makePlural } from "utils/make-plural";
 import type { RouterOutputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
+import { Checkbox } from "components/shared/checkbox/Checkbox";
 
 type JobTagProps = RouterOutputs["jobs"]["getAll"][0]["tags"];
 
@@ -21,7 +23,7 @@ const JobTags = ({ tags }: { tags: JobTagProps }) => {
           />
         ))
       ) : (
-        <div className="h-2 w-2 rounded-full bg-gray-300" />
+        <PlusIcon className="h-3 w-3" />
       )}
     </div>
   );
@@ -52,6 +54,28 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
       utils.jobs.getAll.invalidate();
     },
   });
+  const remove = trpc.jobs.removeTag.useMutation({
+    onMutate: (data) => {
+      const allJobs = utils.jobs.getAll.getData();
+      const job = allJobs?.find((job) => job.id === data.job_id);
+
+      if (job) {
+        const updateJob = {
+          ...job,
+          tags: job.tags.filter((tag) => tag.id !== data.tag_id),
+        };
+
+        utils.jobs.getAll.setData(
+          (() => undefined)(),
+          allJobs?.map((job) => (job.id === data.job_id ? updateJob : job))
+        );
+      }
+    },
+    onSuccess: () => {
+      utils.jobs.getAll.invalidate();
+    },
+  });
+
   const allTags = trpc.tags.getAll.useQuery();
 
   return (
@@ -66,16 +90,23 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
         ) : (
           allTags.data?.map((tag) => (
             <Dropdown.Item key={tag.id}>
-              <button
-                onClick={() => add.mutate({ tag_id: tag.id, job_id: id })}
-                className="flex w-full items-center gap-2 text-left text-xs"
-              >
+              <div className="flex w-full items-center gap-2 text-left text-xs">
+                <Checkbox
+                  label={tag.value}
+                  defaultChecked={tags.some((jobTag) => jobTag.id === tag.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      add.mutate({ job_id: id, tag_id: tag.id });
+                    } else {
+                      remove.mutate({ job_id: id, tag_id: tag.id });
+                    }
+                  }}
+                />
                 <div
                   className="h-2 w-2 rounded-full"
                   style={{ backgroundColor: tag.color }}
                 />
-                <span className="text-2xs font-light">{tag.value}</span>
-              </button>
+              </div>
             </Dropdown.Item>
           ))
         )}

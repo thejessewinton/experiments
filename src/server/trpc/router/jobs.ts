@@ -20,6 +20,7 @@ export const jobsRouter = router({
         },
         tags: {
           select: {
+            id: true,
             value: true,
             color: true,
           },
