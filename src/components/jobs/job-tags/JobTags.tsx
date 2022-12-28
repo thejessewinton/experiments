@@ -11,7 +11,7 @@ export const JobTags = ({ tags }: { tags: JobTagProps }) => {
             className="h-3 w-3 rounded-full"
             style={{ backgroundColor: tag.color }}
           />
-          <div>{tag.value}</div>
+          {tag.value}
         </div>
       ))}
     </div>

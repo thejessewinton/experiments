@@ -39,7 +39,8 @@ export const AddToJob = ({ id }: { id: string }) => {
             <PlusIcon className="h-4 w-4" />
           </div>
         }
-        className="w-48"
+        triggerClassName="rounded"
+        className="!w-48"
         align="left"
       >
         {jobs.data?.map((job) => (

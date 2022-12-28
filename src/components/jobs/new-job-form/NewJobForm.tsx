@@ -1,11 +1,11 @@
-import { JobStatus } from "@prisma/client";
 import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Button } from "components/shared/button/Button";
 import { Input } from "components/shared/input/Input";
 import { Select } from "components/shared/select/Select";
 import { TextArea } from "components/shared/textarea/TextArea";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { formatCurrency } from "utils/format-currency";
 import type { RouterInputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
 
@@ -31,7 +31,11 @@ export const NewJobForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <Input type="text" {...register("title")} label="Title" />
-      <Input type="text" {...register("salary")} label="Salary" />
+      <Input
+        type="text"
+        {...register("salary", { valueAsNumber: true })}
+        label="Salary"
+      />
       <Select label="Office Type" {...register("office_type")}>
         <Select.Option label="Remote" value="remote" />
         <Select.Option label="In-Office" value="office" />

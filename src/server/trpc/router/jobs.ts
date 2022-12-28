@@ -20,6 +20,7 @@ export const jobsRouter = router({
         },
         tags: {
           select: {
+            id: true,
             value: true,
             color: true,
           },
@@ -80,7 +81,7 @@ export const jobsRouter = router({
       z.object({
         title: z.string(),
         description: z.string().max(250),
-        salary: z.string(),
+        salary: z.number(),
         office_type: z.string(),
       })
     )
@@ -88,7 +89,7 @@ export const jobsRouter = router({
       return await ctx.prisma.job.create({
         data: {
           ...input,
-          salary: Number(input.salary),
+          salary: input.salary,
           user: {
             connect: {
               id: ctx.user?.id,
