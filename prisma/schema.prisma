@@ -139,6 +139,14 @@ enum JobStatus {
   CLOSED
 }
 
+enum JobPriority {
+  NO_PRIORITY
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
 // Jobs
 model Job {
   id          String      @id @default(cuid())
@@ -146,7 +154,9 @@ model Job {
   salary      Int
   office_type String
   status      JobStatus   @default(OPEN)
+  priority    JobPriority @default(NO_PRIORITY)
   description String      @db.LongText()
+  due_date    DateTime?
   team        Team?       @relation(fields: [team_id], references: [id])
   team_id     String?
   user        User        @relation(fields: [user_id], references: [id])
