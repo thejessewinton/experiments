@@ -14,7 +14,7 @@ const Item = ({
     <Menu.Item>
       <div
         className={clsx(
-          "group flex w-full items-center px-4 py-3 text-sm dark:text-white hover:dark:bg-neutral-800",
+          "group flex w-full items-center px-4 py-3 text-sm dark:text-white hover:dark:bg-neutral-800 focus:dark:bg-neutral-800",
           className
         )}
       >
@@ -26,18 +26,27 @@ const Item = ({
 
 export const Dropdown = ({
   trigger,
+  triggerClassName,
   children,
   className,
   align = "right",
 }: {
   trigger: ReactNode;
+  triggerClassName?: string;
   children: ReactNode;
   className?: string;
   align?: "left" | "right";
 }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <Menu.Button>{trigger}</Menu.Button>
+      <Menu.Button
+        className={clsx(
+          "outline-none focus:ring-1 focus:ring-sky-600/75",
+          triggerClassName ? triggerClassName : ""
+        )}
+      >
+        {trigger}
+      </Menu.Button>
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"

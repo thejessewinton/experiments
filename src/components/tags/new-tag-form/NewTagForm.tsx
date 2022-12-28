@@ -9,15 +9,21 @@ import { type RouterInputs, trpc } from "utils/trpc";
 type Values = RouterInputs["tags"]["addTag"];
 
 export const NewTagForm = () => {
-  const { register, handleSubmit } = useForm<Values>();
+  const { register, handleSubmit, reset } = useForm<Values>({
+    defaultValues: {
+      value: undefined,
+      color: "",
+    },
+  });
 
   const tags = trpc.tags.getAll.useQuery();
   const utils = trpc.useContext();
 
   const submit = trpc.tags.addTag.useMutation({
     onSuccess: () => {
+      reset();
       utils.tags.invalidate();
-      toast.success("Candidate updated successfully");
+      toast.success("Tag added successfully");
     },
   });
 
@@ -25,9 +31,16 @@ export const NewTagForm = () => {
     await submit.mutateAsync(values);
   };
 
+  const filteredColorOptions = Object.entries(colorOptions).reduce(
+    (acc, [key, value]) => {
+      if (tags.data?.find((tag) => tag.color === value)) return acc;
+      return { ...acc, [key]: value };
+    },
+    {} as typeof colorOptions
+  );
+
   return (
-    <div>
-      <h1 className="text-4xl font-bold">Candidate</h1>
+    <>
       {tags.data?.map((tag) => (
         <div key={tag.id} className="flex items-center gap-3">
           <div
@@ -40,7 +53,7 @@ export const NewTagForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <Input type="text" {...register("value")} label="Value" />
         <Select label="Color" {...register("color")}>
-          {Object.entries(colorOptions).map(([key, value]) => (
+          {Object.entries(filteredColorOptions).map(([key, value]) => (
             <Select.Option key={key} value={value} label={key} />
           ))}
         </Select>
@@ -48,6 +61,6 @@ export const NewTagForm = () => {
           {submit.isLoading ? "Loading" : "Submit"}
         </Button>
       </form>
-    </div>
+    </>
   );
 };

@@ -1,8 +1,9 @@
 import { CandidateForm } from "components/profiles/candidate-form/CandidateForm";
-import { type NextPage } from "next";
+import { SidebarLayout } from "layouts/sidebar/Sidebar";
 import Head from "next/head";
+import type { NextPageWithLayout } from "pages/_app";
 
-const Candidate: NextPage = () => {
+const Candidate: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -11,6 +12,10 @@ const Candidate: NextPage = () => {
       <CandidateForm />
     </>
   );
+};
+
+Candidate.getLayout = (page) => {
+  return <SidebarLayout>{page}</SidebarLayout>;
 };
 
 export default Candidate;

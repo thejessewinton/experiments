@@ -17,26 +17,12 @@ const Browse: NextPage = () => {
     levels: router.query?.levels as CandidateLevel | undefined,
   });
 
-  const { handleDialog } = useDialogStore();
-
   return (
     <>
       <Head>
         <title>Browse</title>
       </Head>
       <div className="mt-3">
-        <header className="flex">
-          <div className="mr-0 ml-auto flex gap-3">
-            <Button
-              onClick={() =>
-                handleDialog({ title: "New Job", content: <NewJobForm /> })
-              }
-            >
-              New Job
-            </Button>
-          </div>
-        </header>
-
         {candidates.data ? (
           <BoardView candidates={candidates.data} />
         ) : candidates.isLoading ? (

@@ -56,14 +56,9 @@ const App = ({
               },
             }}
           />
-          <main
-            className={clsx(
-              "mx-auto flex min-h-screen w-full flex-1 flex-col",
-              inter.className
-            )}
-          >
+          <div className={inter.className}>
             {getLayout(<Component {...pageProps} />)}
-          </main>
+          </div>
         </SearchProvider>
 
         <Dialog />

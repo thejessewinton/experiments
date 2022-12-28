@@ -22,19 +22,16 @@ export const CandidateForm = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-4xl font-bold">Candidate</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-        <Input
-          type="text"
-          {...register("salary")}
-          label="Salary"
-          defaultValue={candidate.data?.salary}
-        />
-        <Button type="submit" disabled={submit.isLoading}>
-          {submit.isLoading ? "Loading" : "Submit"}
-        </Button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+      <Input
+        type="text"
+        {...register("salary", { valueAsNumber: true })}
+        label="Salary"
+        defaultValue={candidate.data?.salary}
+      />
+      <Button type="submit" disabled={submit.isLoading}>
+        {submit.isLoading ? "Loading" : "Submit"}
+      </Button>
+    </form>
   );
 };
