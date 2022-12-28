@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 
 const navigation = [
   {
+    label: "General",
+    href: "/settings",
+  },
+  {
     label: "Candidate Settings",
     href: "/settings/candidate",
   },
@@ -13,7 +17,7 @@ const navigation = [
 ];
 
 export const Sidebar = () => {
-  const { pathname } = useRouter();
+  const router = useRouter();
 
   return (
     <div className="flex flex-col">
@@ -22,7 +26,9 @@ export const Sidebar = () => {
           <Link
             key={item.href}
             href={item.href}
-            className={pathname === item.href ? "font-medium" : "font-light"}
+            className={
+              router.pathname === item.href ? "font-medium" : "font-light"
+            }
           >
             {item.label}
           </Link>

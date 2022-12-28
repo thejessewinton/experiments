@@ -14,26 +14,12 @@ const Jobs: NextPage = () => {
   const jobs = trpc.jobs.getAll.useQuery();
   const view = useView();
 
-  const { handleDialog } = useDialogStore();
-
   return (
     <>
       <Head>
         <title>Jobs</title>
       </Head>
       <div className="mt-3">
-        <header className="flex">
-          <div className="mr-0 ml-auto flex gap-3">
-            <Button
-              onClick={() =>
-                handleDialog({ title: "New Job", content: <NewJobForm /> })
-              }
-            >
-              New Job
-            </Button>
-          </div>
-        </header>
-
         {jobs.data ? (
           view === ViewState.LIST ? (
             <ListView jobs={jobs.data} />

@@ -3,8 +3,9 @@ import { Button } from "components/shared/button/Button";
 import { Input } from "components/shared/input/Input";
 import { Select } from "components/shared/select/Select";
 import { TextArea } from "components/shared/textarea/TextArea";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { formatCurrency } from "utils/format-currency";
 import type { RouterInputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
 

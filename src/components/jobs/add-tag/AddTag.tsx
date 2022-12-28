@@ -14,17 +14,8 @@ const JobTags = ({ tags }: { tags: JobTagProps }) => {
       <span className="mr-2 text-2xs font-light text-neutral-400">
         {tags.length} {makePlural("Tag", tags.length)}
       </span>
-      {tags.length ? (
-        tags.map((tag, index) => (
-          <div
-            key={`${tag.color}-${index}`}
-            className="-mr-[2px] h-2 w-2 rounded-full"
-            style={{ backgroundColor: tag.color }}
-          />
-        ))
-      ) : (
-        <PlusIcon className="h-3 w-3" />
-      )}
+
+      <PlusIcon className="h-3 w-3" />
     </div>
   );
 };

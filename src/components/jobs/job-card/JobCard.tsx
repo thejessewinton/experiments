@@ -47,7 +47,7 @@ export const JobCard = ({
   job: RouterOutputs["jobs"]["getAll"][0];
 }) => {
   return (
-    <div className="rounded-lg border border-neutral-400 shadow-sm shadow-black/30 transition-all hover:cursor-pointer dark:border-neutral-800 dark:bg-neutral-900">
+    <div className="rounded-lg border border-neutral-400 shadow-sm shadow-black/30 transition-all dark:border-neutral-800 dark:bg-neutral-900">
       <div className="h-full px-5 py-4">
         <div className="flex w-full items-start justify-between">
           <div className="flex flex-col gap-1">

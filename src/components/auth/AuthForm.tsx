@@ -97,7 +97,7 @@ export const AuthForm = ({
               className="!w-full"
             >
               {Icons[provider.name.toLowerCase()]}
-              <span className="ml-2">{provider.name}</span>
+              <span>{provider.name}</span>
             </Button>
           ))}
       </div>
