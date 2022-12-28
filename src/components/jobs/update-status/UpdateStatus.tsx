@@ -32,7 +32,11 @@ export const UpdateStatus = ({
 
   return (
     <div className="relative">
-      <Dropdown trigger={<StatusIndicator status={status} />} align="left">
+      <Dropdown
+        triggerClassName="rounded"
+        trigger={<StatusIndicator status={status} />}
+        align="left"
+      >
         {Object.entries(JobStatus).map(([key, value]) => {
           return (
             <Dropdown.Item key={key}>

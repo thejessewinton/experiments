@@ -69,6 +69,21 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
 
   const allTags = trpc.tags.getAll.useQuery();
 
+  allTags.data?.sort((a, b) => {
+    const aSelected = tags.some((tag) => tag.id === a.id);
+    const bSelected = tags.some((tag) => tag.id === b.id);
+
+    if (aSelected && !bSelected) {
+      return -1;
+    }
+
+    if (!aSelected && bSelected) {
+      return 1;
+    }
+
+    return 0;
+  });
+
   return (
     <div className="relative">
       <Dropdown
@@ -83,7 +98,12 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
             <Dropdown.Item key={tag.id}>
               <div className="flex w-full items-center gap-2 text-left text-xs">
                 <Checkbox
-                  label={tag.value}
+                  label={
+                    <div
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: tag.color }}
+                    />
+                  }
                   defaultChecked={tags.some((jobTag) => jobTag.id === tag.id)}
                   onChange={(e) => {
                     if (e.target.checked) {
@@ -93,10 +113,7 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
                     }
                   }}
                 />
-                <div
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: tag.color }}
-                />
+                {tag.value}
               </div>
             </Dropdown.Item>
           ))

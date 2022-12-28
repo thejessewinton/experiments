@@ -4,6 +4,7 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { trpc } from "utils/trpc";
 import { AddTag } from "../add-tag/AddTag";
+import { UpdateStatus } from "../update-status/UpdateStatus";
 
 const Actions = ({ id }: { id: string }) => {
   const utils = trpc.useContext();
@@ -64,7 +65,10 @@ export const JobCard = ({
             {makePlural(" Candidate", job._count.candidates)}
           </span>
 
-          <AddTag id={job.id} tags={job.tags} />
+          <div className="flex items-center gap-1">
+            <UpdateStatus id={job.id} status={job.status} />
+            <AddTag id={job.id} tags={job.tags} />
+          </div>
         </div>
       </div>
     </div>
