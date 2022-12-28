@@ -1,11 +1,11 @@
+import { JobStatus } from "@prisma/client";
 import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Button } from "components/shared/button/Button";
 import { Input } from "components/shared/input/Input";
 import { Select } from "components/shared/select/Select";
 import { TextArea } from "components/shared/textarea/TextArea";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { formatCurrency } from "utils/format-currency";
 import type { RouterInputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
 
@@ -17,10 +17,12 @@ export const NewJobForm = () => {
   const utils = trpc.useContext();
 
   const submit = trpc.jobs.createNew.useMutation({
+    onMutate: () => {
+      handleDialogClose();
+    },
     onSuccess: () => {
       utils.jobs.invalidate();
       toast.success("Job created successfully");
-      handleDialogClose();
     },
   });
 
