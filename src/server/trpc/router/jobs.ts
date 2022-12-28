@@ -82,6 +82,7 @@ export const jobsRouter = router({
         title: z.string(),
         description: z.string().max(250),
         salary: z.number(),
+        due_date: z.date(),
         office_type: z.string(),
       })
     )

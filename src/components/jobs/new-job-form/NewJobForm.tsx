@@ -38,6 +38,12 @@ export const NewJobForm = () => {
         {...register("salary", { valueAsNumber: true })}
         label="Salary"
       />
+      <Input
+        type="date"
+        {...register("due_date", { valueAsDate: true })}
+        label="Due Date"
+        min={new Date().toISOString().split("T")[0]}
+      />
       <Select label="Office Type" {...register("office_type")}>
         <Select.Option label="Remote" value="remote" />
         <Select.Option label="In-Office" value="office" />
