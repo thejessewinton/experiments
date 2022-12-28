@@ -5,6 +5,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "env/server.mjs";
 import { prisma } from "server/db/client";
 import { defaultTags } from "client-data/data/default-tags";
+import { logsnag } from "backend/logs/log-snag";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -46,6 +47,19 @@ export const authOptions: NextAuthOptions = {
           tags: {
             create: defaultTags,
           },
+        },
+      });
+
+      await logsnag.publish({
+        channel: "user-register",
+        event: "User Registered",
+        description: `name: ${user.name}, email: ${user.email}`,
+        icon: "🔥",
+        notify: true,
+        tags: {
+          name: user.name as string,
+          email: user.email as string,
+          uid: user.id as string,
         },
       });
     },
