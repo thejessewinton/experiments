@@ -6,6 +6,7 @@ import { env } from "env/server.mjs";
 import { prisma } from "server/db/client";
 import { defaultTags } from "client-data/data/default-tags";
 import { channels, logsnag } from "backend/logs/log-snag";
+import { stripe } from "backend/payment/stripe";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {

@@ -90,12 +90,36 @@ export const jobsRouter = router({
       return await ctx.prisma.job.create({
         data: {
           ...input,
-          salary: input.salary,
           user: {
             connect: {
               id: ctx.user?.id,
             },
           },
+        },
+      });
+    }),
+  edit: protectedProcedure
+    .input(
+      z.object({
+        job_id: z.string(),
+        title: z.string(),
+        description: z.string().max(250),
+        salary: z.number(),
+        due_date: z.date().nullable(),
+        office_type: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.job.update({
+        where: {
+          id: input.job_id,
+        },
+        data: {
+          salary: input.salary,
+          description: input.description,
+          title: input.title,
+          due_date: input.due_date,
+          office_type: input.office_type,
         },
       });
     }),
@@ -111,9 +135,26 @@ export const jobsRouter = router({
           id: input.job_id,
         },
         include: {
-          candidates: {
-            orderBy: {
-              salary: "desc",
+          user: {
+            include: {
+              view: {
+                select: {
+                  state: true,
+                },
+              },
+            },
+          },
+          tags: {
+            select: {
+              id: true,
+              value: true,
+              color: true,
+            },
+          },
+          _count: {
+            select: {
+              candidates: true,
+              tags: true,
             },
           },
         },

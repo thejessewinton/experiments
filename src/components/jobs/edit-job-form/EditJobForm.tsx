@@ -5,21 +5,36 @@ import { Select } from "components/shared/select/Select";
 import { TextArea } from "components/shared/textarea/TextArea";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import type { RouterInputs } from "utils/trpc";
+import type { RouterInputs, RouterOutputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
 
-type Values = RouterInputs["jobs"]["createNew"];
+type Values = RouterInputs["jobs"]["edit"];
 
-export const NewJobForm = () => {
-  const { register, handleSubmit } = useForm<Values>();
+export const EditJobForm = ({
+  job,
+}: {
+  job: RouterOutputs["jobs"]["getJob"];
+}) => {
+  console.log("job", job);
+  const { register, handleSubmit } = useForm<Values>({
+    defaultValues: {
+      job_id: job?.id,
+      title: job?.title,
+      salary: job?.salary,
+      due_date: job?.due_date as Date,
+      office_type: job?.office_type,
+      description: job?.description,
+    },
+  });
+
   const { handleDialogClose } = useDialogStore();
   const utils = trpc.useContext();
 
-  const submit = trpc.jobs.createNew.useMutation({
+  const submit = trpc.jobs.edit.useMutation({
     onSuccess: () => {
       handleDialogClose();
       utils.jobs.invalidate();
-      toast.success("Job created successfully");
+      toast.success("Job edited successfully");
     },
   });
 

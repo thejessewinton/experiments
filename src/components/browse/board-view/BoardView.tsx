@@ -18,7 +18,7 @@ const BoardColumn = ({ candidates }: { candidates: CandidatesOutput }) => {
 export const BoardView = ({ candidates }: { candidates: CandidatesOutput }) => {
   return (
     <>
-      <div className="mb-4 grid grid-cols-3 gap-6">
+      <div className="mb-4 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <BoardColumn candidates={candidates} />
       </div>
     </>
