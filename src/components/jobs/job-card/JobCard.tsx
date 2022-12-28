@@ -4,6 +4,9 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { trpc } from "utils/trpc";
 import { AddTag } from "../add-tag/AddTag";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { useDraggable } from "@dnd-kit/core";
 
 const Actions = ({ id }: { id: string }) => {
   const utils = trpc.useContext();
@@ -46,8 +49,17 @@ export const JobCard = ({
 }: {
   job: RouterOutputs["jobs"]["getAll"][0];
 }) => {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: job.id,
+  });
+
   return (
-    <div className="rounded-lg border border-neutral-400 shadow-sm shadow-black/30 transition-all dark:border-neutral-800 dark:bg-neutral-900">
+    <div
+      className="rounded-lg border border-neutral-400 shadow-sm shadow-black/30 transition-all dark:border-neutral-800 dark:bg-neutral-900"
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+    >
       <div className="h-full px-5 py-4">
         <div className="flex w-full items-start justify-between">
           <div className="flex flex-col gap-1">

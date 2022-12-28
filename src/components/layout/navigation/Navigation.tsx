@@ -15,7 +15,7 @@ const navigation: NavigationProps = [
 
 export const Navigation = () => {
   const router = useRouter();
-  console.log(router);
+
   return (
     <nav className="flex gap-3 pt-12">
       {navigation.map((item) => {

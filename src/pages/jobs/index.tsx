@@ -9,10 +9,30 @@ import { BoardView } from "components/jobs/board-view/BoardView";
 import { Spinner } from "components/shared/spinner/Spinner";
 import { ViewState } from "@prisma/client";
 import Head from "next/head";
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 const Jobs: NextPage = () => {
   const jobs = trpc.jobs.getAll.useQuery();
   const view = useView();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   return (
     <>
@@ -20,17 +40,19 @@ const Jobs: NextPage = () => {
         <title>Jobs</title>
       </Head>
       <div className="mt-3">
-        {jobs.data ? (
-          view === ViewState.LIST ? (
-            <ListView jobs={jobs.data} />
+        <DndContext sensors={sensors} collisionDetection={closestCenter}>
+          {jobs.data ? (
+            view === ViewState.LIST ? (
+              <ListView jobs={jobs.data} />
+            ) : (
+              <BoardView jobs={jobs.data} />
+            )
+          ) : jobs.isLoading ? (
+            <Spinner />
           ) : (
-            <BoardView jobs={jobs.data} />
-          )
-        ) : jobs.isLoading ? (
-          <Spinner />
-        ) : (
-          "No jobs found..."
-        )}
+            "No jobs found..."
+          )}
+        </DndContext>
       </div>
     </>
   );
