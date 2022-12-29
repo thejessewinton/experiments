@@ -5,7 +5,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "env/server.mjs";
 import { prisma } from "server/db/client";
 import { defaultTags } from "client-data/data/default-tags";
-import { logsnag } from "backend/logs/log-snag";
+import { channels, logsnag } from "backend/logs/log-snag";
+import { stripe } from "backend/payment/stripe";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -51,7 +52,7 @@ export const authOptions: NextAuthOptions = {
       });
 
       await logsnag.publish({
-        channel: "user-register",
+        channel: channels.userRegister,
         event: "User Registered",
         description: `name: ${user.name}, email: ${user.email}`,
         icon: "🔥",

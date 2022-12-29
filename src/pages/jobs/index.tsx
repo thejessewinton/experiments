@@ -37,3 +37,5 @@ const Jobs: NextPage = () => {
 };
 
 export default Jobs;
+
+export { getServerSideProps } from "backend/auth/redirect";

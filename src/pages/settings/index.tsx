@@ -19,3 +19,5 @@ Settings.getLayout = (page) => {
 };
 
 export default Settings;
+
+export { getServerSideProps } from "backend/auth/redirect";

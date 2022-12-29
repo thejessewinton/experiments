@@ -1,3 +1,4 @@
+import { Select } from "components/shared/select/Select";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -21,7 +22,22 @@ export const Sidebar = () => {
 
   return (
     <div className="flex flex-col">
-      <nav className="flex flex-col gap-2">
+      <div className="block sm:hidden">
+        <Select
+          label="Navigate"
+          onChange={(e) => router.push(e.target.value)}
+          showLabel={false}
+        >
+          {navigation.map((item) => (
+            <Select.Option
+              key={item.href}
+              value={item.href}
+              label={item.label}
+            />
+          ))}
+        </Select>
+      </div>
+      <nav className="hidden flex-col gap-2 sm:flex">
         {navigation.map((item) => (
           <Link
             key={item.href}

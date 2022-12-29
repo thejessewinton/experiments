@@ -156,16 +156,17 @@ model Job {
   status      JobStatus   @default(OPEN)
   priority    JobPriority @default(NO_PRIORITY)
   description String      @db.LongText()
+  slug        String      @unique
   due_date    DateTime?
   team        Team?       @relation(fields: [team_id], references: [id])
   team_id     String?
   user        User        @relation(fields: [user_id], references: [id])
   user_id     String
-  candidates  Candidate[]
-  tags        Tag[]
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  candidates Candidate[]
+  tags       Tag[]
 
   @@index([user_id])
   @@index([team_id])

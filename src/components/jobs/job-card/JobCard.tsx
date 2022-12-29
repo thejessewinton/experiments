@@ -6,6 +6,7 @@ import { trpc } from "utils/trpc";
 import { AddTag } from "../add-tag/AddTag";
 import { UpdateStatus } from "../update-status/UpdateStatus";
 import dayjs from "utils/dayjs";
+import Link from "next/link";
 
 const Actions = ({ id }: { id: string }) => {
   const utils = trpc.useContext();

@@ -36,3 +36,5 @@ const Browse: NextPage = () => {
 };
 
 export default Browse;
+
+export { getServerSideProps } from "backend/auth/redirect";

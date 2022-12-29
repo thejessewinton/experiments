@@ -48,7 +48,7 @@ export const Filters = () => {
         </Select>
         <Dropdown
           trigger={
-            <div className="shadow-xs focus-ring flex h-fit w-fit cursor-pointer items-center justify-center gap-3 rounded bg-neutral-900 py-1.5 px-4 text-sm font-medium text-white shadow-black/25 transition-all disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-neutral-900">
+            <div className="focus-ring flex h-fit w-fit cursor-pointer items-center justify-center gap-3 rounded bg-neutral-900 py-1.5 px-4 text-sm font-medium text-white shadow-sm shadow-black/25 transition-all disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-neutral-900">
               Languages
             </div>
           }

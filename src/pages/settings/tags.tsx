@@ -19,3 +19,5 @@ Tags.getLayout = (page) => {
 };
 
 export default Tags;
+
+export { getServerSideProps } from "backend/auth/redirect";
