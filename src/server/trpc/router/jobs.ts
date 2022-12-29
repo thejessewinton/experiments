@@ -102,6 +102,31 @@ export const jobsRouter = router({
         },
       });
     }),
+  updateJob: protectedProcedure
+    .input(
+      z.object({
+        title: z.string(),
+        description: z.string().max(250),
+        priority: z.string(),
+        salary: z.number(),
+        due_date: z.date(),
+        office_type: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.job.create({
+        data: {
+          ...input,
+          priority: input.priority as JobPriority,
+          slug: slugify(input.title),
+          user: {
+            connect: {
+              id: ctx.user?.id,
+            },
+          },
+        },
+      });
+    }),
   edit: protectedProcedure
     .input(
       z.object({
