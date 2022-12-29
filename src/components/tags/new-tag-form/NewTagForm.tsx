@@ -1,12 +1,44 @@
 import { colorOptions } from "client-data/data/color-options";
 import { Button } from "components/shared/button/Button";
 import { Input } from "components/shared/input/Input";
-import { Select } from "components/shared/select/Select";
+import { forwardRef } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { type RouterInputs, trpc } from "utils/trpc";
 
 type Values = RouterInputs["tags"]["addTag"];
+
+interface ColorValuesProps {
+  name: string;
+  options: typeof colorOptions;
+}
+
+const ColorValues = forwardRef<HTMLInputElement, ColorValuesProps>(
+  ({ name, options, ...rest }, ref: React.Ref<HTMLInputElement>) => {
+    return (
+      <div className="flex gap-3">
+        {Object.entries(options).map(([key, value]) => (
+          <div
+            key={key}
+            className="group relative flex h-6 w-6 max-w-xs items-center gap-3 rounded-full"
+          >
+            <input
+              type="radio"
+              name={name}
+              value={value}
+              ref={ref}
+              {...rest}
+              style={{ backgroundColor: value }}
+              className="absolute inset-0 cursor-pointer appearance-none rounded-full checked:ring-1 checked:ring-sky-600/75"
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+);
+
+ColorValues.displayName = "ColorValues";
 
 export const NewTagForm = () => {
   const { register, handleSubmit, reset } = useForm<Values>({
@@ -52,11 +84,7 @@ export const NewTagForm = () => {
       ))}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <Input type="text" {...register("value")} label="Value" />
-        <Select label="Color" {...register("color")}>
-          {Object.entries(filteredColorOptions).map(([key, value]) => (
-            <Select.Option key={key} value={value} label={key} />
-          ))}
-        </Select>
+        <ColorValues options={filteredColorOptions} {...register("color")} />
         <Button type="submit" disabled={submit.isLoading}>
           {submit.isLoading ? "Loading" : "Submit"}
         </Button>

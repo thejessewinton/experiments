@@ -51,41 +51,34 @@ export const JobCard = ({
 }) => {
   return (
     <div className="rounded-lg border border-neutral-400 shadow-sm shadow-black/30 transition-all dark:border-neutral-800 dark:bg-neutral-900">
-      <Link
-        href={{
-          pathname: "/jobs/[id]",
-          query: { id: job.id },
-        }}
-      >
-        <div className="h-full px-5 py-4">
-          <div className="flex w-full items-start justify-between">
-            <div className="flex flex-col gap-1">
-              <h3 className="mt-2 text-sm">{job.title}</h3>
-            </div>
-
-            <div className="flex items-center justify-center gap-2">
-              <Actions id={job.id} />
-            </div>
+      <div className="h-full px-5 py-4">
+        <div className="flex w-full items-start justify-between">
+          <div className="flex flex-col gap-1">
+            <h3 className="mt-2 text-sm">{job.title}</h3>
           </div>
-          <div className="mt-8 mb-0 flex items-center justify-between gap-1">
-            <span className="text-2xs text-neutral-600">
-              {job._count.candidates}
-              {makePlural(" Candidate", job._count.candidates)}
-            </span>
 
-            {job.due_date ? (
-              <span className="text-2xs text-neutral-600">
-                {dayjs(job.due_date).format("MMM DD")}
-              </span>
-            ) : null}
-
-            <div className="flex items-center gap-1">
-              <UpdateStatus id={job.id} status={job.status} />
-              <AddTag id={job.id} tags={job.tags} />
-            </div>
+          <div className="flex items-center justify-center gap-2">
+            <Actions id={job.id} />
           </div>
         </div>
-      </Link>
+        <div className="mt-8 mb-0 flex items-center justify-between gap-1">
+          <span className="text-2xs text-neutral-600">
+            {job._count.candidates}
+            {makePlural(" Candidate", job._count.candidates)}
+          </span>
+
+          {job.due_date ? (
+            <span className="text-2xs text-neutral-600">
+              {dayjs(job.due_date).format("MMM DD")}
+            </span>
+          ) : null}
+
+          <div className="flex items-center gap-1">
+            <UpdateStatus id={job.id} status={job.status} />
+            <AddTag id={job.id} tags={job.tags} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

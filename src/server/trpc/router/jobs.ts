@@ -1,6 +1,7 @@
 import { router, protectedProcedure } from "../trpc";
 import { z } from "zod";
-import type { JobStatus } from "@prisma/client";
+import type { JobPriority, JobStatus } from "@prisma/client";
+import { slugify } from "utils/slugify";
 
 export const jobsRouter = router({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -81,6 +82,7 @@ export const jobsRouter = router({
       z.object({
         title: z.string(),
         description: z.string().max(250),
+        priority: z.string(),
         salary: z.number(),
         due_date: z.date(),
         office_type: z.string(),
@@ -90,6 +92,8 @@ export const jobsRouter = router({
       return await ctx.prisma.job.create({
         data: {
           ...input,
+          priority: input.priority as JobPriority,
+          slug: slugify(input.title),
           user: {
             connect: {
               id: ctx.user?.id,
@@ -126,13 +130,13 @@ export const jobsRouter = router({
   getJob: protectedProcedure
     .input(
       z.object({
-        job_id: z.string(),
+        slug: z.string(),
       })
     )
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.job.findUnique({
         where: {
-          id: input.job_id,
+          slug: input.slug,
         },
         include: {
           user: {

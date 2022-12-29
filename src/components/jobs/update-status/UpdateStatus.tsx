@@ -39,7 +39,10 @@ export const UpdateStatus = ({
       >
         {Object.entries(JobStatus).map(([key, value]) => {
           return (
-            <Dropdown.Item key={key}>
+            <Dropdown.Item
+              key={key}
+              className={value === status ? "bg-neutral-800" : ""}
+            >
               <button
                 onClick={() => jobStatus.mutate({ job_id: id, status: value })}
                 className="flex w-full items-center gap-2 text-left text-xs"
