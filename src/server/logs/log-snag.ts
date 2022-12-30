@@ -9,4 +9,6 @@ export const logsnag = new LogSnag({
 export const channels = {
   userRegister: "user-register",
   subscriptionCreated: "subscription-created",
+  invoicePaid: "invoice-paid",
+  invoiceFailed: "invoice-failed",
 } as const;

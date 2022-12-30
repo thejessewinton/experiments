@@ -2,26 +2,11 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import type { ProvidersType } from "pages/sign-in";
 import type { ReactNode } from "react";
-import { Input } from "components/shared/input/Input";
 import { Button } from "components/shared/button/Button";
+import { useForm } from "react-hook-form";
+import { Input } from "components/shared/input/Input";
 
 const Icons: { [key: string]: ReactNode } = {
-  github: (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 15 15"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M7.49933 0.25C3.49635 0.25 0.25 3.49593 0.25 7.50024C0.25 10.703 2.32715 13.4206 5.2081 14.3797C5.57084 14.446 5.70302 14.2222 5.70302 14.0299C5.70302 13.8576 5.69679 13.4019 5.69323 12.797C3.67661 13.235 3.25112 11.825 3.25112 11.825C2.92132 10.9874 2.44599 10.7644 2.44599 10.7644C1.78773 10.3149 2.49584 10.3238 2.49584 10.3238C3.22353 10.375 3.60629 11.0711 3.60629 11.0711C4.25298 12.1788 5.30335 11.8588 5.71638 11.6732C5.78225 11.205 5.96962 10.8854 6.17658 10.7043C4.56675 10.5209 2.87415 9.89918 2.87415 7.12104C2.87415 6.32925 3.15677 5.68257 3.62053 5.17563C3.54576 4.99226 3.29697 4.25521 3.69174 3.25691C3.69174 3.25691 4.30015 3.06196 5.68522 3.99973C6.26337 3.83906 6.8838 3.75895 7.50022 3.75583C8.1162 3.75895 8.73619 3.83906 9.31523 3.99973C10.6994 3.06196 11.3069 3.25691 11.3069 3.25691C11.7026 4.25521 11.4538 4.99226 11.3795 5.17563C11.8441 5.68257 12.1245 6.32925 12.1245 7.12104C12.1245 9.9063 10.4292 10.5192 8.81452 10.6985C9.07444 10.9224 9.30633 11.3648 9.30633 12.0413C9.30633 13.0102 9.29742 13.7922 9.29742 14.0299C9.29742 14.2239 9.42828 14.4496 9.79591 14.3788C12.6746 13.4179 14.75 10.7025 14.75 7.50024C14.75 3.49593 11.5036 0.25 7.49933 0.25Z"
-        fill="currentColor"
-        fillRule="evenodd"
-        clipRule="evenodd"
-      />
-    </svg>
-  ),
   google: (
     <svg
       width="15"
@@ -31,10 +16,8 @@ const Icons: { [key: string]: ReactNode } = {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
+        d="M14.8671 6.14842C14.9563 6.6518 15.0007 7.16182 15 7.67274C15 9.95454 14.1679 11.8839 12.72 13.1897H12.7219C11.4556 14.3363 9.71499 15 7.6511 15C5.62191 15 3.67582 14.2099 2.24096 12.8034C0.806096 11.3969 0 9.48931 0 7.50025C0 5.51119 0.806096 3.6036 2.24096 2.19712C3.67582 0.790645 5.62191 0.000494877 7.6511 0.000494877C9.55043 -0.0213091 11.3847 0.678128 12.7697 1.95231L10.5853 4.09348C9.79569 3.35567 8.74186 2.95164 7.6511 2.96852C5.65512 2.96852 3.95945 4.28848 3.35501 6.06592C3.03453 6.9973 3.03453 8.00601 3.35501 8.93739H3.35788C3.96519 10.712 5.65799 12.032 7.65397 12.032C8.68496 12.032 9.57058 11.7732 10.2573 11.3157H10.2544C10.6531 11.0568 10.9942 10.7214 11.257 10.3297C11.5199 9.93801 11.699 9.49818 11.7837 9.03676H7.6511V6.14935H14.8671V6.14842Z"
         fill="currentColor"
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"
       />
     </svg>
   ),
@@ -48,6 +31,14 @@ export const AuthForm = ({
   csrfToken: string;
 }) => {
   const { query } = useRouter();
+  const { register, handleSubmit } = useForm<{ email: string }>();
+
+  const onSubmit = async (values: { email: string }) => {
+    await signIn("email", {
+      email: values.email,
+      callbackUrl: query.callbackUrl as string,
+    });
+  };
 
   return (
     <div className="flex w-full max-w-lg flex-col items-center gap-3">
@@ -75,22 +66,13 @@ export const AuthForm = ({
           </span>
         </div>
 
-        <form
-          method="post"
-          action="/api/auth/signin/email"
-          className="flex flex-col gap-4"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
           <Input
-            label="csrfToken"
-            name="csrfToken"
-            type="hidden"
-            defaultValue={csrfToken}
-          />
-          <input
-            name="email"
+            label="Email address"
+            {...register("email")}
             type="email"
             placeholder="Email address"
-            className="h-fit w-full rounded bg-neutral-100 py-1.5 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75 dark:bg-neutral-800"
           />
           <Button type="submit" className="!w-full">
             Sign in with Email

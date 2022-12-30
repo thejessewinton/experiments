@@ -1,8 +1,6 @@
 import { JobPriority } from "@prisma/client";
 import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Button } from "components/shared/button/Button";
-import { Input } from "components/shared/input/Input";
-import { TextArea } from "components/shared/textarea/TextArea";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { capitalize } from "utils/capitalize";
@@ -10,6 +8,8 @@ import type { RouterInputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
 import useFormPersist from "react-hook-form-persist";
 import { Listbox } from "components/shared/form/listbox/Listbox";
+import { MarkdownEditor } from "components/shared/markdown-editor/MarkdownEditor";
+import { JSONContent } from "@tiptap/react";
 
 type Values = RouterInputs["jobs"]["createNew"];
 
@@ -43,18 +43,21 @@ export const NewJobForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <div className="border-b border-neutral-800 pt-2 pb-4">
-        <Input
-          label="Title"
-          type="text"
-          {...register("title")}
-          placeholder="Enter a title..."
-        />
+        <div className={"relative flex flex-col gap-2"}>
+          <input
+            className="h-fit w-full bg-transparent py-1.5 px-3 !text-lg font-light text-neutral-500 outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed"
+            placeholder="Enter a title..."
+            {...register("title")}
+          />
+        </div>
       </div>
 
-      <TextArea
-        {...register("description")}
-        label="Description"
-        placeholder="Enter a description..."
+      <Controller
+        control={control}
+        name="description"
+        render={({ field }) => {
+          return <MarkdownEditor defaultValue={field.value} {...field} />;
+        }}
       />
 
       <div className="grid grid-cols-2 gap-2">

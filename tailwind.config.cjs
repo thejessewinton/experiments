@@ -19,7 +19,16 @@ module.exports = {
         chevron:
           'url("data:image/svg+xml;base64,PHN2ZwogIHdpZHRoPSIxNSIKICBoZWlnaHQ9IjE1IgogIHZpZXdCb3g9IjAgMCAxNSAxNSIKICBmaWxsPSJub25lIgogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKPgogIDxwYXRoCiAgICBkPSJNMy4xMzUyMyA2LjE1ODAzQzMuMzI0MSA1Ljk1NjU3IDMuNjQwNTIgNS45NDYzNyAzLjg0MTk3IDYuMTM1MjNMNy41IDkuNTY0NjRMMTEuMTU4IDYuMTM1MjNDMTEuMzU5NSA1Ljk0NjM3IDExLjY3NTkgNS45NTY1NyAxMS44NjQ4IDYuMTU4MDNDMTIuMDUzNiA2LjM1OTQ5IDEyLjA0MzQgNi42NzU5MSAxMS44NDIgNi44NjQ3N0w3Ljg0MTk3IDEwLjYxNDhDNy42NDk2NCAxMC43OTUxIDcuMzUwMzYgMTAuNzk1MSA3LjE1ODAzIDEwLjYxNDhMMy4xNTgwMyA2Ljg2NDc3QzIuOTU2NTcgNi42NzU5MSAyLjk0NjM3IDYuMzU5NDkgMy4xMzUyMyA2LjE1ODAzWiIKICAgIGZpbGw9IiNmZmYiCiAgICBmaWxsLXJ1bGU9ImV2ZW5vZGQiCiAgICBjbGlwLXJ1bGU9ImV2ZW5vZGQiCiAgPjwvcGF0aD4KPC9zdmc+Cg==")',
       },
+      typography: ({ theme }) => ({
+        dark: {
+          css: {
+            "--tw-prose-body": theme("colors.neutral.500"),
+            "--tw-prose-headings": theme("colors.neutral.500"),
+            "--tw-prose-bold": theme("colors.neutral.500"),
+          },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

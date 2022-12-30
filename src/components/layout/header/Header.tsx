@@ -15,7 +15,7 @@ const Actions = () => {
     <Dropdown
       trigger={
         <Image
-          src={session.user?.image as string}
+          src={(session.user?.image as string) || "/avatar.svg"}
           width={32}
           height={32}
           alt="Avatar"

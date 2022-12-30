@@ -39,9 +39,9 @@ model Session {
 }
 
 model User {
-  id                 String        @id @default(cuid())
+  id                 String     @id @default(cuid())
   name               String?
-  email              String?       @unique
+  email              String?    @unique
   emailVerified      DateTime?
   image              String?
   stripe_customer_id String?
@@ -51,8 +51,6 @@ model User {
   candidacy          Candidate?
   jobs               Job[]
   view               View[]
-  tags               Tag[]
-  subscription       Subscription?
 }
 
 enum CandidateLevel {
@@ -73,6 +71,7 @@ model Candidate {
   jobs               Job[]
   languages          Language[]
   frameworks         Framework[]
+  offers             Offer[]
 }
 
 model Language {
@@ -105,14 +104,18 @@ model VerificationToken {
 
 // Teams
 model Team {
-  id                     String   @id @default(cuid())
-  slug                   String
+  id                     String        @id @default(cuid())
+  slug                   String?
   stripe_subscription_id String?
-  is_upgraded            Boolean  @default(false)
+  is_upgraded            Boolean       @default(false)
   members                Member[]
   jobs                   Job[]
-  created_at             DateTime @default(now())
-  updated_at             DateTime @updatedAt
+  created_at             DateTime      @default(now())
+  updated_at             DateTime      @updatedAt
+  subscription           Subscription?
+  seats                  Int           @default(1)
+  tags                   Tag[]
+  offers                 Offer[]
 }
 
 enum MemberRole {
@@ -169,9 +172,26 @@ model Job {
 
   candidates Candidate[]
   tags       Tag[]
+  Offer      Offer[]
 
   @@index([user_id])
   @@index([team_id])
+}
+
+model Offer {
+  id           String    @id @default(cuid())
+  job_id       String
+  team_id      String
+  team         Team      @relation(fields: [team_id], references: [id])
+  job          Job       @relation(fields: [job_id], references: [id])
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate_id String
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  @@index([team_id])
+  @@index([job_id])
+  @@index([candidate_id])
 }
 
 model Tag {
@@ -179,11 +199,11 @@ model Tag {
   value String
   color String @default("#7f1d1d")
 
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
+  team    Team   @relation(fields: [team_id], references: [id])
+  team_id String
   job     Job[]
 
-  @@index([user_id])
+  @@index([team_id])
 }
 
 // UI/Views
@@ -205,12 +225,12 @@ model View {
 
 model Subscription {
   id                     String   @id @default(cuid())
-  user_id                String   @unique
-  user                   User     @relation(fields: [user_id], references: [id])
+  team_id                String   @unique
+  team                   Team     @relation(fields: [team_id], references: [id])
   stripe_subscription_id String   @unique
   stripe_price_id        String   @default("")
   created_at             DateTime @default(now())
   updated_at             DateTime @updatedAt
 
-  @@index([user_id])
+  @@index([team_id])
 }
