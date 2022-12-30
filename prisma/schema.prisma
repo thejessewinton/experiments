@@ -78,7 +78,7 @@ model Language {
   id       String @id @default(cuid())
   language String
 
-  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate    Candidate @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id String
 
   @@index([candidate_id])
@@ -88,7 +88,7 @@ model Framework {
   id   String @id @default(cuid())
   name String
 
-  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  candidate    Candidate @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id String
 
   @@index([candidate_id])
@@ -128,7 +128,7 @@ model Member {
   role       MemberRole @default(MEMBER)
   team       Team       @relation(fields: [team_id], references: [id], onDelete: Cascade)
   team_id    String
-  user       User       @relation(fields: [user_id], references: [id])
+  user       User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id    String     @unique
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
@@ -163,9 +163,9 @@ model Job {
   description String      @db.LongText()
   slug        String      @unique
   due_date    DateTime?
-  team        Team?       @relation(fields: [team_id], references: [id])
+  team        Team?       @relation(fields: [team_id], references: [id], onDelete: Cascade)
   team_id     String?
-  user        User        @relation(fields: [user_id], references: [id])
+  user        User        @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id     String
   created_at  DateTime    @default(now())
   updated_at  DateTime    @updatedAt
@@ -182,9 +182,9 @@ model Offer {
   id           String    @id @default(cuid())
   job_id       String
   team_id      String
-  team         Team      @relation(fields: [team_id], references: [id])
-  job          Job       @relation(fields: [job_id], references: [id])
-  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  team         Team      @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  job          Job       @relation(fields: [job_id], references: [id], onDelete: Cascade)
+  candidate    Candidate @relation(fields: [candidate_id], references: [id], onDelete: Cascade)
   candidate_id String
   created_at   DateTime  @default(now())
   updated_at   DateTime  @updatedAt
@@ -199,7 +199,7 @@ model Tag {
   value String
   color String @default("#7f1d1d")
 
-  team    Team   @relation(fields: [team_id], references: [id])
+  team    Team   @relation(fields: [team_id], references: [id], onDelete: Cascade)
   team_id String
   job     Job[]
 
@@ -217,7 +217,7 @@ model View {
   state   ViewState @default(LIST)
   route   String    @default("")
   user_id String
-  user    User      @relation(fields: [user_id], references: [id])
+  user    User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@id([route, user_id], name: "route_view")
   @@index([user_id])
@@ -226,7 +226,7 @@ model View {
 model Subscription {
   id                     String   @id @default(cuid())
   team_id                String   @unique
-  team                   Team     @relation(fields: [team_id], references: [id])
+  team                   Team     @relation(fields: [team_id], references: [id], onDelete: Cascade)
   stripe_subscription_id String   @unique
   stripe_price_id        String   @default("")
   created_at             DateTime @default(now())
