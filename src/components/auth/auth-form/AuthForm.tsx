@@ -36,7 +36,9 @@ export const AuthForm = ({
   const onSubmit = async (values: { email: string }) => {
     await signIn("email", {
       email: values.email,
-      callbackUrl: query.callbackUrl as string,
+      callbackUrl: query.callbackUrl
+      ? String(query.callbackUrl)
+      : "/"
     });
   };
 

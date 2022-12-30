@@ -62,7 +62,7 @@ export const stripeRouter = router({
     }),
   manageSubscription: protectedProcedure.mutation(async ({ ctx }) => {
     return await stripe.billingPortal.sessions.create({
-      customer: ctx.user?.stripe_customer_id as string,
+      customer: ctx.user?.membership?.team.stripe_customer_id as string,
       return_url: "http://localhost:3000/settings/billing",
     });
   }),
