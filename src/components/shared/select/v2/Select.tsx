@@ -1,40 +1,29 @@
-import clsx from "clsx";
-import type { ForwardRefExoticComponent, InputHTMLAttributes } from "react";
-import { forwardRef, type ReactNode } from "react";
 import { Listbox } from "@headlessui/react";
+import type { ReactNode } from "react";
 
 const Option = ({ label, value }: { label: string; value: string }) => {
-  return <option value={value}>{label}</option>;
+  return <Listbox.Option value={value}>{label}</Listbox.Option>;
 };
 
 interface SelectProps {
   label: string;
   children: ReactNode;
-  value: string;
   onChange: (value: string) => void;
 }
 
-interface SelectComponent extends ForwardRefExoticComponent<SelectProps> {
-  Option: typeof Option;
-}
+export const Select = ({ label, children, ...rest }: SelectProps) => {
+  return (
+    <div className="h-8 flex-initial">
+      <div className="flex h-8 items-stretch rounded shadow-sm focus-within:ring-1 focus-within:ring-sky-600/75">
+        <label className="hidden">{label}</label>
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ({ label, value, children, ...rest }: SelectProps, ref: React.Ref<any>) => {
-    return (
-      <div className="h-8 flex-initial">
-        <div className="flex h-8 items-stretch rounded shadow-sm focus-within:ring-1 focus-within:ring-sky-600/75">
-          <label className="hidden">{label}</label>
-
-          <Listbox {...rest} refName="">
-            <Listbox.Button>{value ? value : label}</Listbox.Button>
-            <Listbox.Options>{children}</Listbox.Options>
-          </Listbox>
-        </div>
+        <Listbox {...rest} as="div">
+          <Listbox.Button>{label}</Listbox.Button>
+          <Listbox.Options>{children}</Listbox.Options>
+        </Listbox>
       </div>
-    );
-  }
-) as SelectComponent;
+    </div>
+  );
+};
 
-Select.displayName = "Select";
 Select.Option = Option;
