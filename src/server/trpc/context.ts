@@ -18,7 +18,11 @@ export const createContext = async (opts: CreateNextContextOptions) => {
       id: session?.user?.id,
     },
     include: {
-      membership: true,
+      membership: {
+        include: {
+          team: true,
+        },
+      },
     },
   });
 

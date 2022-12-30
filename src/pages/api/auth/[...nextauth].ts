@@ -58,8 +58,8 @@ export const authOptions: NextAuthOptions = {
   events: {
     createUser: async ({ user }) => {
       const newStripeCustomer = await stripe.customers.create({
-        email: user.email as string,
         name: user.name as string,
+        email: user.email as string,
         metadata: {
           id: user.id as string,
         },
@@ -70,12 +70,12 @@ export const authOptions: NextAuthOptions = {
           id: user.id as string,
         },
         data: {
-          stripe_customer_id: newStripeCustomer.id,
           membership: {
             create: {
               role: MemberRole.ADMIN,
               team: {
                 create: {
+                  stripe_customer_id: newStripeCustomer.id,
                   tags: {
                     create: defaultTags,
                   },

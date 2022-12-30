@@ -39,18 +39,17 @@ model Session {
 }
 
 model User {
-  id                 String     @id @default(cuid())
-  name               String?
-  email              String?    @unique
-  emailVerified      DateTime?
-  image              String?
-  stripe_customer_id String?
-  accounts           Account[]
-  sessions           Session[]
-  membership         Member?
-  candidacy          Candidate?
-  jobs               Job[]
-  view               View[]
+  id            String     @id @default(cuid())
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  membership    Member?
+  candidacy     Candidate?
+  jobs          Job[]
+  view          View[]
 }
 
 enum CandidateLevel {
@@ -105,7 +104,9 @@ model VerificationToken {
 // Teams
 model Team {
   id                     String        @id @default(cuid())
-  slug                   String?
+  name                   String?
+  slug                   String?       @unique
+  stripe_customer_id     String?       @unique
   stripe_subscription_id String?
   is_upgraded            Boolean       @default(false)
   members                Member[]
@@ -224,13 +225,11 @@ model View {
 }
 
 model Subscription {
-  id                     String   @id @default(cuid())
-  team_id                String   @unique
-  team                   Team     @relation(fields: [team_id], references: [id], onDelete: Cascade)
-  stripe_subscription_id String   @unique
-  stripe_price_id        String   @default("")
-  created_at             DateTime @default(now())
-  updated_at             DateTime @updatedAt
+  id         String   @id @default(cuid())
+  team_id    String   @unique
+  team       Team     @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@index([team_id])
 }

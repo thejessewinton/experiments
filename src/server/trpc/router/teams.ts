@@ -1,3 +1,6 @@
+import { stripe } from "server/payment/stripe";
+import { slugify } from "utils/slugify";
+import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
 export const teamsRouter = router({
@@ -11,4 +14,28 @@ export const teamsRouter = router({
       },
     });
   }),
+  updateTeam: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        slug: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await stripe.customers.update(
+        ctx.user?.membership?.team.stripe_customer_id as string,
+        {
+          name: input.name,
+        }
+      );
+      return await ctx.prisma.team.update({
+        where: {
+          id: ctx.user?.membership?.team_id,
+        },
+        data: {
+          name: input.name,
+          slug: input.slug || slugify(input.name),
+        },
+      });
+    }),
 });
