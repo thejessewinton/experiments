@@ -18,17 +18,15 @@ export const TextArea = React.forwardRef(
   ) => {
     return (
       <div className="relative flex flex-col gap-2">
-        {label ? (
-          <label htmlFor={name} className="block dark:text-white">
-            {label}
-          </label>
-        ) : null}
+        <label htmlFor={name} className="hidden dark:text-white">
+          {label}
+        </label>
 
         <textarea
           {...rest}
           name={name}
           ref={ref}
-          className="h-fit w-full resize-none rounded bg-neutral-800 py-2 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75"
+          className="h-fit w-full resize-none bg-transparent py-2 px-3 text-sm text-neutral-500 outline-none transition-all placeholder:text-neutral-500"
         />
         {secondaryLabel && <p className="block text-xs">{secondaryLabel}</p>}
       </div>
