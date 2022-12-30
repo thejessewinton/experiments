@@ -35,14 +35,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           stripe_price_id: subscription.items.data[0]?.price.id,
         },
         include: {
-          user: true,
+          team: true,
         },
       });
 
       await logsnag.publish({
         channel: channels.subscriptionCreated,
         event: "Subscription Created",
-        description: `Subscription created for ${customer.user.email}!`,
+        description: `Subscription created for ${customer.team.id}!`,
         icon: "🎉",
         notify: true,
         tags: subscription.metadata,
