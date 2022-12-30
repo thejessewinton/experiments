@@ -45,19 +45,6 @@ export const stripeRouter = router({
         success_url: "http://localhost:3000/settings/billing?success=true",
       });
 
-      await ctx.prisma.subscription.upsert({
-        where: {
-          team_id: ctx.user?.membership?.team_id,
-        },
-        update: {
-          stripe_subscription_id: subscription.id,
-        },
-        create: {
-          team_id: ctx.user?.membership?.team_id as string,
-          stripe_subscription_id: subscription.id,
-        },
-      });
-
       return subscription;
     }),
   manageSubscription: protectedProcedure.mutation(async ({ ctx }) => {
@@ -66,14 +53,12 @@ export const stripeRouter = router({
       return_url: "http://localhost:3000/settings/billing",
     });
   }),
-  getPlan: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.subscription.findFirst({
-      where: {
-        team_id: ctx.user?.membership?.team_id,
-      },
-      select: {
-        stripe_price_id: true,
-      },
-    });
+  getSubscription: protectedProcedure.query(async ({ ctx }) => {
+    return await stripe.customers.retrieve(
+      ctx.user?.membership?.team.stripe_customer_id as string,
+      {
+        expand: ["subscriptions.data"],
+      }
+    );
   }),
 });
