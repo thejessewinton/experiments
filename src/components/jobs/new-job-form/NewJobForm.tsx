@@ -2,18 +2,22 @@ import { JobPriority } from "@prisma/client";
 import { useDialogStore } from "client-data/state/use-dialog-store";
 import { Button } from "components/shared/button/Button";
 import { Input } from "components/shared/input/Input";
-import { Select } from "components/shared/select/Select";
 import { TextArea } from "components/shared/textarea/TextArea";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { capitalize } from "utils/capitalize";
 import type { RouterInputs } from "utils/trpc";
 import { trpc } from "utils/trpc";
+import useFormPersist from "react-hook-form-persist";
+import { Listbox } from "components/shared/form/listbox/Listbox";
 
 type Values = RouterInputs["jobs"]["createNew"];
 
+const STORAGE_KEY = "newJob";
+
 export const NewJobForm = () => {
-  const { register, handleSubmit } = useForm<Values>();
+  const { register, handleSubmit, watch, setValue, control } =
+    useForm<Values>();
   const { handleDialogClose } = useDialogStore();
   const utils = trpc.useContext();
 
@@ -25,37 +29,69 @@ export const NewJobForm = () => {
     },
   });
 
+  useFormPersist(STORAGE_KEY, {
+    watch,
+    setValue,
+    storage: window.sessionStorage,
+  });
+
   const onSubmit = async (values: Values) => {
+    values.salary = 100000;
     await submit.mutateAsync(values);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-      <Input type="text" {...register("title")} label="Title" />
-      <Input
-        type="text"
-        {...register("salary", { valueAsNumber: true })}
-        label="Salary"
+      <div className="border-b border-neutral-800 pt-2 pb-4">
+        <Input
+          label="Title"
+          type="text"
+          {...register("title")}
+          placeholder="Enter a title..."
+        />
+      </div>
+
+      <TextArea
+        {...register("description")}
+        label="Description"
+        placeholder="Enter a description..."
       />
-      <Input
-        type="date"
-        {...register("due_date", { valueAsDate: true })}
-        label="Due Date"
-        min={new Date().toISOString().split("T")[0]}
-      />
-      <Select label="Office Type" {...register("office_type")}>
-        <Select.Option label="Remote" value="remote" />
-        <Select.Option label="In-Office" value="office" />
-      </Select>
-      <Select label="Priority" {...register("priority")}>
-        {Object.entries(JobPriority).map(([key, level]) => {
-          return (
-            <Select.Option key={key} value={level} label={capitalize(level)} />
-          );
-        })}
-      </Select>
-      <TextArea {...register("description")} label="Description" />
-      <Button type="submit" disabled={submit.isLoading}>
+
+      <div className="grid grid-cols-2 gap-2">
+        <Controller
+          control={control}
+          name="office_type"
+          render={({ field }) => (
+            <Listbox label="Office Type" {...field}>
+              <Listbox.Option label="Remote" value="remote" />
+              <Listbox.Option label="In-Office" value="in-office" />
+            </Listbox>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="priority"
+          render={({ field }) => (
+            <Listbox label="Priority" {...field}>
+              {Object.entries(JobPriority).map(([key, level]) => {
+                return (
+                  <Listbox.Option
+                    key={key}
+                    label={capitalize(key)}
+                    value={level}
+                  />
+                );
+              })}
+            </Listbox>
+          )}
+        />
+      </div>
+      <Button
+        type="submit"
+        disabled={submit.isLoading}
+        className="mr-0 ml-auto"
+      >
         {submit.isLoading ? "Loading" : "Submit"}
       </Button>
     </form>

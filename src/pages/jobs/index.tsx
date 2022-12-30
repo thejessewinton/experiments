@@ -38,4 +38,4 @@ const Jobs: NextPage = () => {
 
 export default Jobs;
 
-export { getServerSideProps } from "backend/auth/redirect";
+export { getServerSideProps } from "server/auth/redirect";

@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { clsx } from "clsx";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label: string;
   secondaryLabel?: string;
 }
 
@@ -14,19 +14,15 @@ export const Input = forwardRef(
   ) => {
     return (
       <div className={clsx("relative flex flex-col gap-2", className)}>
-        {label ? (
-          <label htmlFor={name} className="block dark:text-white">
-            {label}
-          </label>
-        ) : null}
+        <label htmlFor={name} className="hidden dark:text-white">
+          {label}
+        </label>
 
         <input
           ref={ref}
           name={name}
           onChange={onChange}
-          className={clsx(
-            "h-fit w-full rounded bg-neutral-100 py-1.5 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75 dark:bg-neutral-800"
-          )}
+          className="h-fit w-full bg-transparent py-1.5 px-3 !text-lg font-light text-neutral-500 outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed"
           {...rest}
         />
         {secondaryLabel && <p className="block text-xs">{secondaryLabel}</p>}

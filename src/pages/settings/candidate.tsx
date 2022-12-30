@@ -20,4 +20,4 @@ Candidate.getLayout = (page) => {
 
 export default Candidate;
 
-export { getServerSideProps } from "backend/auth/redirect";
+export { getServerSideProps } from "server/auth/redirect";

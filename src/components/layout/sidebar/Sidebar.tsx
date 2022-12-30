@@ -15,6 +15,10 @@ const navigation = [
     label: "Tags",
     href: "/settings/tags",
   },
+  {
+    label: "Billing",
+    href: "/settings/billing",
+  },
 ];
 
 export const Sidebar = () => {
