@@ -3,6 +3,7 @@ import { authRouter } from "./auth";
 import { browseRouter } from "./browse";
 import { candidateRouter } from "./candidate";
 import { jobsRouter } from "./jobs";
+import { stripeRouter } from "./stripe";
 import { tagsRouter } from "./tags";
 import { teamsRouter } from "./teams";
 import { userRouter } from "./user";
@@ -17,6 +18,7 @@ export const appRouter = router({
   views: viewsRouter,
   browse: browseRouter,
   tags: tagsRouter,
+  stripe: stripeRouter,
 });
 
 // export type definition of API

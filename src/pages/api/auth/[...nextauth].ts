@@ -5,8 +5,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "env/server.mjs";
 import { prisma } from "server/db/client";
 import { defaultTags } from "client-data/data/default-tags";
-import { channels, logsnag } from "backend/logs/log-snag";
-import { stripe } from "backend/payment/stripe";
+import { channels, logsnag } from "server/logs/log-snag";
+import { stripe } from "server/payment/stripe";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -40,11 +40,20 @@ export const authOptions: NextAuthOptions = {
   },
   events: {
     createUser: async ({ user }) => {
+      const newStripeCustomer = await stripe.customers.create({
+        email: user.email as string,
+        name: user.name as string,
+        metadata: {
+          id: user.id as string,
+        },
+      });
+
       await prisma.user.update({
         where: {
           id: user.id as string,
         },
         data: {
+          stripe_customer_id: newStripeCustomer.id,
           tags: {
             create: defaultTags,
           },
@@ -60,7 +69,7 @@ export const authOptions: NextAuthOptions = {
         tags: {
           name: user.name as string,
           email: user.email as string,
-          uid: user.id as string,
+          id: user.id as string,
         },
       });
     },

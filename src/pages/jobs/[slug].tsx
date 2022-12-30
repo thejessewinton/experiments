@@ -28,4 +28,4 @@ const Job: NextPageWithLayout = () => {
 
 export default Job;
 
-export { getServerSideProps } from "backend/auth/redirect";
+export { getServerSideProps } from "server/auth/redirect";

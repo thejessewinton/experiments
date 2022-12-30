@@ -22,4 +22,4 @@ Settings.getLayout = (page) => {
 
 export default Settings;
 
-export { getServerSideProps } from "backend/auth/redirect";
+export { getServerSideProps } from "server/auth/redirect";

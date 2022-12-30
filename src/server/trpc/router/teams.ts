@@ -1,4 +1,4 @@
-import { stripe } from "backend/payment/stripe";
+import { stripe } from "server/payment/stripe";
 import { router, protectedProcedure } from "../trpc";
 import { z } from "zod";
 import { MemberRole } from "@prisma/client";
