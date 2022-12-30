@@ -22,7 +22,7 @@ export const Input = forwardRef(
           ref={ref}
           name={name}
           onChange={onChange}
-          className="h-fit w-full bg-transparent py-1.5 px-3 !text-lg font-light text-neutral-500 outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed"
+          className="h-fit w-full rounded bg-neutral-100 py-1.5 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75 dark:bg-neutral-800"
           {...rest}
         />
         {secondaryLabel && <p className="block text-xs">{secondaryLabel}</p>}

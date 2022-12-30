@@ -7,7 +7,7 @@ export const jobsRouter = router({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.job.findMany({
       where: {
-        user_id: ctx.user?.id,
+        team_id: ctx.user?.membership?.team_id,
       },
       include: {
         user: {
@@ -94,31 +94,11 @@ export const jobsRouter = router({
           ...input,
           priority: input.priority as JobPriority,
           slug: slugify(input.title),
-          user: {
+          team: {
             connect: {
-              id: ctx.user?.id,
+              id: ctx.user?.membership?.team_id,
             },
           },
-        },
-      });
-    }),
-  updateJob: protectedProcedure
-    .input(
-      z.object({
-        title: z.string(),
-        description: z.string().max(250),
-        priority: z.string(),
-        salary: z.number(),
-        due_date: z.date(),
-        office_type: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      return await ctx.prisma.job.create({
-        data: {
-          ...input,
-          priority: input.priority as JobPriority,
-          slug: slugify(input.title),
           user: {
             connect: {
               id: ctx.user?.id,

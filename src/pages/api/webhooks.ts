@@ -61,6 +61,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     default:
     // Unhandled event type
   }
+
+  // Return a response to acknowledge receipt of the event
+  res.status(200).json({ received: true });
 };
 
 export default handler;

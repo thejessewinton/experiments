@@ -1,4 +1,4 @@
-import { AuthForm } from "components/auth/AuthForm";
+import { AuthForm } from "components/auth/auth-form/AuthForm";
 import { AuthLayout } from "layouts/auth/Auth";
 import { getCsrfToken, getProviders } from "next-auth/react";
 import Head from "next/head";

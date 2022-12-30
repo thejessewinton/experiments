@@ -1,5 +1,5 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "env/server.mjs";
@@ -7,6 +7,8 @@ import { prisma } from "server/db/client";
 import { defaultTags } from "client-data/data/default-tags";
 import { channels, logsnag } from "server/logs/log-snag";
 import { stripe } from "server/payment/stripe";
+import { MemberRole } from "@prisma/client";
+import { postmark } from "server/email/postmark";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -29,14 +31,29 @@ export const authOptions: NextAuthOptions = {
         },
       },
       from: env.SMTP_FROM,
+      sendVerificationRequest: async ({ identifier, url }) => {
+        const result = await postmark.sendEmail({
+          From: env.SMTP_FROM,
+          To: identifier,
+          Subject: "Verify your email address",
+          HtmlBody: `<a href="${url}">Verify your email address</a>`,
+        });
+
+        if (result.ErrorCode) {
+          throw new Error(result.Message);
+        }
+      },
     }),
-    GithubProvider({
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
   pages: {
     signIn: "/sign-in",
+    newUser: "/onboarding",
+    verifyRequest: "/verify-request",
+    error: "/error",
   },
   events: {
     createUser: async ({ user }) => {
@@ -54,8 +71,17 @@ export const authOptions: NextAuthOptions = {
         },
         data: {
           stripe_customer_id: newStripeCustomer.id,
-          tags: {
-            create: defaultTags,
+          membership: {
+            create: {
+              role: MemberRole.ADMIN,
+              team: {
+                create: {
+                  tags: {
+                    create: defaultTags,
+                  },
+                },
+              },
+            },
           },
         },
       });
@@ -72,28 +98,6 @@ export const authOptions: NextAuthOptions = {
           id: user.id as string,
         },
       });
-    },
-    linkAccount: async ({ user, account }) => {
-      const existingUser = await prisma.user.findUnique({
-        where: {
-          id: user.id,
-        },
-      });
-
-      if (existingUser) {
-        await prisma.user.update({
-          where: {
-            email: account.email as string,
-          },
-          data: {
-            accounts: {
-              create: {
-                ...account,
-              },
-            },
-          },
-        });
-      }
     },
   },
 };

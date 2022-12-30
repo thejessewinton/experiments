@@ -5,7 +5,7 @@ export const tagsRouter = router({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.tag.findMany({
       where: {
-        user_id: ctx.user?.id,
+        team_id: ctx.user?.membership?.team_id,
       },
     });
   }),
@@ -21,9 +21,9 @@ export const tagsRouter = router({
         data: {
           value: input.value,
           color: input.color,
-          user: {
+          team: {
             connect: {
-              id: ctx.user?.id,
+              id: ctx.user?.membership?.team_id,
             },
           },
         },

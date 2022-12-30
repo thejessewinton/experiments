@@ -26,7 +26,7 @@ export const TextArea = React.forwardRef(
           {...rest}
           name={name}
           ref={ref}
-          className="h-fit w-full resize-none bg-transparent py-2 px-3 text-sm text-neutral-500 outline-none transition-all placeholder:text-neutral-500"
+          className="h-fit w-full resize-none rounded bg-neutral-800 py-2 px-3 text-sm text-white outline-none transition-all placeholder:text-neutral-500 read-only:cursor-not-allowed focus:ring-1 focus:ring-sky-600/75"
         />
         {secondaryLabel && <p className="block text-xs">{secondaryLabel}</p>}
       </div>

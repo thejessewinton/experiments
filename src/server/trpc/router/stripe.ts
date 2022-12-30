@@ -34,13 +34,13 @@ export const stripeRouter = router({
 
       await ctx.prisma.subscription.upsert({
         where: {
-          user_id: ctx.user?.id,
+          team_id: ctx.user?.membership?.team_id,
         },
         update: {
           stripe_subscription_id: subscription.id,
         },
         create: {
-          user_id: ctx.user?.id as string,
+          team_id: ctx.user?.membership?.team_id as string,
           stripe_subscription_id: subscription.id,
         },
       });
