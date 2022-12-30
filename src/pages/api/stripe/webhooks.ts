@@ -4,6 +4,7 @@ import type Stripe from "stripe";
 import { prisma } from "server/db/client";
 import { stripe } from "server/payment/stripe";
 import { channels, logsnag } from "server/logs/log-snag";
+import { buffer } from "micro";
 
 export const config = {
   api: {
@@ -14,19 +15,19 @@ export const config = {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // Retrieve the event by verifying the signature using the raw body and secret.
   const signature = req.headers["stripe-signature"];
+  const reqBuffer = await buffer(req);
 
   const stripeEvent = stripe.webhooks.constructEvent(
-    req.body,
+    reqBuffer,
     signature as string | string[] | Buffer,
     env.STRIPE_WEBHOOK_SECRET
   );
 
   const object = stripeEvent.data.object as Stripe.Subscription;
+  const subscription = await stripe.subscriptions.retrieve(object.id);
 
   switch (stripeEvent.type) {
     case "checkout.session.completed":
-      const subscription = await stripe.subscriptions.retrieve(object.id);
-
       const customer = await prisma.subscription.update({
         where: {
           stripe_subscription_id: subscription.id,
@@ -49,14 +50,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       });
       break;
     case "invoice.paid":
-      // Continue to provision the subscription as payments continue to be made.
-      // Store the status in your database and check when a user accesses your service.
-      // This approach helps you avoid hitting rate limits.
+      await logsnag.publish({
+        channel: channels.invoicePaid,
+        event: "Invoice Paid",
+        description: `Invoice paid!`,
+        icon: "💸",
+        notify: true,
+        tags: subscription.metadata,
+      });
       break;
     case "invoice.payment_failed":
-      // The payment failed or the customer does not have a valid payment method.
-      // The subscription becomes past_due. Notify your customer and send them to the
-      // customer portal to update their payment information.
+      await logsnag.publish({
+        channel: channels.invoiceFailed,
+        event: "Invoice Failed",
+        description: `Invoice failed!`,
+        icon: "⚠️",
+        notify: true,
+        tags: subscription.metadata,
+      });
       break;
     default:
     // Unhandled event type
