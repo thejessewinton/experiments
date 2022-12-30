@@ -1,12 +1,25 @@
 import { stripe } from "server/payment/stripe";
+import type Stripe from "stripe";
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
 export const stripeRouter = router({
   getProducts: protectedProcedure.query(async () => {
-    const { data } = await stripe.products.list();
+    const products = (await stripe.products.list({
+      expand: ["data.default_price"],
+    })) as Stripe.Response<
+      Stripe.ApiList<Stripe.Product & { default_price: Stripe.Price }>
+    >;
 
-    return data;
+    products.data.sort((a, b) => {
+      if (a.default_price?.unit_amount && b.default_price?.unit_amount) {
+        return a.default_price.unit_amount - b.default_price.unit_amount;
+      }
+
+      return 0;
+    });
+
+    return products.data;
   }),
   createCheckoutSession: protectedProcedure
     .input(
@@ -28,8 +41,8 @@ export const stripeRouter = router({
           name: ctx.user?.name as string,
           email: ctx.user?.email as string,
         },
-        cancel_url: "https://example.com/cancel",
-        success_url: "https://example.com/success",
+        cancel_url: "http://localhost:3000/settings/billing?canceled=true",
+        success_url: "http://localhost:3000/settings/billing?success=true",
       });
 
       await ctx.prisma.subscription.upsert({
@@ -50,7 +63,17 @@ export const stripeRouter = router({
   manageSubscription: protectedProcedure.mutation(async ({ ctx }) => {
     return await stripe.billingPortal.sessions.create({
       customer: ctx.user?.stripe_customer_id as string,
-      return_url: "https://example.com",
+      return_url: "http://localhost:3000/settings/billing",
+    });
+  }),
+  getPlan: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.subscription.findFirst({
+      where: {
+        team_id: ctx.user?.membership?.team_id,
+      },
+      select: {
+        stripe_price_id: true,
+      },
     });
   }),
 });

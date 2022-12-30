@@ -15,7 +15,7 @@ export const Select = ({ label, children, ...rest }: SelectProps) => {
   return (
     <div className="h-8 flex-initial">
       <div className="flex h-8 items-stretch rounded shadow-sm focus-within:ring-1 focus-within:ring-sky-600/75">
-        <label className="hidden">{label}</label>
+        <label className="sr-only">{label}</label>
 
         <Listbox {...rest} as="div">
           <Listbox.Button>{label}</Listbox.Button>

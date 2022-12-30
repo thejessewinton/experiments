@@ -14,7 +14,7 @@ export const Input = forwardRef(
   ) => {
     return (
       <div className={clsx("relative flex flex-col gap-2", className)}>
-        <label htmlFor={name} className="hidden dark:text-white">
+        <label htmlFor={name} className="sr-only">
           {label}
         </label>
 

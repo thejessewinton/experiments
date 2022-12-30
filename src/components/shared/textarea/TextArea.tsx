@@ -18,7 +18,7 @@ export const TextArea = React.forwardRef(
   ) => {
     return (
       <div className="relative flex flex-col gap-2">
-        <label htmlFor={name} className="hidden dark:text-white">
+        <label htmlFor={name} className="sr-only">
           {label}
         </label>
 
