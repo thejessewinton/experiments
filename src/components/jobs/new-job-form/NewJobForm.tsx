@@ -9,20 +9,20 @@ import { trpc } from "utils/trpc";
 import useFormPersist from "react-hook-form-persist";
 import { Listbox } from "components/shared/form/listbox/Listbox";
 import { MarkdownEditor } from "components/shared/markdown-editor/MarkdownEditor";
-import { JSONContent } from "@tiptap/react";
 
 type Values = RouterInputs["jobs"]["createNew"];
 
 const STORAGE_KEY = "newJob";
 
 export const NewJobForm = () => {
-  const { register, handleSubmit, watch, setValue, control } =
+  const { register, handleSubmit, watch, setValue, control, reset } =
     useForm<Values>();
   const { handleDialogClose } = useDialogStore();
   const utils = trpc.useContext();
 
   const submit = trpc.jobs.createNew.useMutation({
     onSuccess: () => {
+      reset();
       handleDialogClose();
       utils.jobs.invalidate();
       toast.success("Job created successfully");
@@ -61,17 +61,6 @@ export const NewJobForm = () => {
       />
 
       <div className="grid grid-cols-2 gap-2">
-        <Controller
-          control={control}
-          name="office_type"
-          render={({ field }) => (
-            <Listbox label="Office Type" {...field}>
-              <Listbox.Option label="Remote" value="remote" />
-              <Listbox.Option label="In-Office" value="in-office" />
-            </Listbox>
-          )}
-        />
-
         <Controller
           control={control}
           name="priority"

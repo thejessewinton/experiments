@@ -105,7 +105,7 @@ model VerificationToken {
 model Team {
   id                     String        @id @default(cuid())
   name                   String?
-  slug                   String?       @unique
+  slug                   String?
   stripe_customer_id     String?       @unique
   stripe_subscription_id String?
   is_upgraded            Boolean       @default(false)
@@ -158,10 +158,9 @@ model Job {
   id          String      @id @default(cuid())
   title       String
   salary      Int
-  office_type String
   status      JobStatus   @default(OPEN)
   priority    JobPriority @default(NO_PRIORITY)
-  description String      @db.LongText()
+  description String      @db.Text
   slug        String      @unique
   due_date    DateTime?
   team        Team?       @relation(fields: [team_id], references: [id], onDelete: Cascade)
