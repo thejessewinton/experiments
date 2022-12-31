@@ -7,6 +7,13 @@ export const tagsRouter = router({
       where: {
         team_id: ctx.user?.membership?.team_id,
       },
+      include: {
+        _count: {
+          select: {
+            job: true,
+          },
+        },
+      },
     });
   }),
   addTag: protectedProcedure
@@ -26,6 +33,19 @@ export const tagsRouter = router({
               id: ctx.user?.membership?.team_id,
             },
           },
+        },
+      });
+    }),
+  deleteTag: protectedProcedure
+    .input(
+      z.object({
+        tag_id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.tag.delete({
+        where: {
+          id: input.tag_id,
         },
       });
     }),

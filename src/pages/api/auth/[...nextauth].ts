@@ -79,6 +79,9 @@ export const authOptions: NextAuthOptions = {
                   tags: {
                     create: defaultTags,
                   },
+                  subscription: {
+                    create: {},
+                  },
                 },
               },
             },

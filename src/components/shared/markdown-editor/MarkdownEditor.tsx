@@ -28,7 +28,6 @@ export const MarkdownEditor = forwardRef(
         Highlight,
         Typography,
         Placeholder.configure({
-          emptyEditorClass: "is-empty",
           placeholder: () => {
             return placeholder;
           },

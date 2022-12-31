@@ -24,6 +24,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const object = stripeEvent.data.object as Stripe.Subscription;
 
+  console.log(object);
+
   const customer = await prisma.team.findUnique({
     where: {
       stripe_customer_id: object.customer as string,

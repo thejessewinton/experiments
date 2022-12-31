@@ -56,7 +56,9 @@ export const NewJobForm = () => {
         control={control}
         name="description"
         render={({ field }) => {
-          return <MarkdownEditor defaultValue={field.value} {...field} />;
+          return (
+            <MarkdownEditor placeholder="Enter a description..." {...field} />
+          );
         }}
       />
 

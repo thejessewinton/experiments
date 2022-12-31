@@ -14,6 +14,27 @@ export const teamsRouter = router({
       },
     });
   }),
+  getUsage: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.team.findUnique({
+      where: {
+        id: ctx.user?.membership?.team_id,
+      },
+      include: {
+        subscription: {
+          select: {
+            active_jobs: true,
+            monthly_credits: true,
+          },
+        },
+        _count: {
+          select: {
+            jobs: true,
+            offers: true,
+          },
+        },
+      },
+    });
+  }),
   updateTeam: protectedProcedure
     .input(
       z.object({

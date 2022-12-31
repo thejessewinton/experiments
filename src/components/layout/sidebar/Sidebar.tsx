@@ -16,11 +16,7 @@ const navigation = [
     href: "/settings/candidate",
   },
   {
-    label: "Tags",
-    href: "/settings/tags",
-  },
-  {
-    label: "Billing",
+    label: "Usage & Billing",
     href: "/settings/billing",
   },
 ];
