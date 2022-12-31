@@ -8,6 +8,10 @@ const navigation = [
     href: "/settings",
   },
   {
+    label: "Team Settings",
+    href: "/settings/team",
+  },
+  {
     label: "Candidate Settings",
     href: "/settings/candidate",
   },

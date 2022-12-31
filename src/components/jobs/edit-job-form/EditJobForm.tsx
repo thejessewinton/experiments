@@ -24,7 +24,6 @@ export const EditJobForm = ({
       title: job?.title,
       salary: job?.salary,
       due_date: job?.due_date as Date,
-      office_type: job?.office_type,
       description: job?.description,
     },
   });
@@ -67,10 +66,6 @@ export const EditJobForm = ({
           label="Due Date"
           min={new Date().toISOString().split("T")[0]}
         />
-        <Select label="Office Type" {...register("office_type")}>
-          <Select.Option label="Remote" value="remote" />
-          <Select.Option label="In-Office" value="office" />
-        </Select>
         <TextArea {...register("description")} label="Description" />
         <Button type="submit" disabled={submit.isLoading}>
           {submit.isLoading ? "Loading" : "Submit"}

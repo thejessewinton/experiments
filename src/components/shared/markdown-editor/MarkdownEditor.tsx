@@ -1,16 +1,15 @@
-import type { JSONContent, PureEditorContent } from "@tiptap/react";
+import type { PureEditorContent } from "@tiptap/react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
 import Typography from "@tiptap/extension-typography";
 import Placeholder from "@tiptap/extension-placeholder";
-import type { Ref } from "react";
-import { forwardRef } from "react";
+import { forwardRef, type Ref } from "react";
 
 interface MarkdownEditorProps {
   defaultValue?: string;
   placeholder?: string;
-  onChange?: (v: JSONContent) => void;
+  onChange?: (v: string) => void;
 }
 
 export const MarkdownEditor = forwardRef(
@@ -36,7 +35,6 @@ export const MarkdownEditor = forwardRef(
         }),
       ],
       content: defaultValue,
-      autofocus: "start",
       editorProps: {
         attributes: {
           class:
@@ -44,7 +42,7 @@ export const MarkdownEditor = forwardRef(
         },
       },
       onUpdate: ({ editor }) => {
-        const content = editor.getJSON();
+        const content = editor.getHTML();
         if (onChange) {
           onChange(content);
         }

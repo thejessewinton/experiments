@@ -81,19 +81,29 @@ export const jobsRouter = router({
     .input(
       z.object({
         title: z.string(),
-        description: z.string().max(250),
+        description: z.any(),
         priority: z.string(),
         salary: z.number(),
-        due_date: z.date(),
-        office_type: z.string(),
+        due_date: z.date().optional(),
+        tags: z.array(z.string()).optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.job.create({
         data: {
-          ...input,
+          title: input.title,
+          salary: input.salary,
+          due_date: input.due_date,
+          description: input.description,
           priority: input.priority as JobPriority,
           slug: slugify(input.title),
+          tags: {
+            connect: input.tags?.map((tag) => {
+              return {
+                id: tag,
+              };
+            }),
+          },
           team: {
             connect: {
               id: ctx.user?.membership?.team_id,
@@ -115,7 +125,6 @@ export const jobsRouter = router({
         description: z.string().max(250),
         salary: z.number(),
         due_date: z.date().nullable(),
-        office_type: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -128,7 +137,6 @@ export const jobsRouter = router({
           description: input.description,
           title: input.title,
           due_date: input.due_date,
-          office_type: input.office_type,
         },
       });
     }),
