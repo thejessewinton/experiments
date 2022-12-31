@@ -1,4 +1,5 @@
 import { SubscriptionForm } from "components/billing/subscription-form/SubscriptionForm";
+import { TeamUsage } from "components/profiles/team-usage/TeamUsage";
 import { SidebarLayout } from "layouts/sidebar/Sidebar";
 import Head from "next/head";
 import type { NextPageWithLayout } from "pages/_app";
@@ -10,6 +11,7 @@ const Billing: NextPageWithLayout = () => {
         <title>Settings</title>
       </Head>
       <SubscriptionForm />
+      <TeamUsage />
     </>
   );
 };
