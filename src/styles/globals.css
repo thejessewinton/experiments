@@ -4,7 +4,7 @@
 
 @layer {
   body {
-    @apply text-sm tracking-wide text-neutral-900 dark:bg-neutral-900 dark:text-white;
+    @apply text-sm text-neutral-900 dark:bg-neutral-900 dark:text-white;
   }
 
   .ProseMirror p.is-editor-empty:first-child::before {

@@ -26,6 +26,16 @@ export const jobsRouter = router({
             color: true,
           },
         },
+        candidates: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                image: true,
+              },
+            },
+          },
+        },
         _count: {
           select: {
             candidates: true,

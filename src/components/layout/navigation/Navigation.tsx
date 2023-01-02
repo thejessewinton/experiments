@@ -17,7 +17,7 @@ export const Navigation = () => {
   const router = useRouter();
 
   return (
-    <nav className="flex gap-3 pt-12">
+    <nav className="flex gap-3 pt-4">
       {navigation.map((item) => {
         const isActive = router.pathname.includes(item.href);
         return (
