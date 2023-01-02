@@ -6,7 +6,7 @@ import { trpc } from "utils/trpc";
 import { AddTag } from "../add-tag/AddTag";
 import { UpdateStatus } from "../update-status/UpdateStatus";
 import dayjs from "utils/dayjs";
-import Link from "next/link";
+import Image from "next/image";
 
 const Actions = ({ id }: { id: string }) => {
   const utils = trpc.useContext();
@@ -62,20 +62,35 @@ export const JobCard = ({
           </div>
         </div>
         <div className="mt-8 mb-0 flex items-center justify-between gap-1">
-          <span className="text-2xs text-neutral-600">
-            {job._count.candidates}
-            {makePlural(" Candidate", job._count.candidates)}
-          </span>
-
-          {job.due_date ? (
-            <span className="text-2xs text-neutral-600">
-              {dayjs(job.due_date).format("MMM DD")}
-            </span>
-          ) : null}
-
           <div className="flex items-center gap-1">
-            <UpdateStatus id={job.id} status={job.status} />
-            <AddTag id={job.id} tags={job.tags} />
+            {job.candidates.map((candidate) => {
+              return (
+                <Image
+                  src={candidate.user.image as string}
+                  alt="Candidate"
+                  width={20}
+                  height={20}
+                  key={candidate.id}
+                  className="rounded-full"
+                />
+              );
+            })}
+            <span className="text-2xs text-neutral-600">
+              {job._count.candidates}
+              {makePlural(" Candidate", job._count.candidates)}
+            </span>
+          </div>
+          <div>
+            {job.due_date ? (
+              <span className="text-2xs text-neutral-600">
+                {dayjs(job.due_date).format("MMM DD")}
+              </span>
+            ) : null}
+
+            <div className="flex items-center gap-1">
+              <UpdateStatus id={job.id} status={job.status} />
+              <AddTag id={job.id} tags={job.tags} />
+            </div>
           </div>
         </div>
       </div>

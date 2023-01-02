@@ -14,4 +14,16 @@ export const defaultTags: Omit<Tag, "id" | "team_id" | "job_id">[] = [
     value: "Marketing",
     color: colorOptions.yellow,
   },
+  {
+    value: "Sales",
+    color: colorOptions.red,
+  },
+  {
+    value: "Customer Support",
+    color: colorOptions.purple,
+  },
+  {
+    value: "Finance",
+    color: colorOptions.orange,
+  },
 ];

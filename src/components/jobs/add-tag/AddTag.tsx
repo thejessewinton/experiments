@@ -89,7 +89,7 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
       <Dropdown
         trigger={<JobTags tags={tags} />}
         triggerClassName="rounded-full"
-        align="left"
+        align="right"
       >
         {allTags.isLoading ? (
           <Spinner />

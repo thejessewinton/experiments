@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { Button } from "components/shared/button/Button";
 import { useForm } from "react-hook-form";
 import { Input } from "components/shared/input/Input";
+import { z } from "zod";
 
 const Icons: { [key: string]: ReactNode } = {
   google: (
@@ -23,6 +24,10 @@ const Icons: { [key: string]: ReactNode } = {
   ),
 };
 
+const AuthSchema = z.object({
+  email: z.string().email("Enter a real email please."),
+});
+
 export const AuthForm = ({
   providers,
   csrfToken,
@@ -33,12 +38,10 @@ export const AuthForm = ({
   const { query } = useRouter();
   const { register, handleSubmit } = useForm<{ email: string }>();
 
-  const onSubmit = async (values: { email: string }) => {
+  const onSubmit = async (values: z.infer<typeof AuthSchema>) => {
     await signIn("email", {
       email: values.email,
-      callbackUrl: query.callbackUrl
-      ? String(query.callbackUrl)
-      : "/"
+      callbackUrl: query.callbackUrl ? String(query.callbackUrl) : "/",
     });
   };
 

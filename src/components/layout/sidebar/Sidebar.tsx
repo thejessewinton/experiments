@@ -8,15 +8,15 @@ const navigation = [
     href: "/settings",
   },
   {
-    label: "Team Settings",
+    label: "Team",
     href: "/settings/team",
   },
   {
-    label: "Candidate Settings",
+    label: "Candidate",
     href: "/settings/candidate",
   },
   {
-    label: "Usage & Billing",
+    label: "Usage and billing",
     href: "/settings/billing",
   },
 ];
@@ -41,13 +41,15 @@ export const Sidebar = () => {
           ))}
         </Select>
       </div>
-      <nav className="hidden flex-col gap-2 sm:flex">
+      <nav className="hidden flex-col gap-4 sm:flex">
         {navigation.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             className={
-              router.pathname === item.href ? "font-medium" : "font-light"
+              router.pathname === item.href
+                ? "text-white"
+                : "!font-light text-neutral-400"
             }
           >
             {item.label}
