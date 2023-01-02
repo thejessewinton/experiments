@@ -16,7 +16,7 @@ export const Dialog = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm" />
+          <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm dark:bg-opacity-25" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -30,7 +30,7 @@ export const Dialog = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPrimitive.Panel className="w-full max-w-2xl transform overflow-hidden rounded-md bg-neutral-900 p-6 text-left align-middle shadow-lg shadow-black/50 transition-all">
+              <DialogPrimitive.Panel className="w-full max-w-2xl transform rounded bg-white p-6 text-left align-middle shadow-2xl shadow-black/50 transition-all dark:bg-neutral-900">
                 <DialogPrimitive.Title as="h3" className="hidden">
                   {dialogTitle}
                 </DialogPrimitive.Title>

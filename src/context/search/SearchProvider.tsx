@@ -11,7 +11,7 @@ import {
   KBarResults,
   useMatches,
 } from "kbar";
-import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 const useActions = () => {
   const { handleDialog } = useDialogStore();
@@ -26,18 +26,10 @@ const useActions = () => {
         <PlusIcon className="h-4 w-4 transition-colors group-hover:text-white dark:text-neutral-400" />
       ),
       perform: () =>
-        handleDialog({ title: "New Job", content: <NewJobForm /> }),
-    },
-    {
-      id: "delete-job",
-      name: "Delete Job",
-      shortcut: ["d"],
-      keywords: "new job",
-      icon: (
-        <TrashIcon className="h-4 w-4 transition-colors group-hover:text-white dark:text-neutral-400" />
-      ),
-      perform: () =>
-        handleDialog({ title: "Delete Job", content: <NewJobForm /> }),
+        handleDialog({
+          title: "New Job",
+          content: <NewJobForm />,
+        }),
     },
   ];
 
