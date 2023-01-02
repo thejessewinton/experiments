@@ -37,7 +37,7 @@ export const MarkdownEditor = forwardRef(
       editorProps: {
         attributes: {
           class:
-            "bg-neutral-900 h-full w-full grow prose prose-dark font-light text-neutral-500 focus:outline-none",
+            "dark:bg-neutral-900 h-full pb-6 w-full grow prose prose-dark font-light text-neutral-500 focus:outline-none",
         },
       },
       onUpdate: ({ editor }) => {
