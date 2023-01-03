@@ -3,6 +3,7 @@ import { stripe } from "server/payment/stripe";
 import type Stripe from "stripe";
 import { z } from "zod";
 import { prisma } from "server/db/client";
+import { env } from "env/server.mjs";
 
 const querySchema = z.object({
   team: z.string(),
@@ -35,7 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
-  res.redirect(302, `http://localhost:3000/settings/billing?upgraded=true`);
+  res.redirect(302, `${env.APP_URL}/settings/billing?upgraded=true`);
 };
 
 export default handler;
