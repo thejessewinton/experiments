@@ -24,6 +24,9 @@ export const browseRouter = router({
     .query(async ({ ctx, input }) => {
       return await ctx.prisma.candidate.findMany({
         where: {
+          user_id: {
+            not: ctx.session.user.id,
+          },
           year_of_experience: input.years_experience || undefined,
           level: {
             in: input.levels as CandidateLevel,

@@ -36,12 +36,18 @@ export const TeamForm = () => {
   if (team.isLoading) return <div>Loading...</div>;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-      <Input type="text" {...register("name")} label="Name" />
-      <Input type="text" {...register("slug")} label="Email" />
-      <Button type="submit" disabled={submit.isLoading}>
-        {submit.isLoading ? "Loading" : "Submit"}
-      </Button>
-    </form>
+    <div className="flex flex-col gap-8">
+      <h3 className="text-lg">Team settings</h3>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex max-w-lg flex-col gap-4"
+      >
+        <Input type="text" {...register("name")} label="Team name" />
+        <Input type="text" {...register("slug")} label="Team slug" />
+        <Button type="submit" disabled={submit.isLoading}>
+          {submit.isLoading ? "Loading" : "Submit"}
+        </Button>
+      </form>
+    </div>
   );
 };

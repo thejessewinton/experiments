@@ -6,4 +6,4 @@ const Onboarding: NextPage = () => {
 
 export default Onboarding;
 
-export { getServerSideProps } from "server/auth/redirect";
+export { getServerSideProps } from "server/auth/get-server-redirect";

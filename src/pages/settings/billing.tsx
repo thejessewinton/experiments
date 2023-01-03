@@ -1,4 +1,4 @@
-import { SubscriptionForm } from "components/billing/subscription-form/SubscriptionForm";
+import { PlansTable } from "components/billing/plans-table/PlansTable";
 import { TeamUsage } from "components/profiles/team-usage/TeamUsage";
 import { SidebarLayout } from "layouts/sidebar/Sidebar";
 import type { GetServerSidePropsContext } from "next";
@@ -12,7 +12,8 @@ const Billing: NextPageWithLayout = () => {
       <Head>
         <title>Settings</title>
       </Head>
-      <SubscriptionForm />
+
+      <PlansTable />
       <TeamUsage />
     </>
   );

@@ -1,5 +1,4 @@
 import { ProfileForm } from "components/profiles/profile-form/ProfileForm";
-import { NewTagForm } from "components/tags/new-tag-form/NewTagForm";
 import { SidebarLayout } from "layouts/sidebar/Sidebar";
 import Head from "next/head";
 import type { NextPageWithLayout } from "pages/_app";
@@ -10,8 +9,8 @@ const Settings: NextPageWithLayout = () => {
       <Head>
         <title>Settings</title>
       </Head>
+
       <ProfileForm />
-      <NewTagForm />
     </>
   );
 };
@@ -22,4 +21,4 @@ Settings.getLayout = (page) => {
 
 export default Settings;
 
-export { getServerSideProps } from "server/auth/redirect";
+export { getServerSideProps } from "server/auth/get-server-redirect";

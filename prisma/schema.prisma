@@ -107,7 +107,6 @@ model Team {
   name               String?
   slug               String?
   stripe_customer_id String?       @unique
-  stripe_price_id    String?
   is_upgraded        Boolean       @default(false)
   members            Member[]
   jobs               Job[]
@@ -224,13 +223,15 @@ model View {
 }
 
 model Subscription {
-  id              String   @id @default(cuid())
-  active_jobs     Int      @default(2)
-  monthly_credits Int      @default(5)
-  team_id         String   @unique
-  team            Team     @relation(fields: [team_id], references: [id], onDelete: Cascade)
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
+  id                     String   @id @default(cuid())
+  active_jobs            Int      @default(2)
+  monthly_credits        Int      @default(5)
+  stripe_subscription_id String   @default("")
+  stripe_product_id      String   @default("")
+  team_id                String   @unique
+  team                   Team     @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  created_at             DateTime @default(now())
+  updated_at             DateTime @updatedAt
 
   @@index([team_id])
 }
