@@ -58,6 +58,7 @@ specifiers:
   react-hook-form-persist: ^3.0.0
   react-hot-toast: ^2.4.0
   stripe: ^11.4.0
+  stripe-event-types: ^1.0.2
   superjson: 1.9.1
   tailwindcss: ^3.2.0
   typescript: ^4.8.4
@@ -127,6 +128,7 @@ devDependencies:
   prettier: 2.8.1
   prettier-plugin-tailwindcss: 0.1.13_prettier@2.8.1
   prisma: 4.8.0
+  stripe-event-types: 1.0.2_stripe@11.4.0
   tailwindcss: 3.2.4_postcss@8.4.20
   typescript: 4.9.4
 
@@ -2896,7 +2898,6 @@ packages:
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
-    dev: false
 
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -3177,13 +3178,20 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /stripe-event-types/1.0.2_stripe@11.4.0:
+    resolution: {integrity: sha512-HmQWRCabR6BWzWvCmaInUcAHh7ICBhVkK6zyxZARgvvgOAuRXlJZyk+lAVBBOUxPCQRGLT53KkYymHQbmYD5Kw==}
+    peerDependencies:
+      stripe: '>=10.0.0'
+    dependencies:
+      stripe: 11.4.0
+    dev: true
+
   /stripe/11.4.0:
     resolution: {integrity: sha512-8feL70RhzN6i8rpUG5SC4ZN5KcPYCUfRYRk/yUcnHG8uLdS26AgKXAEozqddDGUUufRPKYuqs44kPg21/P5JRg==}
     engines: {node: '>=12.*'}
     dependencies:
       '@types/node': 18.11.16
       qs: 6.11.0
-    dev: false
 
   /styled-jsx/5.1.0_react@18.2.0:
     resolution: {integrity: sha512-/iHaRJt9U7T+5tp6TRelLnqBqiaIT0HsO0+vgyj8hK2KUk7aejFqRrumqPUlAqDwAj8IbS/1hk3IhBAAK/FCUQ==}

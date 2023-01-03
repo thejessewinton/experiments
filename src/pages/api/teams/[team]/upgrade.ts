@@ -12,7 +12,6 @@ const querySchema = z.object({
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { team: id, session_id } = querySchema.parse(req.query);
-  console.log(id, session_id);
 
   const checkoutSession = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["subscription"],
@@ -25,14 +24,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const product = await stripe.products.retrieve(
     subscription.plan.product as string
   );
-  console.log(product);
-  await prisma.subscription.update({
+
+  await prisma.team.update({
     where: {
-      team_id: id,
+      id: id,
     },
     data: {
-      active_jobs: Number(product.metadata.active_jobs),
-      monthly_credits: Number(product.metadata.monthly_credits),
+      stripe_customer_id: checkoutSession.customer as string,
+      subscription: {
+        update: {
+          stripe_product_id: product.id,
+          stripe_subscription_id: subscription.id,
+          active_jobs: Number(product.metadata.active_jobs),
+          monthly_credits: Number(product.metadata.monthly_credits),
+        },
+      },
     },
   });
 
