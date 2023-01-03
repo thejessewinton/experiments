@@ -1,11 +1,13 @@
+import { env } from "env/server.mjs";
 import { stripe } from "server/payment/stripe";
 import type Stripe from "stripe";
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
 export const stripeRouter = router({
-  getProducts: protectedProcedure.query(async () => {
+  getProducts: protectedProcedure.query(async ({ ctx }) => {
     const products = (await stripe.products.list({
+      active: true,
       expand: ["data.default_price"],
     })) as Stripe.Response<
       Stripe.ApiList<Stripe.Product & { default_price: Stripe.Price }>
@@ -19,7 +21,14 @@ export const stripeRouter = router({
       return 0;
     });
 
-    return products.data;
+    return products.data.map((product) => {
+      return {
+        ...product,
+        is_current:
+          product.default_price.id ===
+          ctx.user?.membership?.team.subscription?.stripe_product_id,
+      };
+    });
   }),
   createCheckoutSession: protectedProcedure
     .input(
@@ -41,8 +50,8 @@ export const stripeRouter = router({
           name: ctx.user?.name as string,
           email: ctx.user?.email as string,
         },
-        cancel_url: "http://localhost:3000/settings/billing?canceled=true",
-        success_url: "http://localhost:3000/settings/billing?success=true",
+        cancel_url: `${env.APP_URL}/settings/billing?canceled=true`,
+        success_url: `${env.APP_URL}/api/teams/${ctx.user?.membership?.team_id}/upgrade?session_id={CHECKOUT_SESSION_ID}`,
       });
 
       return subscription;
@@ -50,7 +59,7 @@ export const stripeRouter = router({
   manageSubscription: protectedProcedure.mutation(async ({ ctx }) => {
     return await stripe.billingPortal.sessions.create({
       customer: ctx.user?.membership?.team.stripe_customer_id as string,
-      return_url: "http://localhost:3000/settings/billing",
+      return_url: `${env.APP_URL}/api/teams/${ctx.user?.membership?.team_id}/upgrade?session_id={CHECKOUT_SESSION_ID}`,
     });
   }),
   getSubscription: protectedProcedure.query(async ({ ctx }) => {

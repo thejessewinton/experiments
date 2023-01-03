@@ -37,7 +37,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       await logsnag.publish({
         channel: channels.subscriptionCreated,
         event: "Subscription Created",
-        description: `Subscription created for ${customer?.name}.`,
         icon: "🎉",
         notify: true,
         tags: {
@@ -49,7 +48,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       await logsnag.publish({
         channel: channels.invoicePaid,
         event: "Invoice Paid",
-        description: `Invoice paid by ${customer?.name}.`,
         icon: "🎉",
         notify: true,
         tags: {
@@ -61,7 +59,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       await logsnag.publish({
         channel: channels.invoiceFailed,
         event: "Invoice Failed",
-        description: `Invoice failed for ${customer?.name}.`,
         icon: "🎉",
         notify: true,
         tags: {

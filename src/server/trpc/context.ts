@@ -20,7 +20,11 @@ export const createContext = async (opts: CreateNextContextOptions) => {
     include: {
       membership: {
         include: {
-          team: true,
+          team: {
+            include: {
+              subscription: true,
+            },
+          },
         },
       },
     },

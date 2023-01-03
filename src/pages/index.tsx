@@ -6,4 +6,4 @@ const Index: NextPage = () => {
 
 export default Index;
 
-export { getServerSideProps } from "server/auth/redirect";
+export { getServerSideProps } from "server/auth/get-server-redirect";
