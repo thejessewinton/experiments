@@ -4,8 +4,8 @@ import { Button } from "components/shared/button/Button";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { capitalize } from "utils/capitalize";
-import type { RouterInputs } from "utils/trpc";
-import { trpc } from "utils/trpc";
+import type { RouterInputs } from "utils/api";
+import { api } from "utils/api";
 import useFormPersist from "react-hook-form-persist";
 import { Listbox } from "components/shared/form/listbox/Listbox";
 import { MarkdownEditor } from "components/shared/markdown-editor/MarkdownEditor";
@@ -26,9 +26,9 @@ export const NewJobForm = () => {
     });
 
   const { handleDialogClose } = useDialogStore();
-  const utils = trpc.useContext();
+  const utils = api.useContext();
 
-  const submit = trpc.jobs.createNew.useMutation({
+  const submit = api.jobs.createNew.useMutation({
     onSuccess: () => {
       reset();
       handleDialogClose();

@@ -1,8 +1,7 @@
 import type { AppProps } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { trpc } from "../utils/trpc";
-import { clsx } from "clsx";
+import { api } from "../utils/api";
 
 import "../styles/globals.css";
 
@@ -67,4 +66,4 @@ const App = ({
   );
 };
 
-export default trpc.withTRPC(App);
+export default api.withTRPC(App);

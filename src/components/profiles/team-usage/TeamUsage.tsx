@@ -1,7 +1,7 @@
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 
 export const TeamUsage = () => {
-  const usage = trpc.teams.getUsage.useQuery();
+  const usage = api.teams.getUsage.useQuery();
 
   if (usage.isLoading || !usage.data) return null;
 

@@ -3,13 +3,13 @@ import { Input } from "components/shared/input/Input";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { type RouterInputs, trpc } from "utils/trpc";
+import { type RouterInputs, api } from "utils/api";
 
 type Values = RouterInputs["teams"]["updateTeam"];
 
 export const TeamForm = () => {
-  const team = trpc.teams.getCurrentTeam.useQuery();
-  const utils = trpc.useContext();
+  const team = api.teams.getCurrentTeam.useQuery();
+  const utils = api.useContext();
   const { register, handleSubmit, setValue } = useForm<Values>();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export const TeamForm = () => {
     }
   }, [team.data, setValue]);
 
-  const submit = trpc.teams.updateTeam.useMutation({
+  const submit = api.teams.updateTeam.useMutation({
     onSuccess: () => {
       utils.user.getCurrent.invalidate();
       toast.success("User updated successfully");

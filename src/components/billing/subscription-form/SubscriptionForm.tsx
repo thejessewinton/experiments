@@ -8,7 +8,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { clsx } from "clsx";
-import { type RouterInputs, type RouterOutputs, trpc } from "utils/trpc";
+import { type RouterInputs, type RouterOutputs, api } from "utils/api";
 import { capitalize } from "utils/capitalize";
 
 type Values = RouterInputs["stripe"]["createCheckoutSession"];
@@ -108,8 +108,8 @@ export const SubscriptionForm = () => {
     },
   });
 
-  const products = trpc.stripe.getProducts.useQuery();
-  const subscribe = trpc.stripe.createCheckoutSession.useMutation({
+  const products = api.stripe.getProducts.useQuery();
+  const subscribe = api.stripe.createCheckoutSession.useMutation({
     onSuccess: (data) => {
       window.location.href = data.url as string;
     },

@@ -1,17 +1,19 @@
-import { useDialogStore } from "client-data/state/use-dialog-store";
-import { Button } from "components/shared/button/Button";
-import { NewJobForm } from "components/jobs/new-job-form/NewJobForm";
 import { type NextPage } from "next";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 import { useView } from "client-data/hooks/use-view";
 import { ListView } from "components/jobs/list-view/ListView";
 import { BoardView } from "components/jobs/board-view/BoardView";
 import { Spinner } from "components/shared/spinner/Spinner";
 import { ViewState } from "@prisma/client";
 import Head from "next/head";
+import { appRouter } from "server/trpc/router/_app";
+import { createContext } from "server/trpc/context";
+import superjson from "superjson";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import type { CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 const Jobs: NextPage = () => {
-  const jobs = trpc.jobs.getAll.useQuery();
+  const jobs = api.jobs.getAll.useQuery();
   const view = useView();
 
   return (
@@ -38,4 +40,18 @@ const Jobs: NextPage = () => {
 
 export default Jobs;
 
-export { getServerSideProps } from "server/auth/get-server-redirect";
+export const getServerSideProps = async (ctx: CreateNextContextOptions) => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContext(ctx),
+    transformer: superjson,
+  });
+
+  await ssg.jobs.getAll.fetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};

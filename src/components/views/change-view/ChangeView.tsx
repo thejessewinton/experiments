@@ -1,7 +1,7 @@
 import { ViewState } from "@prisma/client";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 
 export const ChangeView = ({
   activeView,
@@ -9,9 +9,9 @@ export const ChangeView = ({
   activeView: ViewState | null;
 }) => {
   const { pathname } = useRouter();
-  const utils = trpc.useContext();
+  const utils = api.useContext();
 
-  const views = trpc.views.updateView.useMutation({
+  const views = api.views.updateView.useMutation({
     onMutate: (view) => {
       utils.views.getView.setData({ route: view.route }, { state: view.state });
     },

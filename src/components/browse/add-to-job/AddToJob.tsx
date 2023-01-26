@@ -3,15 +3,15 @@ import { useBrowseParams } from "client-data/hooks/use-browse-params";
 import { useJobStore } from "client-data/state/use-job-store";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { toast } from "react-hot-toast";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 
 export const AddToJob = ({ id }: { id: string }) => {
-  const utils = trpc.useContext();
-  const jobs = trpc.jobs.getAll.useQuery();
+  const utils = api.useContext();
+  const jobs = api.jobs.getAll.useQuery();
   const params = useBrowseParams();
   const { activeJob } = useJobStore();
 
-  const candidateStatus = trpc.browse.addToJob.useMutation({
+  const candidateStatus = api.browse.addToJob.useMutation({
     onMutate: (data) => {
       const previousCandidates = utils.browse.getCandidates.getData(params);
       const newCandidates = previousCandidates?.map((candidate) => {

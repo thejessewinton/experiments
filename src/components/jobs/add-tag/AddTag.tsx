@@ -2,8 +2,8 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { Spinner } from "components/shared/spinner/Spinner";
 import { makePlural } from "utils/make-plural";
-import type { RouterOutputs } from "utils/trpc";
-import { trpc } from "utils/trpc";
+import type { RouterOutputs } from "utils/api";
+import { api } from "utils/api";
 import { Checkbox } from "components/shared/checkbox/Checkbox";
 
 type JobTagProps = RouterOutputs["jobs"]["getAll"][0]["tags"];
@@ -21,8 +21,8 @@ const JobTags = ({ tags }: { tags: JobTagProps }) => {
 };
 
 export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
-  const utils = trpc.useContext();
-  const add = trpc.jobs.addTag.useMutation({
+  const utils = api.useContext();
+  const add = api.jobs.addTag.useMutation({
     onMutate: (data) => {
       const allTags = utils.tags.getAll.getData();
       const tag = allTags?.find((tag) => tag.id === data.tag_id);
@@ -45,7 +45,7 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
       utils.jobs.getAll.invalidate();
     },
   });
-  const remove = trpc.jobs.removeTag.useMutation({
+  const remove = api.jobs.removeTag.useMutation({
     onMutate: (data) => {
       const allJobs = utils.jobs.getAll.getData();
       const job = allJobs?.find((job) => job.id === data.job_id);
@@ -67,7 +67,7 @@ export const AddTag = ({ id, tags }: { id: string; tags: JobTagProps }) => {
     },
   });
 
-  const allTags = trpc.tags.getAll.useQuery();
+  const allTags = api.tags.getAll.useQuery();
 
   allTags.data?.sort((a, b) => {
     const aSelected = tags.some((tag) => tag.id === a.id);
