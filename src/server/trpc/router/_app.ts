@@ -8,6 +8,7 @@ import { tagsRouter } from "./tags";
 import { teamsRouter } from "./teams";
 import { userRouter } from "./user";
 import { viewsRouter } from "./views";
+import { joinRouter } from "./join";
 
 export const appRouter = router({
   teams: teamsRouter,
@@ -19,6 +20,7 @@ export const appRouter = router({
   browse: browseRouter,
   tags: tagsRouter,
   stripe: stripeRouter,
+  join: joinRouter,
 });
 
 // export type definition of API

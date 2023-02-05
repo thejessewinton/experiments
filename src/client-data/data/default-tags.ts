@@ -1,7 +1,7 @@
 import type { Tag } from "@prisma/client";
 import { colorOptions } from "./color-options";
 
-export const defaultTags: Omit<Tag, "id" | "team_id" | "job_id">[] = [
+export const defaultTags: Pick<Tag, "value" | "color">[] = [
   {
     value: "Design",
     color: colorOptions.blue,

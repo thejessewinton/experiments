@@ -12,9 +12,14 @@ import type { NextPage } from "next";
 import type { ReactElement, ReactNode } from "react";
 import { DefaultLayout } from "layouts/default/Default";
 import { Toaster } from "react-hot-toast";
-import { Inter } from "@next/font/google";
+import { Inter, Newsreader } from "@next/font/google";
 
-const inter = Inter();
+const inter = Inter({ variable: "--font-inter", display: "optional" });
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
+  display: "optional",
+  style: "italic",
+});
 
 export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -55,7 +60,7 @@ const App = ({
               },
             }}
           />
-          <div className={inter.className}>
+          <div className={`${inter.variable} ${newsreader.variable} font-sans`}>
             {getLayout(<Component {...pageProps} />)}
           </div>
         </SearchProvider>
