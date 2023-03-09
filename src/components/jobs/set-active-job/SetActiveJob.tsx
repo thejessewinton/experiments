@@ -1,10 +1,10 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { useJobStore } from "client-data/state/use-job-store";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 
 export const SetActiveJob = () => {
-  const jobs = trpc.jobs.getAll.useQuery();
+  const jobs = api.jobs.getAll.useQuery();
   const { activeJob, setActiveJob } = useJobStore();
 
   return (

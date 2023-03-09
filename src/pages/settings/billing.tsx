@@ -10,7 +10,7 @@ const Billing: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Settings</title>
+        <title>Usage and billing</title>
       </Head>
 
       <PlansTable />

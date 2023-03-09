@@ -1,7 +1,7 @@
 import { useDialogStore } from "client-data/state/use-dialog-store";
 
 import { type NextPage } from "next";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 import { Spinner } from "components/shared/spinner/Spinner";
 import { useRouter } from "next/router";
 import type { CandidateLevel } from "@prisma/client";
@@ -11,7 +11,7 @@ import { SetActiveJob } from "components/jobs/set-active-job/SetActiveJob";
 
 const Browse: NextPage = () => {
   const router = useRouter();
-  const candidates = trpc.browse.getCandidates.useQuery({
+  const candidates = api.browse.getCandidates.useQuery({
     languages: undefined,
     frameworks: undefined,
     levels: router.query?.levels as CandidateLevel | undefined,

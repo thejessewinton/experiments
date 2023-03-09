@@ -1,10 +1,10 @@
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export const DeleteJob = ({ id }: { id: string }) => {
-  const utils = trpc.useContext();
+  const utils = api.useContext();
 
-  const deleteJob = trpc.jobs.deleteJob.useMutation({
+  const deleteJob = api.jobs.deleteJob.useMutation({
     onMutate: (data) => {
       const previousJobs = utils.jobs.getAll.getData();
       const newJobs = previousJobs?.filter((job) => job.id !== data.job_id);

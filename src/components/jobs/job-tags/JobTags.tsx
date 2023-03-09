@@ -1,4 +1,4 @@
-import type { RouterOutputs } from "utils/trpc";
+import type { RouterOutputs } from "utils/api";
 
 type JobTagProps = RouterOutputs["jobs"]["getAll"][0]["tags"];
 

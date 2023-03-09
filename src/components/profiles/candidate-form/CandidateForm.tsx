@@ -2,16 +2,16 @@ import { Button } from "components/shared/button/Button";
 import { Input } from "components/shared/input/Input";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { type RouterInputs, trpc } from "utils/trpc";
+import { type RouterInputs, api } from "utils/api";
 
 type Values = RouterInputs["candidate"]["updateCandidate"];
 
 export const CandidateForm = () => {
   const { register, handleSubmit } = useForm<Values>();
 
-  const candidate = trpc.candidate.getCurrent.useQuery();
+  const candidate = api.candidate.getCurrent.useQuery();
 
-  const submit = trpc.candidate.updateCandidate.useMutation({
+  const submit = api.candidate.updateCandidate.useMutation({
     onSuccess: () => {
       toast.success("Candidate updated successfully");
     },

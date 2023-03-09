@@ -1,6 +1,6 @@
 import { JobStatus } from "@prisma/client";
 import { capitalize } from "utils/capitalize";
-import type { RouterOutputs } from "utils/trpc";
+import type { RouterOutputs } from "utils/api";
 import { JobRow } from "../job-row/JobRow";
 import { StatusIndicator } from "../status-indicator/StatusIndicator";
 

@@ -7,8 +7,8 @@ import { TextArea } from "components/shared/textarea/TextArea";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import type { RouterInputs, RouterOutputs } from "utils/trpc";
-import { trpc } from "utils/trpc";
+import type { RouterInputs, RouterOutputs } from "utils/api";
+import { api } from "utils/api";
 
 type Values = RouterInputs["jobs"]["edit"];
 
@@ -29,12 +29,12 @@ export const EditJobForm = ({
   });
 
   const { handleDialogClose } = useDialogStore();
-  const utils = trpc.useContext();
+  const utils = api.useContext();
   const handleBack = () => {
     router.push("/jobs");
   };
 
-  const submit = trpc.jobs.edit.useMutation({
+  const submit = api.jobs.edit.useMutation({
     onSuccess: () => {
       handleDialogClose();
       utils.jobs.invalidate();

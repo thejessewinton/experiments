@@ -1,4 +1,4 @@
-import type { RouterOutputs } from "utils/trpc";
+import type { RouterOutputs } from "utils/api";
 import { CandidateCard } from "../candidate-card/CandidateCard";
 
 type CandidatesOutput = RouterOutputs["browse"]["getCandidates"];

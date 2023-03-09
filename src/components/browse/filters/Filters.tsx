@@ -1,4 +1,4 @@
-import type { RouterInputs } from "utils/trpc";
+import type { RouterInputs } from "utils/api";
 import { CandidateLevel } from "@prisma/client";
 import { Select } from "components/shared/select/Select";
 import { capitalize } from "utils/capitalize";

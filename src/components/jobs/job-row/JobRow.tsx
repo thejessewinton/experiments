@@ -1,5 +1,5 @@
 import { makePlural } from "utils/make-plural";
-import type { RouterOutputs } from "utils/trpc";
+import type { RouterOutputs } from "utils/api";
 
 export const JobRow = ({
   job,

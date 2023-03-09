@@ -59,7 +59,7 @@ export const stripeRouter = router({
   manageSubscription: protectedProcedure.mutation(async ({ ctx }) => {
     return await stripe.billingPortal.sessions.create({
       customer: ctx.user?.membership?.team.stripe_customer_id as string,
-      return_url: `${env.APP_URL}/api/teams/${ctx.user?.membership?.team_id}/upgrade?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${env.APP_URL}/settings/billing`,
     });
   }),
   getSubscription: protectedProcedure.query(async ({ ctx }) => {
