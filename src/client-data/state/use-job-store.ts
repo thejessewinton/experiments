@@ -1,5 +1,5 @@
 import { type JobStatus } from "@prisma/client";
-import create from "zustand";
+import { create } from "zustand";
 
 type JobType = { id: string; title: string } | null;
 

@@ -12,7 +12,7 @@ import type { NextPage } from "next";
 import type { ReactElement, ReactNode } from "react";
 import { DefaultLayout } from "layouts/default/Default";
 import { Toaster } from "react-hot-toast";
-import { Inter, Newsreader } from "@next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 
 const inter = Inter({ variable: "--font-inter", display: "optional" });
 const newsreader = Newsreader({
@@ -43,30 +43,31 @@ const App = ({
       <Head>
         <title>Experiements</title>
       </Head>
-      <SessionProvider session={session}>
-        <SearchProvider>
-          <Toaster
-            position="bottom-right"
-            gutter={8}
-            toastOptions={{
-              duration: 5000,
-              style: {
-                background: "#222",
-                color: "#fff",
-                border: "0",
-                paddingLeft: "1rem",
-                paddingRight: "1rem",
-                fontSize: "0.75rem",
-              },
-            }}
-          />
-          <div className={`${inter.variable} ${newsreader.variable} font-sans`}>
-            {getLayout(<Component {...pageProps} />)}
-          </div>
-        </SearchProvider>
+      <div className={`${inter.variable} ${newsreader.variable} font-sans`}>
+        <SessionProvider session={session}>
+          <SearchProvider>
+            <Toaster
+              position="bottom-right"
+              gutter={8}
+              toastOptions={{
+                duration: 5000,
+                style: {
+                  background: "#222",
+                  color: "#fff",
+                  border: "0",
+                  paddingLeft: "1rem",
+                  paddingRight: "1rem",
+                  fontSize: "0.75rem",
+                },
+              }}
+            />
 
-        <Dialog />
-      </SessionProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </SearchProvider>
+
+          <Dialog />
+        </SessionProvider>
+      </div>
     </>
   );
 };
