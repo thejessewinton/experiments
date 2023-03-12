@@ -6,7 +6,7 @@ import { forwardRef } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { makePlural } from "utils/make-plural";
-import { type RouterInputs, trpc } from "utils/trpc";
+import { type RouterInputs, api } from "utils/api";
 
 type Values = RouterInputs["tags"]["addTag"];
 
@@ -50,17 +50,17 @@ export const NewTagForm = () => {
     },
   });
 
-  const tags = trpc.tags.getAll.useQuery();
-  const utils = trpc.useContext();
+  const tags = api.tags.getAll.useQuery();
+  const utils = api.useContext();
 
-  const submit = trpc.tags.addTag.useMutation({
+  const submit = api.tags.addTag.useMutation({
     onSuccess: () => {
       reset();
       utils.tags.invalidate();
     },
   });
 
-  const remove = trpc.tags.deleteTag.useMutation({
+  const remove = api.tags.deleteTag.useMutation({
     onMutate: (data) => {
       const previousTags = utils.tags.getAll.getData();
       utils.tags.getAll.setData((() => undefined)(), () =>

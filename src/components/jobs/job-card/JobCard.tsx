@@ -1,17 +1,17 @@
 import { makePlural } from "utils/make-plural";
-import type { RouterOutputs } from "utils/trpc";
+import type { RouterOutputs } from "utils/api";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 import { AddTag } from "../add-tag/AddTag";
 import { UpdateStatus } from "../update-status/UpdateStatus";
 import dayjs from "utils/dayjs";
 import Image from "next/image";
 
 const Actions = ({ id }: { id: string }) => {
-  const utils = trpc.useContext();
+  const utils = api.useContext();
 
-  const deleteJob = trpc.jobs.deleteJob.useMutation({
+  const deleteJob = api.jobs.deleteJob.useMutation({
     onMutate: (data) => {
       const previousJobs = utils.jobs.getAll.getData();
       const newJobs = previousJobs?.filter((job) => job.id !== data.job_id);

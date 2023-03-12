@@ -6,7 +6,6 @@ import { env } from "env/server.mjs";
 import { prisma } from "server/db/client";
 import { defaultTags } from "client-data/data/default-tags";
 import { channels, logsnag } from "server/logs/log-snag";
-import { stripe } from "server/payment/stripe";
 import { MemberRole } from "@prisma/client";
 import { postmark } from "server/email/postmark";
 
@@ -57,14 +56,6 @@ export const authOptions: NextAuthOptions = {
   },
   events: {
     createUser: async ({ user }) => {
-      const newStripeCustomer = await stripe.customers.create({
-        name: user.name as string,
-        email: user.email as string,
-        metadata: {
-          id: user.id as string,
-        },
-      });
-
       await prisma.user.update({
         where: {
           id: user.id as string,
@@ -75,7 +66,6 @@ export const authOptions: NextAuthOptions = {
               role: MemberRole.ADMIN,
               team: {
                 create: {
-                  stripe_customer_id: newStripeCustomer.id,
                   tags: {
                     create: defaultTags,
                   },

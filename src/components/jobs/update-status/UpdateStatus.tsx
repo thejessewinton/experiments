@@ -1,7 +1,7 @@
 import { JobStatus } from "@prisma/client";
 import { Dropdown } from "components/shared/dropdown/Dropdown";
 import { capitalize } from "utils/capitalize";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 import { StatusIndicator } from "../status-indicator/StatusIndicator";
 
 export const UpdateStatus = ({
@@ -11,9 +11,9 @@ export const UpdateStatus = ({
   id: string;
   status: JobStatus;
 }) => {
-  const utils = trpc.useContext();
+  const utils = api.useContext();
 
-  const jobStatus = trpc.jobs.updateStatus.useMutation({
+  const jobStatus = api.jobs.updateStatus.useMutation({
     onMutate: (data) => {
       const previousJobs = utils.jobs.getAll.getData();
       const newJobs = previousJobs?.map((job) => {

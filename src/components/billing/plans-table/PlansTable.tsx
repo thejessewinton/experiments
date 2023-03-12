@@ -2,10 +2,10 @@ import { CheckIcon } from "@heroicons/react/24/solid";
 import { Button } from "components/shared/button/Button";
 import { Spinner } from "components/shared/spinner/Spinner";
 import { capitalize } from "utils/capitalize";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 
 const ManageSubscription = () => {
-  const manage = trpc.stripe.manageSubscription.useMutation({
+  const manage = api.stripe.manageSubscription.useMutation({
     onSuccess: (data) => {
       window.location.href = data.url as string;
     },
@@ -17,8 +17,8 @@ const ManageSubscription = () => {
 };
 
 export const PlansTable = () => {
-  const products = trpc.stripe.getProducts.useQuery();
-  const subscribe = trpc.stripe.createCheckoutSession.useMutation({
+  const products = api.stripe.getProducts.useQuery();
+  const subscribe = api.stripe.createCheckoutSession.useMutation({
     onSuccess: (data) => {
       window.location.href = data.url as string;
     },

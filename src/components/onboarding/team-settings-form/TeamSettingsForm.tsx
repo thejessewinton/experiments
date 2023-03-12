@@ -1,8 +1,8 @@
 import { Button } from "components/shared/button/Button";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import type { RouterInputs } from "utils/trpc";
-import { trpc } from "utils/trpc";
+import type { RouterInputs } from "utils/api";
+import { api } from "utils/api";
 import { useRouter } from "next/router";
 
 type Values = RouterInputs["teams"]["updateTeam"];
@@ -16,7 +16,7 @@ export const TeamSettingsForm = () => {
   });
   const router = useRouter();
 
-  const submit = trpc.teams.updateTeam.useMutation({
+  const submit = api.teams.updateTeam.useMutation({
     onSuccess: () => {
       router.push("/");
       toast.success("Team onboarded successfully");

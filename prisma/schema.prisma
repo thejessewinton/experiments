@@ -119,6 +119,7 @@ model Team {
 }
 
 enum MemberRole {
+  SUPERADMIN
   ADMIN
   MEMBER
 }
@@ -234,4 +235,13 @@ model Subscription {
   updated_at             DateTime @updatedAt
 
   @@index([team_id])
+}
+
+model Waitlist {
+  id         String   @id @default(cuid())
+  user_id    String   @unique
+  email      String   @unique
+  company    String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }

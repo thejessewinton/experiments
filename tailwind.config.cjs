@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -9,6 +11,10 @@ module.exports = {
       },
       fontSize: {
         "2xs": ".625rem",
+      },
+      fontFamily: {
+        sans: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
+        serif: ["var(--font-newsreader)", ...defaultTheme.fontFamily.serif],
       },
       backgroundPosition: {
         "right-1": "right 0.5rem center",

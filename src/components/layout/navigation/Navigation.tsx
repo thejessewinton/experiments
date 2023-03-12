@@ -10,7 +10,6 @@ type NavigationProps = {
 const navigation: NavigationProps = [
   { label: "Jobs", href: "/jobs" },
   { label: "Browse", href: "/browse" },
-  { label: "Settings", href: "/settings" },
 ];
 
 export const Navigation = () => {
