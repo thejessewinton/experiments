@@ -5,7 +5,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "env/server.mjs";
 import { prisma } from "server/db/client";
 import { defaultTags } from "client-data/data/default-tags";
-import { channels, logsnag } from "server/logs/log-snag";
 import { MemberRole } from "@prisma/client";
 import { postmark } from "server/email/postmark";
 
@@ -76,19 +75,6 @@ export const authOptions: NextAuthOptions = {
               },
             },
           },
-        },
-      });
-
-      await logsnag.publish({
-        channel: channels.userRegister,
-        event: "User Registered",
-        description: `name: ${user.name}, email: ${user.email}`,
-        icon: "🔥",
-        notify: true,
-        tags: {
-          name: user.name as string,
-          email: user.email as string,
-          id: user.id as string,
         },
       });
     },

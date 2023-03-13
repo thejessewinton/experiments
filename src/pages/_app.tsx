@@ -14,9 +14,9 @@ import { DefaultLayout } from "layouts/default/Default";
 import { Toaster } from "react-hot-toast";
 import { Inter, Newsreader } from "next/font/google";
 
-const inter = Inter({ variable: "--font-inter", display: "optional" });
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
+const sans = Inter({ variable: "--font-sans", display: "optional" });
+const serif = Newsreader({
+  variable: "--font-serif",
   display: "optional",
   style: "italic",
 });
@@ -43,7 +43,7 @@ const App = ({
       <Head>
         <title>Experiements</title>
       </Head>
-      <div className={`${inter.variable} ${newsreader.variable} font-sans`}>
+      <div className={`${sans.variable} ${serif.variable} font-sans`}>
         <SessionProvider session={session}>
           <SearchProvider>
             <Toaster

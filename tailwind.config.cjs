@@ -13,8 +13,8 @@ module.exports = {
         "2xs": ".625rem",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
-        serif: ["var(--font-newsreader)", ...defaultTheme.fontFamily.serif],
+        sans: ["var(--font-sans)", ...defaultTheme.fontFamily.sans],
+        serif: ["var(--font-serif)", ...defaultTheme.fontFamily.serif],
       },
       backgroundPosition: {
         "right-1": "right 0.5rem center",
