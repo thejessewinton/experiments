@@ -86,7 +86,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       <KBarPortal>
-        <KBarPositioner className="!z-50 bg-black bg-opacity-25 font-serif backdrop-blur-sm">
+        <KBarPositioner className="!z-50 bg-black bg-opacity-25 !font-sans backdrop-blur-sm">
           <KBarAnimator className="w-full max-w-xl">
             <div className="rounded bg-neutral-900">
               <div className="border-b border-neutral-800 px-2 pt-2 pb-4 dark:bg-neutral-900">
