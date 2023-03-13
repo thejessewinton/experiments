@@ -1,15 +1,13 @@
 import { AuthForm } from "components/auth/auth-form/AuthForm";
 import { AuthLayout } from "layouts/auth/Auth";
+import type { InferGetServerSidePropsType } from "next";
 import { getCsrfToken, getProviders } from "next-auth/react";
 import Head from "next/head";
 import type { NextPageWithLayout } from "./_app";
 
-export type ProvidersType = ReturnType<typeof getProviders>;
-
-type SignInPageProps = {
-  providers: ProvidersType;
-  csrfToken: string;
-};
+export type SignInPageProps = InferGetServerSidePropsType<
+  typeof getServerSideProps
+>;
 
 const SignIn: NextPageWithLayout<SignInPageProps> = ({
   providers,
@@ -33,10 +31,13 @@ SignIn.getLayout = (page) => {
 };
 
 export const getServerSideProps = async () => {
+  const providers = await getProviders();
+  const csrfToken = await getCsrfToken();
+
   return {
     props: {
-      providers: await getProviders(),
-      csrfToken: await getCsrfToken(),
+      providers,
+      csrfToken,
     },
   };
 };

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
+import type { ParsedUrlQuery } from "querystring";
 
 interface UseRouterParamsOptions {
   method?: "push" | "replace";
@@ -90,12 +90,12 @@ export const useRouterParams = (options?: UseRouterParamsOptions) => {
       removeParam(name);
       return;
     }
-    const { [name]: param, ...rest } = query;
+
     reload(
       {
         pathname,
         query: {
-          ...rest,
+          ...query,
           [name]: Array.isArray(value)
             ? value.map((el) => encodeURIComponent(el))
             : encodeURIComponent(value),
