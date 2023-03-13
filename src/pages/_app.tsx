@@ -40,10 +40,16 @@ const App = ({
 
   return (
     <>
+      <style jsx global>{`
+        :root {
+          --font-sans: ${sans.style.fontFamily};
+          --font-serif: ${serif.style.fontFamily};
+        }
+      `}</style>
       <Head>
         <title>Experiements</title>
       </Head>
-      <div className={`${sans.variable} ${serif.variable} font-sans`}>
+      <div className="font-sans">
         <SessionProvider session={session}>
           <SearchProvider>
             <Toaster

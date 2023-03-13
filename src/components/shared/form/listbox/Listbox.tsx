@@ -18,7 +18,7 @@ const Option = ({ label, value }: OptionsProps) => {
     <ListBox.Option
       key={label}
       value={value}
-      className="rounded py-1 px-2 text-2xs text-neutral-400 transition-colors hover:bg-neutral-700"
+      className="rounded py-1 px-2 text-xs text-neutral-400 transition-colors hover:bg-neutral-700"
     >
       {label}
     </ListBox.Option>

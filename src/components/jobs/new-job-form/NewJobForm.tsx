@@ -49,7 +49,10 @@ export const NewJobForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-3 font-sans"
+    >
       <div className="border-b border-neutral-300 pt-2 pb-4 dark:border-neutral-800">
         <div className={"relative flex flex-col gap-2"}>
           <input
